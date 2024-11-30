@@ -1,0 +1,42 @@
+-- 
+-- Base de données : `paymybuddy`
+--
+
+-- --------------------------------------------------------
+
+-- 
+-- Loading data into the `user` table
+--
+
+INSERT INTO `user` (`username`, `email`, `password`) VALUES
+('JohnDoe', 'john@example.com', 'hashedpassword123'),
+('JaneSmith', 'jane@example.com', 'securepass456'),
+('BobJohnson', 'bob@example.com', 'strongpass789');
+
+-- --------------------------------------------------------
+
+-- 
+-- Loading data into the `transaction` table
+--
+
+INSERT INTO `transaction` (`sender_id`, `receiver_id`, `description`, `amount`) VALUES
+(1, 2, 'Payment for dinner', 25.50),
+(2, 3, 'Movie reimbursement', 15.00),
+(3, 1, 'Share for the group gift', 30.00),
+(3, 2, 'Share for the group gift', 50.00);
+
+-- --------------------------------------------------------
+
+-- 
+-- Loading data into the `user_connections` table
+--
+
+INSERT INTO `user_connections` (`user_id`, `connection_id`) VALUES
+(1, 2),
+(1, 3),
+(2, 1),
+(2, 3),
+(3, 1),
+(3, 2);
+
+COMMIT;
