@@ -29,12 +29,13 @@ public class User {
 	@Column(name = "password")
 	private String password;
 
-	public User(int id, String username, String email, String password) {
-		this.id = id;
-		this.username = username;
-		this.email = email;
-		this.password = password;
-	}
+	// TODO implementer la relation user vers user m:n via la table user_connections
+	// champs user_id et connection_id
+
+	// TODO user en contact ajouter regle en SQL interdire (1,2) si (2,1) deja
+	// présent ?
+	// Ou permettre a un user d'ajouter quelqu'un sans que ce quelqu'un l'ajoute en
+	// retour a ses contacts
 
 	public int getId() {
 		return id;

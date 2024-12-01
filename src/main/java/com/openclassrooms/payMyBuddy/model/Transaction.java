@@ -27,14 +27,7 @@ public class Transaction {
 	@Column(name = "amount")
 	private double amount;
 
-	public Transaction(int id, int senderId, int receiverId, String description, double amount) {
-		super();
-		this.id = id;
-		this.senderId = senderId;
-		this.receiverId = receiverId;
-		this.description = description;
-		this.amount = amount;
-	}
+	// TODO implementer les relations avec user pour sender_id et receiver_id
 
 	public int getId() {
 		return id;
@@ -44,20 +37,20 @@ public class Transaction {
 		this.id = id;
 	}
 
-	public int getSender_id() {
+	public int getSenderId() {
 		return senderId;
 	}
 
-	public void setSender_id(int sender_id) {
-		this.senderId = sender_id;
+	public void setSenderId(int senderId) {
+		this.senderId = senderId;
 	}
 
-	public int getReceiver_id() {
+	public int getReceiverId() {
 		return receiverId;
 	}
 
-	public void setReceiver_id(int receiver_id) {
-		this.receiverId = receiver_id;
+	public void setReceiverId(int receiverId) {
+		this.receiverId = receiverId;
 	}
 
 	public String getDescription() {
