@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!-- Définition de la version du modèle POM -->
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
+
+<!--  =============================================================================================================  -->
+<!--  Project information  -->
+<!--  =============================================================================================================  -->	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.4.0</version>
@@ -26,9 +31,22 @@
 		<tag/>
 		<url/>
 	</scm>
+
+<!--  =============================================================================================================  -->
+<!--  Project information  -->
+<!--  =============================================================================================================  -->	
 	<properties>
 		<java.version>17</java.version>
+		<!--  Version log4j  -->
+		<apache.logging.log4j.version>2.23.1</apache.logging.log4j.version>
+		<!--  Version junit jupiter  -->
+		<junit.jupiter.version>5.11.0</junit.jupiter.version>
+		<!--  Version Maven Surfire  -->
+		<Maven.Surefire.version>3.5.0</Maven.Surefire.version>
 	</properties>
+<!--  =============================================================================================================  -->
+<!--  dependencies  -->
+<!--  =============================================================================================================  -->
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -67,15 +85,101 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.8.12</version>
+			<type>maven-plugin</type>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-assembly-plugin</artifactId>
+			<version>3.7.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<version>${Maven.Surefire.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-report-plugin</artifactId>
+			<version>${Maven.Surefire.version}</version>
+		</dependency>
 	</dependencies>
-	
+
+    <!-- Configuration de la construction du projet -->
 	<build>
+	<finalName>PayMyBuddy</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+						<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.12</version>
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						</execution>
+						<execution>
+							<id>default-report</id>
+							<goals>
+								<goal>report</goal>
+							</goals>
+						</execution>
+				</executions>
+			</plugin>
+	        <plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-javadoc-plugin</artifactId>
+	            <executions>
+	                <execution>
+	                    <goals>
+	                        <goal>javadoc</goal> <!-- But pour générer la javadoc -->
+	                    </goals>
+	                    <configuration>
+	                        <source>17</source> <!-- Version du JDK pour la génération de la Javadoc -->
+	                        <additionalJOptions>
+	                            <option>-Xdoclint:none</option> <!-- Désactive les avertissements de doclint -->
+	                        </additionalJOptions>
+	                    </configuration>
+	                </execution>
+	            </executions>
+	        </plugin>
+
+        <!-- Plugin pour la génération du site Maven -->
+	        <plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-site-plugin</artifactId>
+	            <version>3.11.0</version>
+	            <executions>
+	                <execution>
+	                    <goals>
+	                        <goal>site</goal> <!-- But pour générer le site -->
+	                    </goals>               
+	                </execution>
+	            </executions>
+	        </plugin>
 		</plugins>
 	</build>
-
+	<reporting>
+	    <plugins>
+	      <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-surefire-report-plugin</artifactId>
+	        <version>3.5.1</version>
+	      </plugin>
+	    </plugins>
+	  </reporting>
 </project>

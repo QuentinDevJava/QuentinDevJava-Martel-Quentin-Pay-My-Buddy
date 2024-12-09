@@ -8,4 +8,7 @@ import com.openclassrooms.payMyBuddy.model.Transaction;
 @Repository
 public interface TransactionRepository extends CrudRepository<Transaction, Integer> {
 
+	public Iterable<Transaction> findBySenderId(int id);
+
+	public Iterable<Transaction> findByReceiverId(int id);
 }
