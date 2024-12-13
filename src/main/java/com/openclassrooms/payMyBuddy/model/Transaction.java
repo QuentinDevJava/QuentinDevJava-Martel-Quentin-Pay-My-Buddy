@@ -11,8 +11,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-//TODO implementer les relations avec user pour sender_id et receiver_id
-
 /**
  * Represents a financial transaction between two users.
  * 
@@ -53,11 +51,14 @@ public class Transaction {
 	@Column(name = "amount")
 	private double amount;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	// TODO implementer les relations avec user pour sender_id et receiver_id
+	// TODO javadoc
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "sender_id")
 	private User sender;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	// TODO javadoc
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "receiver_id")
 	private User receiver;
 

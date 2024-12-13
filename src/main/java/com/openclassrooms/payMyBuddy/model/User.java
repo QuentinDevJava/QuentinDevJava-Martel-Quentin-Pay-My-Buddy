@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.openclassrooms.payMyBuddy.DTO.TransactionDTO;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -74,35 +76,11 @@ public class User {
 	@Column(name = "password")
 	private String password;
 
-	// a
-	// supprimer----------------------------------------------------------------------------------------
-//	/**
-//	 * List of transactions where the user is the sender.
-//	 * 
-//	 * The transactions are fetched eagerly and will be deleted if the user is
-//	 * removed.
-//	 */
-//	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-//	@JoinColumn(name = "sender_id")
-//	private List<Transaction> sendersTransaction = new ArrayList<>();
-//
-//	/**
-//	 * List of transactions where the user is the receiver.
-//	 * 
-//	 * The transactions are fetched eagerly and will be deleted if the user is
-//	 * removed.
-//	 */
-//	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-//	@JoinColumn(name = "receiver_id")
-//	private List<Transaction> receiversTransaction = new ArrayList<>();
-	// a
-	// supprimer----------------------------------------------------------------------------------------
-
 	// lien bidirectionnel
-	@OneToMany(mappedBy = "sender")
+	@OneToMany(mappedBy = "sender", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private List<Transaction> sentTransactions;
 
-	@OneToMany(mappedBy = "receiver")
+	@OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private List<Transaction> receivedTransactions;
 //-------------------------------------------------------------------
 
@@ -194,8 +172,8 @@ public class User {
 	 * 
 	 * @return A list of transactions where the user is the sender.
 	 */
-	public List<Transaction> getSentTransactions() {
-		return sentTransactions;
+	public List<TransactionDTO> getSentTransactions() {
+		return sentTransactions.stream().map(TransactionDTO::new).toList();
 	}
 
 	/**
@@ -203,8 +181,8 @@ public class User {
 	 * 
 	 * @return A list of transactions where the user is the receiver.
 	 */
-	public List<Transaction> getReceivedTransactions() {
-		return receivedTransactions;
+	public List<TransactionDTO> getReceivedTransactions() {
+		return receivedTransactions.stream().map(TransactionDTO::new).toList();
 	}
 
 	/**
@@ -223,10 +201,5 @@ public class User {
 	 */
 	public void setConnections(Set<User> connections) {
 		this.connections = connections;
-	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + "]";
 	}
 }
