@@ -29,6 +29,6 @@ public class ControllerTest {
 		model.addAttribute("listUser", users);
 		model.addAttribute("listTransaction", transactions);
 
-		return "user";
+		return "test";
 	}
 }

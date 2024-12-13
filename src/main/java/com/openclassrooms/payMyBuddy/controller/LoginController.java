@@ -11,43 +11,37 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.openclassrooms.payMyBuddy.DTO.UserDTO;
-import com.openclassrooms.payMyBuddy.model.User;
 import com.openclassrooms.payMyBuddy.service.UserService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/login")
 @Slf4j
-public class UserController {
+@RequiredArgsConstructor
+public class LoginController {
 
 	@Autowired
 	private UserService userService;
 
-	@GetMapping("/create")
-	public String createUser(Model model) {
+	@GetMapping
+	public String connexion(Model model) {
 		UserDTO userDTO = new UserDTO();
 		model.addAttribute("userDTO", userDTO);
-		return "user/registration";
+		return "user/login";
+
 	}
 
-	@PostMapping("/create")
-	public String createUser(@Valid @ModelAttribute UserDTO userDTO, BindingResult result) {
-
-		if (userService.existsByEmail(userDTO.getEmail())) {
-			result.addError(new FieldError("userDTO", "email", userDTO.getEmail(), false, null, null,
-					"Email address is already used"));
-			return "user/registration";
-		} else {
-			User user = new User();
-			user.setUsername(userDTO.getUsername());
-			user.setEmail(userDTO.getEmail());
-			user.setPassword(userDTO.getPassword());
-			userService.saveUser(user);
+	@PostMapping()
+	public String connextion(@Valid @ModelAttribute UserDTO userDTO, BindingResult result) {
+		if (userService.existsByEmailAndPassword(userDTO.getEmail(), userDTO.getPassword())) {
 			return "redirect:/"; // pour voir le resultat en fonctionement go a la page des transactions
+		} else {
+			result.addError(
+					new FieldError("userDTO", "email", userDTO.getEmail(), false, null, null, "Account not exist"));
+			return "redirect:/user/create"; // page de creation de compte
 		}
-
 	}
-
 }

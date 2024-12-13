@@ -1,0 +1,77 @@
+.btn {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  font-size: x-large;
+  width: min-content;
+  height: auto;
+  padding: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-bottom: 50px;
+  border-radius: 10px;
+}
+
+h4 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  font-size: x-large;
+  color: white;
+  background-color: orange;
+  padding: 18px;
+  margin: auto;
+  border-radius: 10px;
+}
+
+.card-title {
+  display: inline-block;
+  width: max-content;
+  margin-top: 50px;
+  margin-bottom: 80px;
+}
+
+.card {
+  border: 2px solid black;
+  border-radius: 0%;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card-body {
+  display: grid;
+  place-items: center;
+}
+
+.grid-form {
+  display: grid;
+  grid-template-rows: 1fr auto auto 1fr;
+  place-items: center;
+  row-gap: 50px 25px 50px;
+}
+
+::placeholder {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: x-large;
+  color: grey;
+}
+
+#email,
+#password {
+  width: 100%;
+  max-width: 100%;
+  min-width: 250px;
+  padding: 10px;
+}
+
+.form-group.mail {
+  margin-bottom: 40px;
+}
+
+.form-group.password {
+  margin-bottom: 80px;
+}
+
+@media (max-width: 576px) {
+  .card {
+    width: 80%;
+  }
+}
