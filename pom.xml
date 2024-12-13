@@ -7,7 +7,8 @@
 
 <!--  =============================================================================================================  -->
 <!--  Project information  -->
-<!--  =============================================================================================================  -->	<parent>
+<!--  =============================================================================================================  -->
+	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.4.0</version>
@@ -60,16 +61,19 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+     	<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 		    <groupId>mysql</groupId>
@@ -111,9 +115,14 @@
 			<artifactId>maven-surefire-report-plugin</artifactId>
 			<version>${Maven.Surefire.version}</version>
 		</dependency>
+		<dependency>
+		    <groupId>jakarta.validation</groupId>
+		    <artifactId>jakarta.validation-api</artifactId>
+		</dependency>
 	</dependencies>
-
-    <!-- Configuration de la construction du projet -->
+<!--  =============================================================================================================  -->
+<!--  build  -->
+<!--  =============================================================================================================  -->
 	<build>
 	<finalName>PayMyBuddy</finalName>
 		<plugins>
@@ -146,19 +155,17 @@
 	            <executions>
 	                <execution>
 	                    <goals>
-	                        <goal>javadoc</goal> <!-- But pour générer la javadoc -->
+	                        <goal>javadoc</goal> 
 	                    </goals>
 	                    <configuration>
-	                        <source>17</source> <!-- Version du JDK pour la génération de la Javadoc -->
+	                        <source>17</source> 
 	                        <additionalJOptions>
-	                            <option>-Xdoclint:none</option> <!-- Désactive les avertissements de doclint -->
+	                            <option>-Xdoclint:none</option>
 	                        </additionalJOptions>
 	                    </configuration>
 	                </execution>
 	            </executions>
 	        </plugin>
-
-        <!-- Plugin pour la génération du site Maven -->
 	        <plugin>
 	            <groupId>org.apache.maven.plugins</groupId>
 	            <artifactId>maven-site-plugin</artifactId>
@@ -166,7 +173,7 @@
 	            <executions>
 	                <execution>
 	                    <goals>
-	                        <goal>site</goal> <!-- But pour générer le site -->
+	                        <goal>site</goal> 
 	                    </goals>               
 	                </execution>
 	            </executions>
