@@ -27,7 +27,7 @@ public class LoginController {
 	private UserService userService;
 
 	@GetMapping
-	public String connexion(Model model) {
+	public String login(Model model) {
 		UserDTO userDTO = new UserDTO();
 		model.addAttribute("userDTO", userDTO);
 		return "user/login";
@@ -35,13 +35,13 @@ public class LoginController {
 	}
 
 	@PostMapping()
-	public String connextion(@Valid @ModelAttribute UserDTO userDTO, BindingResult result) {
+	public String authentication(@Valid @ModelAttribute UserDTO userDTO, BindingResult result) {
 		if (userService.existsByEmailAndPassword(userDTO.getEmail(), userDTO.getPassword())) {
-			return "redirect:/"; // pour voir le resultat en fonctionement go a la page des transactions
+			return "redirect:/transaction"; // pour voir le resultat en fonctionement go a la page des transactions
 		} else {
 			result.addError(
 					new FieldError("userDTO", "email", userDTO.getEmail(), false, null, null, "Account not exist"));
-			return "redirect:/user/create"; // page de creation de compte
+			return "redirect:/user/create"; // page de creation de compte utilisateur
 		}
 	}
 }

@@ -1,8 +1,21 @@
 package com.openclassrooms.payMyBuddy.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.openclassrooms.payMyBuddy.DTO.TransactionDTO;
+import com.openclassrooms.payMyBuddy.model.Transaction;
+import com.openclassrooms.payMyBuddy.service.TransactionService;
+import com.openclassrooms.payMyBuddy.service.UserService;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,39 +24,32 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class TransactionController {
-//	private final TransactionService transactionServce;
-//	private final UserService userService;
+	private final TransactionService transactionService;
+	private final UserService userService;
 
-//	@GetMapping("/{userId}") // TODO Rrcuperation par l'id de user (option 1)
-//	ResponseEntity<List<TransactionDTO>> getTransactionsByUserId(@PathVariable int userId) {
-//		log.info("GET request received for /transaction");
-//		Iterable<Transaction> transactions = transactionServce.getTransactionsBySenderId(userId);
-//		List<TransactionDTO> transactionDtoList = new ArrayList<>();
-//		transactions.forEach(transaction -> transactionDtoList.add(new TransactionDTO(transaction)));
-//		log.info("Transaction successfully created :", transactionDtoList);
-//		return ResponseEntity.ok(transactionDtoList);
-//	}
-//
-//	@GetMapping() // TODO Recuperation par l'objet user de la session en cours (option 2)
-//	ResponseEntity<List<TransactionDTO>> getUserTransactions(@RequestBody User user) {
-//		log.info("GET request received for /transaction");
-//		User userById = userService.getUserById(user.getId());
-//		List<TransactionDTO> transactionDtoList = userById.getSentTransactions();
-//		log.info("Transaction successfully created");
-//		return ResponseEntity.ok(transactionDtoList);
-//	}
-//
-//	@PostMapping
-//	public ResponseEntity<String> createTransaction(@Validated @RequestBody Transaction transaction)
-//			throws URISyntaxException {
-//		// TODO maj le retour du post
-//		log.info("POST request received for /transaction, adding transaction: {}", transaction);
-//		transactionServce.addTransaction(transaction);
-//		log.info("Transaction successfully created: {}", transaction);
-//		String str = "/transaction";
-//		URI uri = new URI(str);
-//		return ResponseEntity.created(uri).body("201");
-//
-//	}
+	@GetMapping
+	public String transaction(Model model) {
 
+		TransactionDTO transactionDTO = new TransactionDTO();
+		model.addAttribute("transactionDTO", transactionDTO);
+
+		List<Transaction> transactions = transactionService.getTransactions();
+		List<TransactionDTO> transactionDTOs = transactions.stream().map(t -> new TransactionDTO(t)).toList();
+		model.addAttribute("listTransactionDTO", transactionDTOs);
+
+		return "transaction/transaction";
+
+	}
+
+	@PostMapping()
+	public String createTransaction(@Valid @ModelAttribute TransactionDTO transactionDTO, BindingResult result) {
+		Transaction transaction = new Transaction();
+		transaction.setReceiver(userService.getUserById(transactionDTO.getReceiverId()));
+		transaction.setSender(userService.getUserById(transactionDTO.getSenderId())); // TODO passer l'id de user
+																						// connecté
+		transaction.setDescription(transactionDTO.getDescription());
+		transaction.setAmount(transactionDTO.getAmount());
+		transactionService.saveTransaction(transaction);
+		return "redirect:/";
+	}
 }

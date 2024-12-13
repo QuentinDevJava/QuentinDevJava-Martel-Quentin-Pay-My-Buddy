@@ -1,5 +1,7 @@
 package com.openclassrooms.payMyBuddy.DTO;
 
+import com.openclassrooms.payMyBuddy.model.User;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.NoArgsConstructor;
@@ -16,6 +18,8 @@ public class UserDTO {
 
 	@NotEmpty()
 	private String password;
+
+	private User connexion;
 
 	public String getUsername() {
 		return username;
@@ -39,6 +43,14 @@ public class UserDTO {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public User getConnexion() {
+		return connexion;
+	}
+
+	public void setConnexion(User connexion) {
+		this.connexion = connexion;
 	}
 
 }

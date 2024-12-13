@@ -27,8 +27,10 @@ public class TransactionService {
 		return transaction.orElse(null);
 	}
 
-	public Iterable<Transaction> getTransactionsBySenderId(int id) {
-		return transactionRepository.findBySenderId(id);
+	public List<Transaction> getTransactionsBySenderId(int id) {
+		List<Transaction> senderTransaction = new ArrayList<>();
+		transactionRepository.findBySenderId(id).forEach(senderTransaction::add);
+		return senderTransaction;
 	}
 
 	public Iterable<Transaction> getTransactionsByReceiverId(int id) {
@@ -41,6 +43,10 @@ public class TransactionService {
 	}
 
 	public void updateTransaction(Transaction transaction) {
+		transactionRepository.save(transaction);
+	}
+
+	public void saveTransaction(Transaction transaction) {
 		transactionRepository.save(transaction);
 	}
 

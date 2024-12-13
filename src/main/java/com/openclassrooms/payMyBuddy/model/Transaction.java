@@ -89,6 +89,10 @@ public class Transaction {
 		return sender;
 	}
 
+	public void setSender(User sender) {
+		this.sender = sender;
+	}
+
 	/**
 	 * Returns the user who is receiving the money.
 	 * 
@@ -96,6 +100,10 @@ public class Transaction {
 	 */
 	public User getReceiver() {
 		return receiver;
+	}
+
+	public void setReceiver(User receiver) {
+		this.receiver = receiver;
 	}
 
 	/**
@@ -133,4 +141,5 @@ public class Transaction {
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
+
 }
