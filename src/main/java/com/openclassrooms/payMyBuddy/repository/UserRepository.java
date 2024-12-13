@@ -31,4 +31,10 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	 *         {@link Optional#empty()}.
 	 */
 	public Optional<User> findByEmail(String email);
+
+	public Optional<Integer> findIdByEmail(String email);
+
+	public boolean existsByEmail(String email);
+
+	public boolean existsByEmailAndPassword(String email, String password);
 }

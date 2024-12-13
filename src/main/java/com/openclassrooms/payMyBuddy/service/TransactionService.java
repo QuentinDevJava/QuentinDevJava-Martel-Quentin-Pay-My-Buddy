@@ -1,5 +1,7 @@
 package com.openclassrooms.payMyBuddy.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +16,15 @@ public class TransactionService {
 	@Autowired
 	private TransactionRepository transactionRepository;
 
-	public Iterable<Transaction> getTransactions() {
-		return transactionRepository.findAll();
+	public List<Transaction> getTransactions() {
+		List<Transaction> allTransaction = new ArrayList<>();
+		transactionRepository.findAll().forEach(allTransaction::add);
+		return allTransaction;
 	}
 
-	public Optional<Transaction> getTransactionById(int id) {
-		return transactionRepository.findById(id);
+	public Transaction getTransactionById(int id) {
+		Optional<Transaction> transaction = transactionRepository.findById(id);
+		return transaction.orElse(null);
 	}
 
 	public Iterable<Transaction> getTransactionsBySenderId(int id) {
@@ -34,4 +39,9 @@ public class TransactionService {
 	public Transaction addTransaction(Transaction transaction) {
 		return transactionRepository.save(transaction);
 	}
+
+	public void updateTransaction(Transaction transaction) {
+		transactionRepository.save(transaction);
+	}
+
 }

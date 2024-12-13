@@ -11,4 +11,5 @@ public interface TransactionRepository extends CrudRepository<Transaction, Integ
 	public Iterable<Transaction> findBySenderId(int id);
 
 	public Iterable<Transaction> findByReceiverId(int id);
+
 }
