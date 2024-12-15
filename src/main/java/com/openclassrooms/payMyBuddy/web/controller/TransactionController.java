@@ -22,18 +22,24 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * This is the home page
+ */
 @Controller
-@RequestMapping("/transaction")
+@RequestMapping("/")
 @Slf4j
 @RequiredArgsConstructor
 public class TransactionController {
 	private final TransactionService transactionService;
 	private final UserService userService;
 
-	@GetMapping("/{userId}")
-	public String transaction(Model model, @PathVariable int userId) {
+	// TODO utiliser les fragments qui permet d'eviter la duplication => probleme sur la maintenance
 
-		User user = userService.getUserById(userId);
+	@GetMapping
+//	@GetMapping("/{userId}")
+	public String getTransactions(Model model) {
+
+		/*User user = userService.getUserById(userId);
 		Set<User> userSet = user.getConnections();
 
 		TransactionDTO transactionDTO = new TransactionDTO();
@@ -47,7 +53,7 @@ public class TransactionController {
 		model.addAttribute("transactionDTO", transactionDTO);
 		model.addAttribute("listTransactionDTO", transactionDTOs);
 		model.addAttribute("userId", userId);
-		model.addAttribute("userset", userSet);
+		model.addAttribute("userset", userSet);*/
 
 		return "transaction/transaction";
 
