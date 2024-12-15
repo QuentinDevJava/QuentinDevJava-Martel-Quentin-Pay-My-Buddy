@@ -1,16 +1,18 @@
-package com.openclassrooms.payMyBuddy.DTO;
+package com.openclassrooms.payMyBuddy.web.form;
 
 import com.openclassrooms.payMyBuddy.model.Transaction;
 
 import jakarta.validation.constraints.NotEmpty;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @NoArgsConstructor
-public class TransactionDTO {
-	// TODO receiver email - id
-	// identifiant personne
-	// connecté
-
+@Getter
+@Setter
+@ToString
+public class TransactionFrom {
 	@NotEmpty
 	private int senderId;
 	@NotEmpty
@@ -26,7 +28,7 @@ public class TransactionDTO {
 	@NotEmpty
 	private String receiverUsername;
 
-	public TransactionDTO(Transaction transaction) {
+	public TransactionFrom(Transaction transaction) {
 		this.senderId = transaction.getSender().getId();
 		this.receiverId = transaction.getReceiver().getId();
 		this.receiverUsername = transaction.getReceiver().getUsername();

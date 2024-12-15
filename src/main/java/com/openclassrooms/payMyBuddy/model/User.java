@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.openclassrooms.payMyBuddy.DTO.TransactionDTO;
+import com.openclassrooms.payMyBuddy.web.form.TransactionFrom;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -172,8 +172,8 @@ public class User {
 	 * 
 	 * @return A list of transactions where the user is the sender.
 	 */
-	public List<TransactionDTO> getSentTransactions() {
-		return sentTransactions.stream().map(TransactionDTO::new).toList();
+	public List<TransactionFrom> getSentTransactions() {
+		return sentTransactions.stream().map(TransactionFrom::new).toList();
 	}
 
 	/**
@@ -181,8 +181,8 @@ public class User {
 	 * 
 	 * @return A list of transactions where the user is the receiver.
 	 */
-	public List<TransactionDTO> getReceivedTransactions() {
-		return receivedTransactions.stream().map(TransactionDTO::new).toList();
+	public List<TransactionFrom> getReceivedTransactions() {
+		return receivedTransactions.stream().map(TransactionFrom::new).toList();
 	}
 
 	/**

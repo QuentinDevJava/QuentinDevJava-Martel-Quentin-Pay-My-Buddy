@@ -21,23 +21,23 @@
 				</button>
 				<div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
 					<div class="navbar-nav">
-						<a class="nav-item nav-link " th:href="@{'/transaction/' + ${userId}}">Transférer</a>
-						<a class="nav-item nav-link" th:href="@{'/user/profile/' + ${userId}}">Profil</a>
+						<a class="nav-item nav-link" th:href="@{/transaction}">Transférer</a>
+						<a class="nav-item nav-link" th:href="@{/user/profile}">Profil</a>
 						<a class="nav-item nav-link active" id="pageActive"
-							th:href="@{'/user/connexion/' + ${userId}}">Ajouter relation<span
+							th:href="@{/user/connexion}">Ajouter relation<span
 								class="sr-only">(current)</span></a>
-						<a class="nav-item nav-link" href="/login">Se déconnecter</a>
+						<a class="nav-item nav-link" th:href="@{/logout}">Se déconnecter</a>
 					</div>
 				</div>
 			</nav>
 		</header>
 
 		<main class="container">
-			<form method="post" th:object="${userDTO}" class="form-inline">
+			<form method="post" th:object="${loginForm}" class="form-inline">
 				<div class="form-group">
 					<label for="relation">Chercher une relation</label>
 					<input type="text" class="form-control" id="relation" placeholder="Saisir une addresse mail"
-						th:field="${userDTO.connexion.email}">
+						th:field="${loginForm.connexion.email}">
 				</div>
 				<button type="submit" class="btn btn-warning btn-block mt-3">Ajouter</button>
 			</form>

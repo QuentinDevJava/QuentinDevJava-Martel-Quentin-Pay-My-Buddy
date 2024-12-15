@@ -52,4 +52,8 @@ public class UserService {
 	public boolean existsByEmailAndPassword(String email, String password) {
 		return userRepository.existsByEmailAndPassword(email, password);
 	}
+
+	public boolean existsByUsername(String username) {
+		return userRepository.existsByUsername(username);
+	}
 }

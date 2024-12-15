@@ -22,11 +22,11 @@
 				</button>
 				<div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
 					<div class="navbar-nav">
-						<a class="nav-item nav-link active" id="pageActive" th:href="@{'/transaction/' + ${userId}}">Transférer <span
+						<a class="nav-item nav-link active" id="pageActive" th:href="@{/transaction}">Transférer <span
 								class="sr-only">(current)</span></a>
-						<a class="nav-item nav-link"  th:href="@{'/user/profile/' + ${userId}}">Profil</a>
-						<a class="nav-item nav-link" th:href="@{'/user/connexion/' + ${userId}}">Ajouter relation</a>
-						<a class="nav-item nav-link" href="/user/login">Se déconnecter</a>
+						<a class="nav-item nav-link"  th:href="@{/user/profile}">Profil</a>
+						<a class="nav-item nav-link" th:href="@{/user/connexion}">Ajouter relation</a>
+						<a class="nav-item nav-link" th:href="@{/logout}">Se déconnecter</a>
 					</div>
 				</div>
 			</nav>
@@ -49,7 +49,7 @@
 				</div>
 
 				<div class="input-group">
-					<input value="0" type="number" class="form-control" id="montant" min="0" step="10"
+					<input value="0" type="number" class="form-control" id="montant" min="0" step="1"
 						th:field="${transactionDTO.amount}"/>
 					</div>
 				</div>

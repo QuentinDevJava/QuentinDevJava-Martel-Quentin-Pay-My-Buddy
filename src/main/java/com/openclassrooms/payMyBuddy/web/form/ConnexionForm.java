@@ -1,13 +1,13 @@
-package com.openclassrooms.payMyBuddy.DTO;
+package com.openclassrooms.payMyBuddy.web.form;
 
 import java.util.List;
 import java.util.Set;
 
 import com.openclassrooms.payMyBuddy.model.User;
 
-public record ConnectionDTO(List<String> emailOfConnectUser) {
+public record ConnexionForm(List<String> emailOfConnectUser) {
 
-	public ConnectionDTO(User user) {
+	public ConnexionForm(User user) {
 		this(listOfUserEmail(user));
 
 	}

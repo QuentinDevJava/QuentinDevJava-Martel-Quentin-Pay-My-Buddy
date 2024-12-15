@@ -17,18 +17,19 @@
 				<div class="card" style="width: 100%; max-width: 450px;">
 					<div class="card-body">
 						<h4 class="card-title text-center" style="min-width: 200px;">Pay My Buddy</h4>
-						<form class="grid-form" method="post" th:object="${userDTO}">
+						<form class="grid-form" method="post" th:object="${loginForm}">
 							<div class="form-group mail">
 								<input type="email" class="form-control" id="email" placeholder="Mail"
-									th:field="${userDTO.email}" title="Indiquez votre mail" required>
+									th:field="${loginForm.email}" title="Indiquez votre mail" required>
 							</div>
 							<div class="form-group password">
 								<input type="password" class="form-control" id="password" placeholder="Mot de passe"
-									th:field="${userDTO.password}" title="Indiquez votre mot de passe" required>
+									th:field="${loginForm.password}" title="Indiquez votre mot de passe" required>
 							</div>
 							<button type="submit" class="btn btn-primary btn-block"
 								title="Cliquez pour vous connecter">Se connecter</button>
 						</form>
+						<a href="/registration">Créer un compte</a>
 					</div>
 				</div>
 			</div>
