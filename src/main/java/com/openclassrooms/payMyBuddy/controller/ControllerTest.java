@@ -14,7 +14,7 @@ import com.openclassrooms.payMyBuddy.service.TransactionService;
 import com.openclassrooms.payMyBuddy.service.UserService;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/test")
 public class ControllerTest {
 	@Autowired
 	private UserService userService;

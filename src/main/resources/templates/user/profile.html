@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8" />
+		<title>Profil</title>
+		<link rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+			integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+			crossorigin="anonymous">
+		<link rel="stylesheet" href="../../css/profile.css">
+	</head>
+	<body>
+		<header class="mt-5 mb-5">
+			<nav class="navbar  navbar-expand-lg navbar-light">
+				<a class="navbar-brand" href="#">Pay My Buddy</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+					aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+					<div class="navbar-nav">
+						<a class="nav-item nav-link" th:href="@{'/transaction/' + ${userId}}">Transférer</a>
+						<a class="nav-item nav-link active" id="pageActive"
+							th:href="@{'/user/profile/' + ${userId}}">Profil</a>
+						<a class="nav-item nav-link" th:href="@{'/user/connexion/' + ${userId}}">Ajouter
+							relation<span class="sr-only">(current)</span></a>
+						<a class="nav-item nav-link" href="/login">Se déconnecter</a>
+					</div>
+				</div>
+			</nav>
+		</header>
+
+		<main>
+			<form method="put" th:object="${userDTO}" class="form-inline">
+				<div class="form-group">
+					<div class="form-row">
+						<label for="username">Username</label>
+						<input type="text" class="form-control" id="username" placeholder="@username"
+							th:field="${userDTO.username}">
+					</div>
+
+					<div class="form-row">
+						<label for="email">Mail</label>
+						<input type="text" class="form-control" id="email" placeholder="nom@domain.com"
+							th:field="${userDTO.email}">
+					</div>
+
+					<div class="form-row">
+						<label for="password">Mot de passe</label>
+						<input type="text" class="form-control" id="password" placeholder="mot de passe"
+							th:field="${userDTO.password}">
+					</div>
+					<a type="submit" class="btn btn-warning btn-block mt-3">Modifier</a>
+				</div>
+			</form>
+		</main>
+
+		<footer></footer>
+	</body>
+</html>

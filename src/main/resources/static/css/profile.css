@@ -1,0 +1,86 @@
+#pageActive {
+    color: #007bff !important;
+    font-weight: 700 !important;
+}
+
+a {
+    color: black !important;
+    font-size: x-large !important;
+
+}
+
+header {
+    margin-left: 50px;
+    margin-right: 50px;
+    font-weight: 600 !important;
+}
+
+
+
+.nav-bar .navbar-brand {
+    color: black;
+}
+
+.nav-item.nav-link {
+    color: black;
+    margin-left: 30px;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    margin-top: 300px;
+
+}
+
+
+
+.form-inline .btn {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 35px;
+    padding-right: 35px;
+    height: min-content;
+    width: max-content;
+    margin: auto;
+    border-radius: 10px;
+    color: white !important;
+    font-size: xx-large;
+    grid-column-start: 3;
+    grid-row-start: 3;
+
+}
+
+.form-group {
+    display: grid !important;
+    grid-template-columns: 200px 250px auto;
+    grid-template-rows: 50px 50px 50px;
+    gap: 10px;
+    color: black;
+    font-weight: 500;
+    font-size: x-large;
+    height: 60px;
+    width: 100%;
+    font-size: x-large;
+
+
+}
+
+.form-row {
+    display: contents;
+    grid-column-start: 2;
+}
+
+.form-group .form-control .form-row::placeholder {
+    color: black !important;
+    font-weight: 500 !important;
+    font-size: x-large !important;
+}
+
+
+.form-group label {
+    display: block;
+    text-align: left;
+    grid-column-start: 1;
+
+}

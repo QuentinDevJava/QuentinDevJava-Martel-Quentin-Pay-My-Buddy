@@ -2,12 +2,12 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="utf-8" />
-		<title>Connexion</title>
+		<title>Ajouter relation</title>
 		<link rel="stylesheet"
 			href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
 			integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 			crossorigin="anonymous">
-		<link rel="stylesheet" href="css/transaction.css">
+		<link rel="stylesheet" href="../../css/connexion.css">
 	</head>
 	<body>
 		<header class="mt-5 mb-5">
@@ -21,24 +21,28 @@
 				</button>
 				<div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
 					<div class="navbar-nav">
-						<a class="nav-item nav-link " href="../transaction">Transférer</a>
-						<a class="nav-item nav-link" href="#">Profil</a>
-						<a class="nav-item nav-link active" id="pageActive" href="/connexion">Ajouter relation<span class="sr-only">(current)</span></a>
+						<a class="nav-item nav-link " th:href="@{'/transaction/' + ${userId}}">Transférer</a>
+						<a class="nav-item nav-link" th:href="@{'/user/profile/' + ${userId}}">Profil</a>
+						<a class="nav-item nav-link active" id="pageActive"
+							th:href="@{'/user/connexion/' + ${userId}}">Ajouter relation<span
+								class="sr-only">(current)</span></a>
 						<a class="nav-item nav-link" href="/login">Se déconnecter</a>
 					</div>
 				</div>
 			</nav>
 		</header>
 
-		<main>
+		<main class="container">
 			<form method="post" th:object="${userDTO}" class="form-inline">
-				<div class="form-group relation">
-					<input type="text" class="form-control" id="relation" placeholder="Ajoutez une relation"
+				<div class="form-group">
+					<label for="relation">Chercher une relation</label>
+					<input type="text" class="form-control" id="relation" placeholder="Saisir une addresse mail"
 						th:field="${userDTO.connexion.email}">
 				</div>
-				<button type="submit" class="btn btn-primary btn-block mt-3">Ajouter</button>
+				<button type="submit" class="btn btn-warning btn-block mt-3">Ajouter</button>
 			</form>
 		</main>
+
 		<footer></footer>
 	</body>
 </html>

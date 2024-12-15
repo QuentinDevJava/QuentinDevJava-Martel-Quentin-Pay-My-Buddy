@@ -27,7 +27,7 @@ public class UserService {
 		return user.orElse(null);
 	}
 
-	public User getUsersByEmail(String email) {
+	public User getUserByEmail(String email) {
 		Optional<User> user = userRepository.findByEmail(email);
 		return user.orElse(null);
 	}
@@ -37,7 +37,7 @@ public class UserService {
 	}
 
 	public void updateUser(User user) {
-		user.setId(getUsersByEmail(user.getEmail()).getId());
+		user.setId(getUserByEmail(user.getEmail()).getId());
 		userRepository.save(user);
 	}
 
