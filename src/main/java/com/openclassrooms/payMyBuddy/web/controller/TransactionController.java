@@ -3,6 +3,8 @@ package com.openclassrooms.payMyBuddy.web.controller;
 import java.util.List;
 import java.util.Set;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,8 +39,15 @@ public class TransactionController {
 
 	@GetMapping
 //	@GetMapping("/{userId}")
-	public String getTransactions(Model model) {
-
+	public String getTransactions(HttpServletRequest request, Model model) {
+		HttpSession session = request.getSession();
+		if (session == null || session.getAttribute("username") == null) {
+			// TODO redirect to login
+			log.info("SESSION is null");
+			return "redirect:/login";
+		}
+		String username = session.getAttribute("username").toString();
+		log.info("USERNAME retrieved from current session: {}", username);
 		/*User user = userService.getUserById(userId);
 		Set<User> userSet = user.getConnections();
 

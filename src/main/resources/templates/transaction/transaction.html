@@ -26,7 +26,7 @@
 								class="sr-only">(current)</span></a>
 						<a class="nav-item nav-link"  th:href="@{'/user/profile/' + ${userId}}">Profil</a>
 						<a class="nav-item nav-link" th:href="@{'/user/connexion/' + ${userId}}">Ajouter relation</a>
-						<a class="nav-item nav-link" href="/user/login">Se déconnecter</a>
+						<a class="nav-item nav-link" th:href="@{/logout}">Se déconnecter</a>
 					</div>
 				</div>
 			</nav>
