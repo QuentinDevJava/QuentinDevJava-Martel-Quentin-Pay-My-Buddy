@@ -1,4 +1,4 @@
-package com.openclassrooms.payMyBuddy.DTO;
+package com.openclassrooms.payMyBuddy.web.form;
 
 import java.util.List;
 import java.util.Set;

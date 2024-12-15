@@ -1,4 +1,4 @@
-package com.openclassrooms.payMyBuddy.controller;
+package com.openclassrooms.payMyBuddy.web.controller;
 
 import java.util.List;
 import java.util.Set;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.openclassrooms.payMyBuddy.DTO.TransactionDTO;
+import com.openclassrooms.payMyBuddy.web.form.TransactionDTO;
 import com.openclassrooms.payMyBuddy.model.Transaction;
 import com.openclassrooms.payMyBuddy.model.User;
 import com.openclassrooms.payMyBuddy.service.TransactionService;

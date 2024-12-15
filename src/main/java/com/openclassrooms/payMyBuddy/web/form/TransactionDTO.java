@@ -1,4 +1,4 @@
-package com.openclassrooms.payMyBuddy.DTO;
+package com.openclassrooms.payMyBuddy.web.form;
 
 import com.openclassrooms.payMyBuddy.model.Transaction;
 

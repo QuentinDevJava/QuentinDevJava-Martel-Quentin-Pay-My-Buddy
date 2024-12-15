@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.openclassrooms.payMyBuddy.DTO.TransactionDTO;
+import com.openclassrooms.payMyBuddy.web.form.TransactionDTO;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

@@ -1,4 +1,4 @@
-package com.openclassrooms.payMyBuddy.controller;
+package com.openclassrooms.payMyBuddy.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.openclassrooms.payMyBuddy.DTO.UserDTO;
+import com.openclassrooms.payMyBuddy.web.form.UserDTO;
 import com.openclassrooms.payMyBuddy.model.User;
 import com.openclassrooms.payMyBuddy.service.UserService;
 

@@ -1,4 +1,4 @@
-package com.openclassrooms.payMyBuddy.controller;
+package com.openclassrooms.payMyBuddy.web.controller;
 
 import java.util.List;
 
