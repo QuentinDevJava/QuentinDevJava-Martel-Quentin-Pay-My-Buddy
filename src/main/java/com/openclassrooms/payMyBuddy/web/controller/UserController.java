@@ -32,18 +32,15 @@ public class UserController {
 	public String profil(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		if (session == null || session.getAttribute("username") == null) {
-			log.info("SESSION is null");
+			log.info("Session is null");
 			return "redirect:/login";
 		}
 
 		LoginForm loginForm = new LoginForm();
 		User user = userService.getUserByEmail(session.getAttribute("username").toString());
 		user = userService.getUserById(user.getId());
-
 		loginForm.setUsername(user.getUsername());
 		loginForm.setEmail(user.getEmail());
-		loginForm.setPassword(user.getPassword());
-
 		model.addAttribute("loginForm", loginForm);
 
 		return "user/profile";
@@ -63,10 +60,16 @@ public class UserController {
 
 	@PostMapping("/updatePassword")
 	public String updatePassword(HttpServletRequest request, @Valid @ModelAttribute LoginForm loginForm,
-			BindingResult result) {
+			BindingResult result) throws Exception {
+
+		if (result.hasErrors()) {
+			return "redirect:/user/profile";
+		}
+
 		HttpSession session = request.getSession();
 		User user = userService.getUserByEmail(session.getAttribute("username").toString());
 		user = userService.getUserById(user.getId());
+
 		if (Objects.equals(loginForm.getOldPassword(), user.getPassword())) {
 			if (Objects.equals(loginForm.getPasswordConfirmation(), loginForm.getPassword())) {
 
@@ -77,7 +80,7 @@ public class UserController {
 				log.info("New password and  password comfirmation not match");
 			}
 		} else {
-			log.info("password not update ERROR old password not match");
+			log.info("Password not update ERROR old password not match");
 		}
 
 		return "redirect:/user/profile";
@@ -89,7 +92,7 @@ public class UserController {
 
 		HttpSession session = request.getSession();
 		if (session == null || session.getAttribute("username") == null) {
-			log.info("SESSION is null");
+			log.info("Session is null");
 			return "redirect:/login";
 		}
 
@@ -103,22 +106,30 @@ public class UserController {
 	public String addConnexion(HttpServletRequest request, @Valid @ModelAttribute LoginForm loginForm,
 			BindingResult result) {
 
-		HttpSession session = request.getSession();
+		if (result.hasErrors()) {
+			return "redirect:/user/connexion";
+		}
 
+		HttpSession session = request.getSession();
 		User user = userService.getUserByEmail(session.getAttribute("username").toString());
 		user = userService.getUserById(user.getId());
 
-		System.out.println(loginForm.getEmail());
 		User connection = userService.getUserByEmail(loginForm.getConnexion().getEmail());
 
 		if (connection != null) {
-			log.info("user exist un DB add connexion");
+			// Si l'utilisateur existe déjà
+			if (Objects.equals(user.getEmail(), connection.getEmail())) {
+				log.warn("The user's email must be different from that of your");
+				result.rejectValue("connexion.email", "error.userDTO", "The user cannot connect to themselves.");
+				return "redirect:/user/connexion";
+			}
 			user.getConnections().add(connection);
 			userService.saveUser(user);
 			return "redirect:/transaction";
 		} else {
-			log.info("user not in DB not add to your connexion");
-			result.rejectValue("email", "error.userDTO", "The user does not exist.");
+			// Si l'utilisateur n'existe pas dans la base de données
+			log.warn("The user does not exist");
+			result.rejectValue("connexion.email", "error.userDTO", "The user does not exist.");
 			return "redirect:/user/connexion";
 		}
 	}

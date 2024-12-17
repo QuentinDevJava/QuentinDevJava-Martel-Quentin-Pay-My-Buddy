@@ -5,9 +5,9 @@ USE paymybuddy;
 -- Loading data into the `user` table only if it is empty
 -- --------------------------------------------------------
 INSERT INTO `user` (`username`, `email`, `password`)
-SELECT * FROM (SELECT 'JohnDoe', 'john@example.com', 'hashedpassword123' UNION ALL
-               SELECT 'JaneSmith', 'jane@example.com', 'securepass456' UNION ALL
-               SELECT 'BobJohnson', 'bob@example.com', 'strongpass789') AS v
+SELECT * FROM (SELECT 'JohnDoe', 'john@example.com', 'mW/NJJOjzvw=' UNION ALL
+               SELECT 'JaneSmith', 'jane@example.com', 'mW/NJJOjzvw=' UNION ALL
+               SELECT 'BobJohnson', 'bob@example.com', 'mW/NJJOjzvw=') AS v
 WHERE NOT EXISTS (
     SELECT 1 FROM `user` LIMIT 1
 );

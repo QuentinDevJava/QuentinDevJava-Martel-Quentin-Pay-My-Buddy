@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.openclassrooms.payMyBuddy.service.TrippleDes;
 import com.openclassrooms.payMyBuddy.web.form.TransactionFrom;
 
 import jakarta.persistence.CascadeType;
@@ -153,18 +154,22 @@ public class User {
 	 * Returns the user's password.
 	 * 
 	 * @return The password.
+	 * @throws Exception 
 	 */
-	public String getPassword() {
-		return password;
+	public String getPassword() throws Exception {
+		TrippleDes td = new TrippleDes();
+		return td.decrypt(password);
 	}
 
 	/**
 	 * Sets the user's password.
 	 * 
 	 * @param password The password to set.
+	 * @throws Exception 
 	 */
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPassword(String password) throws Exception {
+		TrippleDes td = new TrippleDes();
+		this.password = td.encrypt(password);
 	}
 
 	/**

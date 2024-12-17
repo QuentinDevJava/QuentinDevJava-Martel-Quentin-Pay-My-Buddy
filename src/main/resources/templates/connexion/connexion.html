@@ -1,38 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="utf-8" />
-		<title>Ajouter relation</title>
-		<link rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-			integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-			crossorigin="anonymous">
-		<link rel="stylesheet" href="../../css/connexion.css">
-	</head>
+	<div
+		th:replace="~{head :: myHead(currentTitle='Ajouter relation', currentURL='../../css/connexion.css') }"></div>
 	<body>
-		<header class="mt-5 mb-5">
-			<nav class="navbar  navbar-expand-lg navbar-light">
-				<a class="navbar-brand" href="#">Pay My Buddy</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse"
-					data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
-					aria-expanded="false"
-					aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
-					<div class="navbar-nav">
-						<a class="nav-item nav-link" th:href="@{/transaction}">Transférer</a>
-						<a class="nav-item nav-link" th:href="@{/user/profile}">Profil</a>
-						<a class="nav-item nav-link active" id="pageActive"
-							th:href="@{/user/connexion}">Ajouter relation<span
-								class="sr-only">(current)</span></a>
-						<a class="nav-item nav-link" th:href="@{/logout}">Se déconnecter</a>
-					</div>
-				</div>
-			</nav>
-		</header>
-
+		<div th:replace="~{header :: myHeader(currentPage='connexion')}"></div>
 		<main class="container">
+			<div class="alert alert-danger" role="alert">
+				<p th:each="err : ${#fields.errors('loginForm')}">
+					<span th:text="${err}"></span>
+				</p>
+			</div>
 			<form method="post" th:object="${loginForm}" class="form-inline">
 				<div class="form-group">
 					<label for="relation">Chercher une relation</label>
@@ -42,7 +19,6 @@
 				<button type="submit" class="btn btn-warning btn-block mt-3">Ajouter</button>
 			</form>
 		</main>
-
 		<footer></footer>
 	</body>
 </html>

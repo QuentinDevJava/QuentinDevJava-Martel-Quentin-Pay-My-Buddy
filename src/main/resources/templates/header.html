@@ -1,0 +1,37 @@
+<html>
+    <body>
+        <header th:fragment="myHeader">
+            <div class="mt-5 mb-5">
+                <nav class="navbar  navbar-expand-lg navbar-light">
+                    <a class="navbar-brand" href="#">Pay My Buddy</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end"
+                        id="navbarNavAltMarkup">
+                        <div class="navbar-nav">
+
+                            <a
+                                th:id="${currentPage == 'transaction' ? 'pageActive' : ''}"
+                                th:class="${currentPage == 'transaction' ? 'nav-item nav-link active' : 'nav-item nav-link'}"
+                                th:href="@{/transaction}">Transférer</a>
+
+                            <a th:id="${currentPage =='profile'? 'pageActive' : '' }"
+                                th:class="${currentPage =='profile'? 'nav-item nav-link active' : 'nav-item nav-link' }"
+                                th:href="@{/user/profile}">Profil</a>
+                            <a
+                                th:id="${currentPage == 'connexion' ? 'pageActive' : ''}"
+                                th:class="${currentPage == 'connexion' ? 'nav-item nav-link active' : 'nav-item nav-link'}"
+                                th:href="@{/user/connexion}">Ajouter relation</a>
+
+                            <a class="nav-item nav-link" th:href="@{/logout}">Se déconnecter</a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+    </body>
+</html>

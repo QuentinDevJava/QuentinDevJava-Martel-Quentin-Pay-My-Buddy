@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.openclassrooms.payMyBuddy.model.User;
+import com.openclassrooms.payMyBuddy.service.TrippleDes;
 import com.openclassrooms.payMyBuddy.service.UserService;
 import com.openclassrooms.payMyBuddy.web.form.LoginForm;
 
@@ -32,11 +33,12 @@ public class AuthenticationController {
 	}
 
 	@PostMapping("/login")
-	public String authentication(@Valid @ModelAttribute LoginForm loginForm, BindingResult result,
-			HttpSession session) {
+	public String authentication(@Valid @ModelAttribute LoginForm loginForm, BindingResult result, HttpSession session)
+			throws Exception {
+		TrippleDes td = new TrippleDes();
 
 		// TODO connexion possible mail ou username
-		if (userService.existsByEmailAndPassword(loginForm.getEmail(), loginForm.getPassword())) {
+		if (userService.existsByEmailAndPassword(loginForm.getEmail(), td.encrypt(loginForm.getPassword()))) {
 			session.setAttribute("username", loginForm.getEmail());
 			log.info("user are in database");
 			return "redirect:/transaction";
@@ -51,13 +53,13 @@ public class AuthenticationController {
 
 	@GetMapping("/logout")
 	public String logout(HttpServletRequest request) {
-		log.info("attempt to logout user ");
+		log.info("Attempt to logout user ");
 		if (request.getSession() == null || request.getSession().getAttribute("username") == null) {
 			return "redirect:/login";
 		}
 
 		request.getSession().removeAttribute("username");
-		log.info("username removed from the session. do logout");
+		log.info("Username removed from the session. do logout");
 		return "redirect:/login";
 	}
 
@@ -69,11 +71,12 @@ public class AuthenticationController {
 	}
 
 	@PostMapping("/registration")
-	public String createUser(@Valid @ModelAttribute LoginForm loginForm, BindingResult result) {
+	public String createUser(@Valid @ModelAttribute LoginForm loginForm, BindingResult result) throws Exception {
 
 		if (userService.existsByEmail(loginForm.getEmail()) || userService.existsByUsername(loginForm.getUsername())) {
 			return "user/registration";
 		} else {
+
 			User user = new User();
 			user.setUsername(loginForm.getUsername());
 			user.setEmail(loginForm.getEmail());

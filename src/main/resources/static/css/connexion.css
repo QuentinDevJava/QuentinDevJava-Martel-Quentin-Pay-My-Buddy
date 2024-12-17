@@ -34,6 +34,7 @@ main {
     color: black;
     font-weight: 500;
     font-size: x-large;
+    align-items: start !important;
 }
 
 #relation {
@@ -66,5 +67,22 @@ main {
     border-radius: 10px;
     color: white;
     font-size: xx-large;
+
+}
+
+.alert {
+    display: grid;
+    grid-template-columns: 1fr 200px;
+
+    margin-right: 200px;
+    margin-left: 150px;
+}
+
+@media (min-width: 576px) {
+    .form-inline .form-group {
+        flex-flow: nowrap;
+        flex-direction: column;
+
+    }
 
 }
