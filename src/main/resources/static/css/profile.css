@@ -6,13 +6,13 @@
 a {
     color: black !important;
     font-size: x-large !important;
-
 }
 
 header {
     margin-left: 50px;
     margin-right: 50px;
     font-weight: 600 !important;
+    margin-bottom: 300px;
 }
 
 
@@ -29,10 +29,11 @@ header {
 main {
     display: flex;
     justify-content: center;
-    margin-top: 300px;
-
 }
 
+.alert {
+    width: fit-content;
+}
 
 
 .form-inline .btn {
@@ -50,7 +51,6 @@ main {
     color: white !important;
     grid-column-start: 3;
     grid-row-start: 3;
-
 }
 
 .form-group {
@@ -64,8 +64,6 @@ main {
     height: 60px;
     width: 100%;
     font-size: x-large;
-
-
 }
 
 .form-row {
@@ -84,5 +82,4 @@ main {
     display: block;
     text-align: left;
     grid-column-start: 1;
-
 }

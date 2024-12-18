@@ -19,13 +19,13 @@ public class LoginInterceptor implements HandlerInterceptor {
 			throws Exception {
 		log.info("URL = " + request.getRequestURL() + " Methode = " + request.getMethod());
 		HttpSession session = request.getSession();
-		if (session == null || session.getAttribute("identifier") == null) {
+		if (session == null || session.getAttribute("username") == null) {
 			log.debug("Session is null redirect to authentication");
 			response.sendRedirect("/login");
 			return false;
 		} else {
-			String identifier = session.getAttribute("identifier").toString();
-			log.info("Identifier retrieved from current session: {}", identifier);
+			String username = session.getAttribute("username").toString();
+			log.debug("username retrieved from current session: {}", username);
 			return true;
 		}
 	}
@@ -33,14 +33,14 @@ public class LoginInterceptor implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			@Nullable ModelAndView modelAndView) throws Exception {
-		log.info("URL = " + request.getRequestURL() + " Methode = " + request.getMethod());
+		log.debug("URL = " + request.getRequestURL() + " Methode = " + request.getMethod());
 		HttpSession session = request.getSession();
-		if (session == null || session.getAttribute("identifier") == null) {
+		if (session == null || session.getAttribute("username") == null) {
 			log.debug("Session is null redirect to authentication");
 			response.sendRedirect("/login");
 		} else {
-			String identifier = session.getAttribute("identifier").toString();
-			log.info("Identifier retrieved from current session: {}", identifier);
+			String username = session.getAttribute("username").toString();
+			log.debug("username retrieved from current session: {}", username);
 		}
 	}
 

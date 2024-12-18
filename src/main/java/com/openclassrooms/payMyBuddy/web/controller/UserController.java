@@ -34,32 +34,29 @@ public class UserController {
 		HttpSession session = request.getSession();
 
 		LoginForm loginForm = new LoginForm();
-		User user = userService.getUserByEmail(session.getAttribute("identifier").toString());
+		User user = userService.getUserByEmail(session.getAttribute("username").toString());
 		user = userService.getUserById(user.getId());
 		loginForm.setUsername(user.getUsername());
 		loginForm.setEmail(user.getEmail());
 		model.addAttribute("loginForm", loginForm);
-
+		if (model.containsAttribute("message")) {
+			model.addAttribute("successMessage", model.asMap().get("message"));
+		}
 		return "user/profile";
 	}
 
 	@GetMapping("/updatePassword")
 	public String updatePassword(Model model, HttpServletRequest request) {
-		LoginForm loginForm = new LoginForm();
-		model.addAttribute("loginForm", loginForm);
+		model.addAttribute("loginForm", new LoginForm());
 		return "user/password";
 	}
 
 	@PostMapping("/updatePassword")
 	public String updatePassword(HttpServletRequest request, @Valid @ModelAttribute LoginForm loginForm,
-			BindingResult result) throws Exception {
-
-		if (result.hasErrors()) {
-			return "redirect:/user/profile";
-		} // TODO test bindingResult action
+			BindingResult result, RedirectAttributes redirAttrs) throws Exception {
 
 		HttpSession session = request.getSession();
-		User user = userService.getUserByEmail(session.getAttribute("identifier").toString());
+		User user = userService.getUserByEmail(session.getAttribute("username").toString());
 		user = userService.getUserById(user.getId());
 
 		if (Objects.equals(loginForm.getOldPassword(), user.getPassword())) {
@@ -68,14 +65,20 @@ public class UserController {
 				user.setPassword(loginForm.getPassword());
 				userService.saveUser(user);
 				log.info("Password updated");
+				redirAttrs.addFlashAttribute("message", "Mot de passe mise à jour avec succès.");
+				return "redirect:/user/profile";
 			} else {
-				log.info("New password and  password comfirmation not match");
+				log.debug("New password and password comfirmation not match");
+				result.rejectValue("password", "error.loginForm",
+						"Le nouveau mot de passe et la confirmation du mot de passe ne correspondent pas.");
+				return "user/password";
 			}
 		} else {
-			log.info("Password not update ERROR old password not match");
-		}
+			log.debug("Password not update ERROR old password fase");
+			result.rejectValue("oldPassword", "error.loginForm", "L'ancien mot de passe est incorrect.");
+			return "user/password";
 
-		return "redirect:/user/profile";
+		}
 
 	}
 
@@ -91,23 +94,16 @@ public class UserController {
 
 	@PostMapping("/connexion")
 	public String addConnexion(HttpServletRequest request, @Valid @ModelAttribute LoginForm loginForm,
-			BindingResult result, RedirectAttributes attributes) {
-
-		if (result.hasErrors()) {
-			return "redirect:/user/connexion";
-		}
-
+			BindingResult result) {
 		HttpSession session = request.getSession();
-		User user = userService.getUserByEmail(session.getAttribute("identifier").toString());
+		User user = userService.getUserByEmail(session.getAttribute("username").toString());
 		user = userService.getUserById(user.getId());
-
 		User connection = userService.getUserByEmail(loginForm.getConnexion().getEmail());
-
 		if (connection != null) {
 			if (Objects.equals(user.getEmail(), connection.getEmail())) {
 				log.warn("The user's email must be different from that of your");
-				// TODO test bindingResult action
-				result.rejectValue("connexion.email", "error.loginForm", "The user cannot connect to themselves.");
+				result.rejectValue("connexion.email", "error.loginForm",
+						"L'utilisateur ne peut pas établir une connexion avec lui-même.");
 				return "/connexion/connexion";
 			}
 			user.getConnections().add(connection);
@@ -115,8 +111,8 @@ public class UserController {
 			return "redirect:/transaction";
 		} else {
 			log.warn("The user does not exist");
-		} // TODO test bindingResult action
-		result.rejectValue("connexion.email", "error.loginForm", "The user does not exist.");
-		return "/connexion/connexion";
+			result.rejectValue("connexion.email", "error.loginForm", "Utilisateur inconnu.");
+			return "/connexion/connexion";
+		}
 	}
 }

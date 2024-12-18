@@ -26,7 +26,7 @@ public class TrippleDes {
 	private String myEncryptionScheme;
 	SecretKey key;
 
-	public TrippleDes() throws Exception {
+	public TrippleDes() throws Exception { // TODO exeption personalisée ??
 		myEncryptionKey = "ThisIsASecureKeyForProtectPassword";
 		myEncryptionScheme = DESEDE_ENCRYPTION_SCHEME;
 		arrayBytes = myEncryptionKey.getBytes(UNICODE_FORMAT);

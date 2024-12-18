@@ -27,8 +27,7 @@ public class AuthenticationController {
 
 	@GetMapping("/login")
 	public String login(Model model) {
-		LoginForm loginForm = new LoginForm();
-		model.addAttribute("loginForm", loginForm);
+		model.addAttribute("loginForm", new LoginForm());
 		return "user/login";
 
 	}
@@ -40,15 +39,12 @@ public class AuthenticationController {
 
 		if (userService.existsByEmailAndPassword(loginForm.getEmail(), td.encrypt(loginForm.getPassword()))
 				|| userService.existsByUsernameAndPassword(loginForm.getEmail(), td.encrypt(loginForm.getPassword()))) {
-			session.setAttribute("identifier", loginForm.getEmail());
+			session.setAttribute("username", loginForm.getEmail());
 			log.info("User find in database");
 			return "redirect:/transaction";
 		} else {
 			log.info("Error username or email unknown");
-
-			// TODO afficher message flash alert result.rejectValue("email",
-			// "error.userDTO", "Account does not exist or
-			// incorrect credentials.");
+			result.rejectValue("email", "error.loginForm", "Account does not exist or incorrect credentials.");
 			return "user/login";
 		}
 	}
@@ -56,19 +52,18 @@ public class AuthenticationController {
 	@GetMapping("/logout")
 	public String logout(HttpServletRequest request) {
 		log.info("Attempt to logout user ");
-		if (request.getSession() == null || request.getSession().getAttribute("identifier") == null) {
+		if (request.getSession() == null || request.getSession().getAttribute("username") == null) {
 			return "redirect:/login";
 		}
 
-		request.getSession().removeAttribute("identifier");
-		log.info("Identifier removed from the session. Do logout");
+		request.getSession().removeAttribute("username");
+		log.info("username removed from the session. Do logout");
 		return "redirect:/login";
 	}
 
 	@GetMapping("/registration")
 	public String createUser(Model model) {
-		LoginForm loginForm = new LoginForm();
-		model.addAttribute("loginForm", loginForm);
+		model.addAttribute("loginForm", new LoginForm());
 		return "user/registration";
 	}
 
@@ -76,6 +71,7 @@ public class AuthenticationController {
 	public String createUser(@Valid @ModelAttribute LoginForm loginForm, BindingResult result) throws Exception {
 
 		if (userService.existsByEmail(loginForm.getEmail()) || userService.existsByUsername(loginForm.getUsername())) {
+			result.rejectValue("email", "error.loginForm", "Nom d'utilisateur ou mail deja utilisé.");
 			return "user/registration";
 		} else {
 			User user = new User();
@@ -85,7 +81,5 @@ public class AuthenticationController {
 			userService.saveUser(user);
 			return "redirect:/login";
 		}
-
 	}
-
 }

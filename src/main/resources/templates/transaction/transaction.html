@@ -1,36 +1,36 @@
-
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
-	<div th:replace="~{head :: myHead(currentTitle='Transférer', currentURL='../css/transaction.css') }"></div>
+	<div
+		th:replace="~{head :: myHead(currentTitle='Transférer', currentURL='../css/transaction.css')}"></div>
 	<body>
 		<div th:replace="~{header :: myHeader(currentPage='transaction')}"></div>
 		<main>
-			<form method="post" th:object="${transactionDTO}" class="form-inline">
+			<form method="post" th:object="${transactionFrom}" class="form-inline">
 				<div class="form-group relation">
-					<select title="Selectionnez une relation" class="form-control" id="relation" th:field="${transactionDTO.receiverId}">
+					<select title="Selectionnez une relation" class="form-control" id="relation"
+						th:field="*{receiverId}">
 						<option value="0" th:text="'Sélectionner une relation'" selected disabled></option>
 						<option th:each="u : ${userset}"
 							th:value="${u.id}"
 							th:text="${u.email}"></option>
 					</select>
 				</div>
-
 				<div class="form-group description">
-					<input title="Entrez la description de la transaction" type="text" class="form-control" id="description" placeholder="Description"
-						th:field="${transactionDTO.description}">
+					<input title="Entrez la description de la transaction" type="text" class="form-control"
+						id="description" placeholder="Description"
+						th:field="*{description}">
 				</div>
-
 				<div class="input-group">
-					<input title="Entrez le montant" value="0" type="number" class="form-control" id="montant" min="0" step="1"
-						th:field="${transactionDTO.amount}"/>
-					</div>
+					<input title="Entrez le montant" value="0" type="number" class="form-control" id="montant"
+						min="0" step="1" th:field="*{amount}" />
 				</div>
-				<button type="submit" class="btn btn-primary btn-block mt-3">Payer</button>
+				<button type="submit" title="Cliquer pour payer"
+					class="btn btn-primary btn-block mt-3">Payer</button>
 			</form>
-			<form method="get" th:object="${listTransactionDTO}">
+			<form method="get">
 				<div class="listOfTransaction border">
-					<h4 title="Transactions" class="mt-3 font-weight-bold text-left" style="padding-left: 10px;">Mes
-						Transactions</h4>
+					<h4 title="Transactions" class="mt-3 font-weight-bold text-left"
+						style="padding-left: 10px;">Mes Transactions</h4>
 					<table class="table">
 						<thead>
 							<tr>
@@ -40,9 +40,9 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="t : ${listTransactionDTO}">
+							<tr th:each="t : ${ListoftransactionFrom}">
 								<td style="text-align: left;" th:text="${t.receiverUsername}"></td>
-								<td  style="text-align: center;" th:text="${t.description}"></td>
+								<td style="text-align: center;" th:text="${t.description}"></td>
 								<td style="text-align: right;" th:text="${t.amount}"></td>
 							</tr>
 						</tbody>

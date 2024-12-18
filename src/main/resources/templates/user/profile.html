@@ -1,32 +1,33 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 	<div
-		th:replace="~{head :: myHead(currentTitle='Profil', currentURL='../../css/profile.css') }"></div>
+		th:replace="~{head :: myHead(currentTitle='Profil', currentURL='../../css/profile.css')}"></div>
 	<body>
 		<div th:replace="~{header :: myHeader(currentPage='profile')}"></div>
+		<div th:if="${successMessage}" class="alert alert-success container">
+			<span th:text="${successMessage}"></span>
+		</div>
 		<main>
 			<form method="get" th:object="${loginForm}" class="form-inline">
 				<div class="form-group">
 					<div class="form-row">
 						<label for="username">Username</label>
-						<input type="text" class="form-control" id="username" th:placeholder="#{loginForm.username}"
-							th:field="${loginForm.username}" disabled>
+						<input type="text" class="form-control" id="username" th:placeholder="${loginForm.username}"
+							disabled>
 					</div>
 
 					<div class="form-row">
 						<label for="email">Mail</label>
-						<input type="text" class="form-control" id="email" th:placeholder="#{loginForm.email}"
-							th:field="${loginForm.email}" disabled>
+						<input type="text" class="form-control" id="email" th:placeholder="${loginForm.email}"
+							disabled>
 					</div>
 
 					<div class="form-row">
 						<label for="password">Mot de passe</label>
 						<input type="password" class="form-control" id="password"
-							placeholder="********"
-							th:field="${loginForm.password}" disabled>
+							placeholder="********" disabled>
 					</div>
-					<a type="submit" href="/user/updatePassword"
-						class="btn btn-warning btn-block mt-3">Modifier</a>
+					<a href="/user/updatePassword" class="btn btn-warning btn-block mt-3">Modifier</a>
 				</div>
 			</form>
 		</main>

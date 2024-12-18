@@ -35,21 +35,17 @@ public class TransactionController {
 	@GetMapping
 	public String transaction(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-//		if (session == null || session.getAttribute("username") == null) {
-//			log.info("SESSION is null");
-//			return "redirect:/login";
-//		}
-		User user = userService.getUserByEmail(session.getAttribute("identifier").toString());
+		User user = userService.getUserByEmail(session.getAttribute("username").toString());
 		user = userService.getUserById(user.getId());
 		Set<User> userSet = user.getConnections();
 
-		TransactionFrom transactionDTO = new TransactionFrom();
+		TransactionFrom transactionFrom = new TransactionFrom();
 
 		List<Transaction> transactions = transactionService.getTransactionsBySenderId(user.getId());
-		List<TransactionFrom> transactionDTOs = transactions.stream().map(TransactionFrom::new).toList();
+		List<TransactionFrom> transactionFroms = transactions.stream().map(TransactionFrom::new).toList();
 
-		model.addAttribute("transactionDTO", transactionDTO);
-		model.addAttribute("listTransactionDTO", transactionDTOs);
+		model.addAttribute("transactionFrom", transactionFrom);
+		model.addAttribute("ListoftransactionFrom", transactionFroms);
 		model.addAttribute("userset", userSet);
 
 		return "transaction/transaction";
@@ -62,7 +58,7 @@ public class TransactionController {
 		HttpSession session = request.getSession();
 
 		Transaction transaction = new Transaction();
-		int userId = userService.getUserByEmail(session.getAttribute("identifier").toString()).getId();
+		int userId = userService.getUserByEmail(session.getAttribute("username").toString()).getId();
 		transaction.setReceiver(userService.getUserById(transactionFrom.getReceiverId()));
 		transaction.setSender(userService.getUserById(userId));
 		transaction.setDescription(transactionFrom.getDescription());
