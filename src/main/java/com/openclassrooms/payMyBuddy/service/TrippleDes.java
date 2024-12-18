@@ -11,6 +11,9 @@ import javax.crypto.spec.DESedeKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class TrippleDes {
 
 	private static final Charset UNICODE_FORMAT = StandardCharsets.UTF_8;

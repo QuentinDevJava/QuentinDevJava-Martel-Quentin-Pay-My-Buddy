@@ -1,5 +1,4 @@
 -- Base de données : `paymybuddy`
-USE paymybuddy;
 
 -- --------------------------------------------------------
 -- Loading data into the `user` table only if it is empty

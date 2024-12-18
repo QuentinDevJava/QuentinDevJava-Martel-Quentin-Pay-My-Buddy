@@ -2,7 +2,6 @@ package com.openclassrooms.payMyBuddy.web.controller;
 
 import java.util.Objects;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.openclassrooms.payMyBuddy.model.User;
 import com.openclassrooms.payMyBuddy.service.UserService;
@@ -18,26 +18,23 @@ import com.openclassrooms.payMyBuddy.web.form.LoginForm;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/user")
 @Slf4j
+@RequiredArgsConstructor
 public class UserController {
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 
 	@GetMapping("/profile")
 	public String profil(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		if (session == null || session.getAttribute("username") == null) {
-			log.info("Session is null");
-			return "redirect:/login";
-		}
 
 		LoginForm loginForm = new LoginForm();
-		User user = userService.getUserByEmail(session.getAttribute("username").toString());
+		User user = userService.getUserByEmail(session.getAttribute("identifier").toString());
 		user = userService.getUserById(user.getId());
 		loginForm.setUsername(user.getUsername());
 		loginForm.setEmail(user.getEmail());
@@ -48,11 +45,6 @@ public class UserController {
 
 	@GetMapping("/updatePassword")
 	public String updatePassword(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		if (session == null || session.getAttribute("username") == null) {
-			log.info("SESSION is null");
-			return "redirect:/login";
-		}
 		LoginForm loginForm = new LoginForm();
 		model.addAttribute("loginForm", loginForm);
 		return "user/password";
@@ -64,10 +56,10 @@ public class UserController {
 
 		if (result.hasErrors()) {
 			return "redirect:/user/profile";
-		}
+		} // TODO test bindingResult action
 
 		HttpSession session = request.getSession();
-		User user = userService.getUserByEmail(session.getAttribute("username").toString());
+		User user = userService.getUserByEmail(session.getAttribute("identifier").toString());
 		user = userService.getUserById(user.getId());
 
 		if (Objects.equals(loginForm.getOldPassword(), user.getPassword())) {
@@ -90,13 +82,8 @@ public class UserController {
 	@GetMapping("/connexion")
 	public String connexion(HttpServletRequest request, Model model) {
 
-		HttpSession session = request.getSession();
-		if (session == null || session.getAttribute("username") == null) {
-			log.info("Session is null");
-			return "redirect:/login";
-		}
-
 		LoginForm loginForm = new LoginForm();
+		loginForm.setConnexion(new User());
 		model.addAttribute("loginForm", loginForm);
 
 		return "/connexion/connexion";
@@ -104,33 +91,32 @@ public class UserController {
 
 	@PostMapping("/connexion")
 	public String addConnexion(HttpServletRequest request, @Valid @ModelAttribute LoginForm loginForm,
-			BindingResult result) {
+			BindingResult result, RedirectAttributes attributes) {
 
 		if (result.hasErrors()) {
 			return "redirect:/user/connexion";
 		}
 
 		HttpSession session = request.getSession();
-		User user = userService.getUserByEmail(session.getAttribute("username").toString());
+		User user = userService.getUserByEmail(session.getAttribute("identifier").toString());
 		user = userService.getUserById(user.getId());
 
 		User connection = userService.getUserByEmail(loginForm.getConnexion().getEmail());
 
 		if (connection != null) {
-			// Si l'utilisateur existe déjà
 			if (Objects.equals(user.getEmail(), connection.getEmail())) {
 				log.warn("The user's email must be different from that of your");
-				result.rejectValue("connexion.email", "error.userDTO", "The user cannot connect to themselves.");
-				return "redirect:/user/connexion";
+				// TODO test bindingResult action
+				result.rejectValue("connexion.email", "error.loginForm", "The user cannot connect to themselves.");
+				return "/connexion/connexion";
 			}
 			user.getConnections().add(connection);
 			userService.saveUser(user);
 			return "redirect:/transaction";
 		} else {
-			// Si l'utilisateur n'existe pas dans la base de données
 			log.warn("The user does not exist");
-			result.rejectValue("connexion.email", "error.userDTO", "The user does not exist.");
-			return "redirect:/user/connexion";
-		}
+		} // TODO test bindingResult action
+		result.rejectValue("connexion.email", "error.loginForm", "The user does not exist.");
+		return "/connexion/connexion";
 	}
 }

@@ -4,17 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.payMyBuddy.model.Transaction;
 import com.openclassrooms.payMyBuddy.repository.TransactionRepository;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class TransactionService {
 
-	@Autowired
-	private TransactionRepository transactionRepository;
+	private final TransactionRepository transactionRepository;
 
 	public List<Transaction> getTransactions() {
 		List<Transaction> allTransaction = new ArrayList<>();

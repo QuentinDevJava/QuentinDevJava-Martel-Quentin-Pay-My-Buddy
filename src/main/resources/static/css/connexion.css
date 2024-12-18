@@ -13,6 +13,7 @@ header {
     margin-left: 50px;
     margin-right: 50px;
     font-weight: 600 !important;
+
 }
 
 
@@ -72,10 +73,17 @@ main {
 
 .alert {
     display: grid;
-    grid-template-columns: 1fr 200px;
-
+    grid-template-columns: 1fr;
+    width: fit-content;
     margin-right: 200px;
     margin-left: 150px;
+
+}
+
+body .alert {
+    font-size: x-large;
+    color: black;
+    font-weight: 600
 }
 
 @media (min-width: 576px) {

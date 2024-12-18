@@ -1,6 +1,5 @@
 package com.openclassrooms.payMyBuddy.web.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,13 +15,15 @@ import com.openclassrooms.payMyBuddy.web.form.LoginForm;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
+@RequiredArgsConstructor
 public class AuthenticationController {
-	@Autowired
-	private UserService userService;
+
+	private final UserService userService;
 
 	@GetMapping("/login")
 	public String login(Model model) {
@@ -37,15 +38,16 @@ public class AuthenticationController {
 			throws Exception {
 		TrippleDes td = new TrippleDes();
 
-		// TODO connexion possible mail ou username
-		if (userService.existsByEmailAndPassword(loginForm.getEmail(), td.encrypt(loginForm.getPassword()))) {
-			session.setAttribute("username", loginForm.getEmail());
-			log.info("user are in database");
+		if (userService.existsByEmailAndPassword(loginForm.getEmail(), td.encrypt(loginForm.getPassword()))
+				|| userService.existsByUsernameAndPassword(loginForm.getEmail(), td.encrypt(loginForm.getPassword()))) {
+			session.setAttribute("identifier", loginForm.getEmail());
+			log.info("User find in database");
 			return "redirect:/transaction";
 		} else {
-			log.info("user are not in database");
+			log.info("Error username or email unknown");
 
-			// result.rejectValue("email", "error.userDTO", "Account does not exist or
+			// TODO afficher message flash alert result.rejectValue("email",
+			// "error.userDTO", "Account does not exist or
 			// incorrect credentials.");
 			return "user/login";
 		}
@@ -54,12 +56,12 @@ public class AuthenticationController {
 	@GetMapping("/logout")
 	public String logout(HttpServletRequest request) {
 		log.info("Attempt to logout user ");
-		if (request.getSession() == null || request.getSession().getAttribute("username") == null) {
+		if (request.getSession() == null || request.getSession().getAttribute("identifier") == null) {
 			return "redirect:/login";
 		}
 
-		request.getSession().removeAttribute("username");
-		log.info("Username removed from the session. do logout");
+		request.getSession().removeAttribute("identifier");
+		log.info("Identifier removed from the session. Do logout");
 		return "redirect:/login";
 	}
 
@@ -76,7 +78,6 @@ public class AuthenticationController {
 		if (userService.existsByEmail(loginForm.getEmail()) || userService.existsByUsername(loginForm.getUsername())) {
 			return "user/registration";
 		} else {
-
 			User user = new User();
 			user.setUsername(loginForm.getUsername());
 			user.setEmail(loginForm.getEmail());

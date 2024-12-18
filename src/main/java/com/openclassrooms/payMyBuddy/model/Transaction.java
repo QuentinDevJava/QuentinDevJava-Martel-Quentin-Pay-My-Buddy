@@ -10,6 +10,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Represents a financial transaction between two users.
@@ -28,6 +32,10 @@ import jakarta.persistence.Table;
  * </ul>
  */
 @Entity
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 @Table(name = "transaction")
 public class Transaction {
 
@@ -51,7 +59,6 @@ public class Transaction {
 	@Column(name = "amount")
 	private double amount;
 
-	// TODO implementer les relations avec user pour sender_id et receiver_id
 	// TODO javadoc
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "sender_id")
@@ -61,85 +68,4 @@ public class Transaction {
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "receiver_id")
 	private User receiver;
-
-	/**
-	 * Returns the unique identifier of the transaction.
-	 * 
-	 * @return The transaction's unique identifier.
-	 */
-	public int getId() {
-		return id;
-	}
-
-	/**
-	 * Sets the unique identifier of the transaction.
-	 * 
-	 * @param id The unique identifier to set.
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	/**
-	 * Returns the user who is sending the money.
-	 * 
-	 * @return The sender's user ID.
-	 */
-	public User getSender() {
-		return sender;
-	}
-
-	public void setSender(User sender) {
-		this.sender = sender;
-	}
-
-	/**
-	 * Returns the user who is receiving the money.
-	 * 
-	 * @return The receiver's user ID.
-	 */
-	public User getReceiver() {
-		return receiver;
-	}
-
-	public void setReceiver(User receiver) {
-		this.receiver = receiver;
-	}
-
-	/**
-	 * Returns the description or note for the transaction.
-	 * 
-	 * @return The description of the transaction.
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * Sets the description or note for the transaction.
-	 * 
-	 * @param description The description to set.
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	/**
-	 * Returns the amount of money being transferred in the transaction.
-	 * 
-	 * @return The amount of the transaction.
-	 */
-	public double getAmount() {
-		return amount;
-	}
-
-	/**
-	 * Sets the amount of money being transferred in the transaction.
-	 * 
-	 * @param amount The amount to set for the transaction.
-	 */
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
-
 }

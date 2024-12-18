@@ -28,20 +28,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class TransactionController {
+
 	private final TransactionService transactionService;
 	private final UserService userService;
 
 	@GetMapping
 	public String transaction(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		if (session == null || session.getAttribute("username") == null) {
-			log.info("SESSION is null");
-			return "redirect:/login";
-		}
-		String username = session.getAttribute("username").toString();
-		log.info("USERNAME retrieved from current session: {}", username);
-
-		User user = userService.getUserByEmail(session.getAttribute("username").toString());
+//		if (session == null || session.getAttribute("username") == null) {
+//			log.info("SESSION is null");
+//			return "redirect:/login";
+//		}
+		User user = userService.getUserByEmail(session.getAttribute("identifier").toString());
 		user = userService.getUserById(user.getId());
 		Set<User> userSet = user.getConnections();
 
@@ -64,7 +62,7 @@ public class TransactionController {
 		HttpSession session = request.getSession();
 
 		Transaction transaction = new Transaction();
-		int userId = userService.getUserByEmail(session.getAttribute("username").toString()).getId();
+		int userId = userService.getUserByEmail(session.getAttribute("identifier").toString()).getId();
 		transaction.setReceiver(userService.getUserById(transactionFrom.getReceiverId()));
 		transaction.setSender(userService.getUserById(userId));
 		transaction.setDescription(transactionFrom.getDescription());
