@@ -5,15 +5,15 @@
 	<body>
 		<div th:replace="~{header :: myHeader(currentPage='connexion')}"></div>
 		<main class="container">
-			<div class="alert alert-danger" th:if="${#fields.hasErrors('loginForm.connexion.email')}">
-				<p th:each="err : ${#fields.errors('loginForm.connexion.email')}" th:text="${err}">
+			<div class="alert alert-danger" th:if="${#fields.hasErrors('connexionForm.email')}">
+				<p th:each="err : ${#fields.errors('connexionForm.email')}" th:text="${err}">
 				</p>
 			</div>
-			<form method="post" th:object="${loginForm}" class="form-inline">
+			<form method="post" th:object="${connexionForm}" class="form-inline">
 				<div class="form-group">
 					<label for="relation">Chercher une relation</label>
 					<input type="text" class="form-control" id="relation" placeholder="Saisir une addresse mail"
-						th:field="*{connexion.email}">
+						th:field="*{email}">
 				</div>
 				<button type="submit" class="btn btn-warning btn-block mt-3">Ajouter</button>
 			</form>

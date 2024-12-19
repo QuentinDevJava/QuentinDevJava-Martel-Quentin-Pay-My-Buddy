@@ -35,6 +35,11 @@ public class UserService {
 		return user.orElse(null);
 	}
 
+	public Integer getUserIdByEmail(String email) {
+		Optional<Integer> userId = userRepository.findIdByEmail(email);
+		return userId.orElse(null);
+	}
+
 	public User addUser(User user) {
 		return userRepository.save(user);
 	}
@@ -44,7 +49,7 @@ public class UserService {
 		userRepository.save(user);
 	}
 
-	public boolean existsByEmail(String email) {
+	public boolean userExistsByEmail(String email) {
 		return userRepository.existsByEmail(email);
 	}
 
@@ -52,15 +57,26 @@ public class UserService {
 		userRepository.save(user);
 	}
 
-	public boolean existsByEmailAndPassword(String email, String password) {
+	public boolean userExistsByEmailAndPassword(String email, String password) {
 		return userRepository.existsByEmailAndPassword(email, password);
 	}
 
-	public boolean existsByUsernameAndPassword(String username, String password) {
+	public boolean userExistsByUsernameAndPassword(String username, String password) {
 		return userRepository.existsByUsernameAndPassword(username, password);
 	}
 
-	public boolean existsByUsername(String username) {
+	public boolean userExistsByUsername(String username) {
 		return userRepository.existsByUsername(username);
 	}
+
+	public boolean identifierIsValide(String email, String password) throws Exception {
+		TrippleDes td = new TrippleDes();
+		return userRepository.existsByEmailAndPasswordOrUsernameAndPassword(email, td.encrypt(password), email,
+				td.encrypt(password));
+	}
+
+	public User getUserByEmailOrUsername(String email, String username) {
+		return userRepository.findByEmailOrUsername(email, username);
+	}
+
 }

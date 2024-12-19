@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.openclassrooms.payMyBuddy.model.User;
-import com.openclassrooms.payMyBuddy.service.TrippleDes;
 import com.openclassrooms.payMyBuddy.service.UserService;
 import com.openclassrooms.payMyBuddy.web.form.LoginForm;
+import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -35,18 +35,15 @@ public class AuthenticationController {
 	@PostMapping("/login")
 	public String authentication(@Valid @ModelAttribute LoginForm loginForm, BindingResult result, HttpSession session)
 			throws Exception {
-		TrippleDes td = new TrippleDes();
-
-		if (userService.existsByEmailAndPassword(loginForm.getEmail(), td.encrypt(loginForm.getPassword()))
-				|| userService.existsByUsernameAndPassword(loginForm.getEmail(), td.encrypt(loginForm.getPassword()))) {
-			session.setAttribute("username", loginForm.getEmail());
+		if (userService.identifierIsValide(loginForm.getEmail(), loginForm.getPassword())) {
+			User user = userService.getUserByEmailOrUsername(loginForm.getEmail(), loginForm.getEmail());
+			session.setAttribute("username", user.getEmail());
 			log.info("User find in database");
 			return "redirect:/transaction";
-		} else {
-			log.info("Error username or email unknown");
-			result.rejectValue("email", "error.loginForm", "Account does not exist or incorrect credentials.");
-			return "user/login";
 		}
+		log.info("Error username or email unknown");
+		result.rejectValue("email", "error.loginForm", "Account does not exist or incorrect credentials.");
+		return "user/login";
 	}
 
 	@GetMapping("/logout")
@@ -55,7 +52,6 @@ public class AuthenticationController {
 		if (request.getSession() == null || request.getSession().getAttribute("username") == null) {
 			return "redirect:/login";
 		}
-
 		request.getSession().removeAttribute("username");
 		log.info("username removed from the session. Do logout");
 		return "redirect:/login";
@@ -63,21 +59,23 @@ public class AuthenticationController {
 
 	@GetMapping("/registration")
 	public String createUser(Model model) {
-		model.addAttribute("loginForm", new LoginForm());
+		model.addAttribute("registrationForm", new RegistrationForm());
 		return "user/registration";
 	}
 
 	@PostMapping("/registration")
-	public String createUser(@Valid @ModelAttribute LoginForm loginForm, BindingResult result) throws Exception {
+	public String createUser(@Valid @ModelAttribute RegistrationForm registrationForm, BindingResult result)
+			throws Exception {
 
-		if (userService.existsByEmail(loginForm.getEmail()) || userService.existsByUsername(loginForm.getUsername())) {
+		if (userService.userExistsByEmail(registrationForm.getEmail())
+				|| userService.userExistsByUsername(registrationForm.getUsername())) {
 			result.rejectValue("email", "error.loginForm", "Nom d'utilisateur ou mail deja utilisé.");
 			return "user/registration";
 		} else {
 			User user = new User();
-			user.setUsername(loginForm.getUsername());
-			user.setEmail(loginForm.getEmail());
-			user.setPassword(loginForm.getPassword());
+			user.setUsername(registrationForm.getUsername());
+			user.setEmail(registrationForm.getEmail());
+			user.setPassword(registrationForm.getPassword());
 			userService.saveUser(user);
 			return "redirect:/login";
 		}

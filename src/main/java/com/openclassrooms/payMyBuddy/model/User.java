@@ -156,9 +156,8 @@ public class User {
 	 * @return The password.
 	 * @throws Exception 
 	 */
-	public String getPassword() throws Exception {
-		TrippleDes td = new TrippleDes();
-		return td.decrypt(password);
+	public String getPassword() {
+		return password;
 	}
 
 	/**

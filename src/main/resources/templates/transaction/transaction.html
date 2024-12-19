@@ -20,7 +20,7 @@
 						id="description" placeholder="Description"
 						th:field="*{description}">
 				</div>
-				<div class="input-group">
+				<div class="input-group ">
 					<input title="Entrez le montant" value="0" type="number" class="form-control" id="montant"
 						min="0" step="1" th:field="*{amount}" />
 				</div>
@@ -43,13 +43,14 @@
 							<tr th:each="t : ${ListoftransactionFrom}">
 								<td style="text-align: left;" th:text="${t.receiverUsername}"></td>
 								<td style="text-align: center;" th:text="${t.description}"></td>
-								<td style="text-align: right;" th:text="${t.amount}"></td>
+								<td style="text-align: right;" th:text="${t.amount}"><span>jnefknfgk</span></td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 			</form>
 		</main>
-		<footer></footer>
+		<footer>
+		</footer>
 	</body>
 </html>

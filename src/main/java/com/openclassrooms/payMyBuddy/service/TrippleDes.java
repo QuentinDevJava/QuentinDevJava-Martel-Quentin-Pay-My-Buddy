@@ -10,6 +10,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Value;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,6 +23,7 @@ public class TrippleDes {
 	private SecretKeyFactory skf;
 	private Cipher cipher;
 	byte[] arrayBytes;
+	@Value("${encryption.key}")
 	private String myEncryptionKey;
 	private String myEncryptionScheme;
 	SecretKey key;
@@ -49,16 +51,4 @@ public class TrippleDes {
 		return encryptedString;
 	}
 
-	public String decrypt(String encryptedString) {
-		String decryptedText = null;
-		try {
-			cipher.init(Cipher.DECRYPT_MODE, key);
-			byte[] encryptedText = Base64.decodeBase64(encryptedString);
-			byte[] plainText = cipher.doFinal(encryptedText);
-			decryptedText = new String(plainText);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return decryptedText;
-	}
 }

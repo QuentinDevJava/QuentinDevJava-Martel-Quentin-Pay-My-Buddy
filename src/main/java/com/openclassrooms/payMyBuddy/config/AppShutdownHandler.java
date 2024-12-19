@@ -22,7 +22,7 @@ public class AppShutdownHandler {
 		HttpSession session = request.getSession(false);
 		if (session != null) {
 			session.removeAttribute("identifier");
-			log.info("Session terminated, identifier removed from the session during shutdown.");
+			log.debug("Session terminated, identifier removed from the session during shutdown.");
 		}
 	}
 }

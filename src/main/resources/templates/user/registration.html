@@ -9,13 +9,18 @@
 			<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
 				<div class="card" style="width: 100%; max-width: 450px;">
 					<div class="alert alert-danger container text-center"
-						th:if="${#fields.hasErrors('loginForm.email')}">
-						<p th:each="err : ${#fields.errors('loginForm.email')}" th:text="${err}">
+						th:if="${#fields.hasErrors('registrationForm.email')}">
+						<p th:each="err : ${#fields.errors('registrationForm.email')}" th:text="${err}">
+						</p>
+					</div>
+					<div class="alert alert-danger container text-center"
+						th:if="${#fields.hasErrors('registrationForm.email')}">
+						<p th:each="err : ${#fields.errors('registrationForm.email')}" th:text="${err}">
 						</p>
 					</div>
 					<div class="card-body">
 						<h4 class="card-title text-center" style="min-width: 200px;">Pay My Buddy</h4>
-						<form method="post" th:object="${loginForm}" class="grid-form">
+						<form method="post" th:object="${registrationForm}" class="grid-form">
 							<div class="form-group">
 								<input type="text" class="form-control" id="username" placeholder="Nom d'utilisateur"
 									th:field="*{username}" title="Indiquez votre nom d'utilisateur" required>

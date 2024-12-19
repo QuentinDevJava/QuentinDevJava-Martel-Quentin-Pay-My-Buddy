@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.openclassrooms.payMyBuddy.model.User;
+import com.openclassrooms.payMyBuddy.service.TrippleDes;
 import com.openclassrooms.payMyBuddy.service.UserService;
-import com.openclassrooms.payMyBuddy.web.form.LoginForm;
+import com.openclassrooms.payMyBuddy.web.form.ConnexionForm;
+import com.openclassrooms.payMyBuddy.web.form.PasswordForm;
+import com.openclassrooms.payMyBuddy.web.form.ProfilForm;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -33,12 +36,13 @@ public class UserController {
 	public String profil(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 
-		LoginForm loginForm = new LoginForm();
+		ProfilForm profilForm = new ProfilForm();
 		User user = userService.getUserByEmail(session.getAttribute("username").toString());
 		user = userService.getUserById(user.getId());
-		loginForm.setUsername(user.getUsername());
-		loginForm.setEmail(user.getEmail());
-		model.addAttribute("loginForm", loginForm);
+
+		profilForm.setUsername(user.getUsername());
+		profilForm.setEmail(user.getEmail());
+		model.addAttribute("profilForm", profilForm);
 		if (model.containsAttribute("message")) {
 			model.addAttribute("successMessage", model.asMap().get("message"));
 		}
@@ -47,22 +51,19 @@ public class UserController {
 
 	@GetMapping("/updatePassword")
 	public String updatePassword(Model model, HttpServletRequest request) {
-		model.addAttribute("loginForm", new LoginForm());
+		model.addAttribute("passwordForm", new PasswordForm());
 		return "user/password";
 	}
 
 	@PostMapping("/updatePassword")
-	public String updatePassword(HttpServletRequest request, @Valid @ModelAttribute LoginForm loginForm,
+	public String updatePassword(HttpServletRequest request, @Valid @ModelAttribute PasswordForm passwordForm,
 			BindingResult result, RedirectAttributes redirAttrs) throws Exception {
-
+		TrippleDes td = new TrippleDes();
 		HttpSession session = request.getSession();
 		User user = userService.getUserByEmail(session.getAttribute("username").toString());
-		user = userService.getUserById(user.getId());
-
-		if (Objects.equals(loginForm.getOldPassword(), user.getPassword())) {
-			if (Objects.equals(loginForm.getPasswordConfirmation(), loginForm.getPassword())) {
-
-				user.setPassword(loginForm.getPassword());
+		if (Objects.equals(td.encrypt(passwordForm.getOldPassword()), user.getPassword())) {
+			if (Objects.equals(passwordForm.getPasswordConfirmation(), passwordForm.getPassword())) {
+				user.setPassword(passwordForm.getPassword());
 				userService.saveUser(user);
 				log.info("Password updated");
 				redirAttrs.addFlashAttribute("message", "Mot de passe mise à jour avec succès.");
@@ -77,32 +78,25 @@ public class UserController {
 			log.debug("Password not update ERROR old password fase");
 			result.rejectValue("oldPassword", "error.loginForm", "L'ancien mot de passe est incorrect.");
 			return "user/password";
-
 		}
-
 	}
 
 	@GetMapping("/connexion")
 	public String connexion(HttpServletRequest request, Model model) {
-
-		LoginForm loginForm = new LoginForm();
-		loginForm.setConnexion(new User());
-		model.addAttribute("loginForm", loginForm);
-
+		model.addAttribute("connexionForm", new ConnexionForm());
 		return "/connexion/connexion";
 	}
 
 	@PostMapping("/connexion")
-	public String addConnexion(HttpServletRequest request, @Valid @ModelAttribute LoginForm loginForm,
+	public String addConnexion(HttpServletRequest request, @Valid @ModelAttribute ConnexionForm connexionForm,
 			BindingResult result) {
 		HttpSession session = request.getSession();
 		User user = userService.getUserByEmail(session.getAttribute("username").toString());
-		user = userService.getUserById(user.getId());
-		User connection = userService.getUserByEmail(loginForm.getConnexion().getEmail());
+		User connection = userService.getUserByEmail(connexionForm.getEmail());
 		if (connection != null) {
 			if (Objects.equals(user.getEmail(), connection.getEmail())) {
 				log.warn("The user's email must be different from that of your");
-				result.rejectValue("connexion.email", "error.loginForm",
+				result.rejectValue("connexion.email", "error.connexion",
 						"L'utilisateur ne peut pas établir une connexion avec lui-même.");
 				return "/connexion/connexion";
 			}
@@ -111,7 +105,7 @@ public class UserController {
 			return "redirect:/transaction";
 		} else {
 			log.warn("The user does not exist");
-			result.rejectValue("connexion.email", "error.loginForm", "Utilisateur inconnu.");
+			result.rejectValue("connexion.email", "error.connexion", "Utilisateur inconnu.");
 			return "/connexion/connexion";
 		}
 	}

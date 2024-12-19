@@ -8,17 +8,17 @@
 			<span th:text="${successMessage}"></span>
 		</div>
 		<main>
-			<form method="get" th:object="${loginForm}" class="form-inline">
+			<form method="get" th:object="${profilForm}" class="form-inline">
 				<div class="form-group">
 					<div class="form-row">
 						<label for="username">Username</label>
-						<input type="text" class="form-control" id="username" th:placeholder="${loginForm.username}"
+						<input type="text" class="form-control" id="username" th:placeholder="${profilForm.username}"
 							disabled>
 					</div>
 
 					<div class="form-row">
 						<label for="email">Mail</label>
-						<input type="text" class="form-control" id="email" th:placeholder="${loginForm.email}"
+						<input type="text" class="form-control" id="email" th:placeholder="${profilForm.email}"
 							disabled>
 					</div>
 
