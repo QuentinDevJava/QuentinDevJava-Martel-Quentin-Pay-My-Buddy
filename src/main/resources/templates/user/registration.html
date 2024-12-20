@@ -8,12 +8,7 @@
 		<main>
 			<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
 				<div class="card" style="width: 100%; max-width: 450px;">
-					<div class="alert alert-danger container text-center"
-						th:if="${#fields.hasErrors('registrationForm.email')}">
-						<p th:each="err : ${#fields.errors('registrationForm.email')}" th:text="${err}">
-						</p>
-					</div>
-					<div class="alert alert-danger container text-center"
+					<div class="alert alert-danger text-center"
 						th:if="${#fields.hasErrors('registrationForm.email')}">
 						<p th:each="err : ${#fields.errors('registrationForm.email')}" th:text="${err}">
 						</p>

@@ -11,6 +11,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class PasswordForm {
+
 	@NotEmpty()
 	private String password;
 

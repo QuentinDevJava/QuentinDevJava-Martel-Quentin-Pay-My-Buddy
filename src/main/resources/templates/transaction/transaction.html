@@ -5,6 +5,9 @@
 	<body>
 		<div th:replace="~{header :: myHeader(currentPage='transaction')}"></div>
 		<main>
+			<div th:if="${successMessage}" class="alert alert-success container">
+				<span th:text="${successMessage}"></span>
+			</div>
 			<form method="post" th:object="${transactionFrom}" class="form-inline">
 				<div class="form-group relation">
 					<select title="Selectionnez une relation" class="form-control" id="relation"

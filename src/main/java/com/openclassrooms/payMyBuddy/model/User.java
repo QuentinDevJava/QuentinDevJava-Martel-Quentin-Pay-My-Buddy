@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.openclassrooms.payMyBuddy.service.TrippleDes;
+import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 import com.openclassrooms.payMyBuddy.web.form.TransactionFrom;
 
 import jakarta.persistence.CascadeType;
@@ -19,6 +20,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.NoArgsConstructor;
 
 /**
  * Represents a user in the system.
@@ -48,8 +50,16 @@ import jakarta.persistence.Table;
  */
 
 @Entity
+@NoArgsConstructor
 @Table(name = "user")
 public class User {
+
+	// TODO javadoc
+	public User(RegistrationForm registrationForm) {
+		this.username = registrationForm.getUsername();
+		this.email = registrationForm.getEmail();
+		this.password = registrationForm.getPassword();
+	}
 
 	/**
 	 * The unique identifier of the user.
@@ -77,7 +87,7 @@ public class User {
 	@Column(name = "password")
 	private String password;
 
-	// lien bidirectionnel
+	// TODO lien bidirectionnel add javadoc
 	@OneToMany(mappedBy = "sender", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private List<Transaction> sentTransactions;
 

@@ -1,7 +1,5 @@
 package com.openclassrooms.payMyBuddy.web.form;
 
-import com.openclassrooms.payMyBuddy.model.User;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
@@ -24,13 +22,5 @@ public class LoginForm {
 
 	@NotEmpty()
 	private String password;
-
-	@NotEmpty
-	private String oldPassword;
-
-	@NotEmpty
-	private String passwordConfirmation;
-
-	private User connexion;
 
 }

@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+//TODO javadoc
 
 @Controller
 @Slf4j
@@ -27,6 +28,7 @@ public class AuthenticationController {
 
 	@GetMapping("/login")
 	public String login(Model model) {
+		log.info("Loading the login page");
 		model.addAttribute("loginForm", new LoginForm());
 		return "user/login";
 
@@ -38,11 +40,11 @@ public class AuthenticationController {
 		if (userService.identifierIsValide(loginForm.getEmail(), loginForm.getPassword())) {
 			User user = userService.getUserByEmailOrUsername(loginForm.getEmail(), loginForm.getEmail());
 			session.setAttribute("username", user.getEmail());
-			log.info("User find in database");
+			log.info("User authenticated successfully: {}", loginForm.getEmail());
 			return "redirect:/transaction";
 		}
-		log.info("Error username or email unknown");
-		result.rejectValue("email", "error.loginForm", "Account does not exist or incorrect credentials.");
+		log.warn("Failed authentication attempt for email or username: {}", loginForm.getEmail());
+		result.rejectValue("email", "error.loginForm", "Les informations de connexion fournies sont incorrectes.");
 		return "user/login";
 	}
 
@@ -53,31 +55,29 @@ public class AuthenticationController {
 			return "redirect:/login";
 		}
 		request.getSession().removeAttribute("username");
-		log.info("username removed from the session. Do logout");
+		log.info("Username removed from the session. Do logout");
 		return "redirect:/login";
 	}
 
 	@GetMapping("/registration")
 	public String createUser(Model model) {
+		log.info("Loading the registration page");
 		model.addAttribute("registrationForm", new RegistrationForm());
 		return "user/registration";
 	}
 
 	@PostMapping("/registration")
 	public String createUser(@Valid @ModelAttribute RegistrationForm registrationForm, BindingResult result)
-			throws Exception {
-
-		if (userService.userExistsByEmail(registrationForm.getEmail())
-				|| userService.userExistsByUsername(registrationForm.getUsername())) {
-			result.rejectValue("email", "error.loginForm", "Nom d'utilisateur ou mail deja utilisé.");
-			return "user/registration";
-		} else {
-			User user = new User();
-			user.setUsername(registrationForm.getUsername());
-			user.setEmail(registrationForm.getEmail());
-			user.setPassword(registrationForm.getPassword());
-			userService.saveUser(user);
+			throws IllegalArgumentException {
+		try {
+			userService.addUser(registrationForm);
+			log.debug("User successfully added: Username = {}, Email = {}", registrationForm.getUsername(),
+					registrationForm.getEmail());
 			return "redirect:/login";
+		} catch (IllegalArgumentException ex) {
+			result.rejectValue("email", "error.loginForm", ex.getMessage());
+			log.debug("Error while adding user: {}", ex.getMessage());
+			return "user/registration";
 		}
 	}
 }
