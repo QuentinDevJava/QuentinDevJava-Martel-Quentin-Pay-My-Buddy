@@ -35,6 +35,10 @@ main {
     width: fit-content;
 }
 
+body .alert {
+    font-size: x-large;
+    font-weight: 600
+}
 
 .form-inline .btn {
     padding-top: 10px;

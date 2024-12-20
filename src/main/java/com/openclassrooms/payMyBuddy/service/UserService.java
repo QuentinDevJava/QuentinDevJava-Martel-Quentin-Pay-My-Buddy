@@ -34,12 +34,13 @@ public class UserService {
 		return user.orElse(null);
 	}
 
-	public User addUser(RegistrationForm registrationForm) throws IllegalArgumentException {
+	public User addUser(RegistrationForm registrationForm) throws Exception {
 		if (userExistsByEmail(registrationForm.getEmail()) || userExistsByUsername(registrationForm.getUsername())) {
 			log.warn("User already exists with email or username: {}", registrationForm.getEmail());
 			throw new IllegalArgumentException("Nom d'utilisateur ou mail déjà utilisé.");
 		}
 		User user = new User(registrationForm);
+		user.setPassword(registrationForm.getPassword());
 		return userRepository.save(user);
 	}
 
@@ -96,23 +97,26 @@ public class UserService {
 
 		User user = getUserByEmail(email);
 		User connexion = getUserByEmail(connexionForm.getEmail());
-		if (connexion != null) {
-			if (Objects.equals(user.getEmail(), connexion.getEmail())) {
-				log.warn("The user's email must be different from that of your");
-				response.put("message", "L'utilisateur ne peut pas établir une connexion avec lui-même.");
-				response.put("status", "error");
-			} else {
-				response.put("message", "La relation a était ajouter");
-				response.put("status", "succsess");
-				user.getConnections().add(connexion);
-				saveUser(user);
-			}
-		} else {
+		if (connexion == null) {
 			log.warn("The user does not exist");
 			response.put("message", "Utilisateur inconnu.");
 			response.put("status", "error");
+		} else if (Objects.equals(user.getEmail(), connexion.getEmail())) {
+			log.warn("The user's email must be different from that of your");
+			response.put("message", "L'utilisateur ne peut pas établir une connexion avec lui-même.");
+			response.put("status", "error");
+		} else if (user.getConnections().stream().anyMatch(c -> c.getEmail().equals(connexion.getEmail()))) {
+			log.warn("The user is already connected to this user");
+			response.put("message", "Utilisateur déjà ajouté.");
+			response.put("status", "error");
+		} else {
+			response.put("message", "La relation avec " + connexion.getUsername() + " a été ajoutée avec succès.");
+			response.put("status", "success");
+			user.getConnections().add(connexion);
+			saveUser(user);
 		}
 		return response;
+
 	}
 
 }

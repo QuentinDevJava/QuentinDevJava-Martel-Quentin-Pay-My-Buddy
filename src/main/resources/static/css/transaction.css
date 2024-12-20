@@ -101,3 +101,9 @@ input[type=number]::-webkit-outer-spin-button {
 .table thead tr th {
     border-top: none;
 }
+
+.alert {
+    width: fit-content;
+    justify-self: start;
+    margin-left: 50px;
+}

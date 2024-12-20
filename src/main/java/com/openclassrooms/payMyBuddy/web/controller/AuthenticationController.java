@@ -67,14 +67,13 @@ public class AuthenticationController {
 	}
 
 	@PostMapping("/registration")
-	public String createUser(@Valid @ModelAttribute RegistrationForm registrationForm, BindingResult result)
-			throws IllegalArgumentException {
+	public String createUser(@Valid @ModelAttribute RegistrationForm registrationForm, BindingResult result) {
 		try {
 			userService.addUser(registrationForm);
 			log.debug("User successfully added: Username = {}, Email = {}", registrationForm.getUsername(),
 					registrationForm.getEmail());
 			return "redirect:/login";
-		} catch (IllegalArgumentException ex) {
+		} catch (Exception ex) {
 			result.rejectValue("email", "error.loginForm", ex.getMessage());
 			log.debug("Error while adding user: {}", ex.getMessage());
 			return "user/registration";

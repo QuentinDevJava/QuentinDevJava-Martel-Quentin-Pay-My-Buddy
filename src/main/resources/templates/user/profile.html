@@ -4,8 +4,9 @@
 		th:replace="~{head :: myHead(currentTitle='Profil', currentURL='../../css/profile.css')}"></div>
 	<body>
 		<div th:replace="~{header :: myHeader(currentPage='profile')}"></div>
-		<div th:if="${successMessage}" class="alert alert-success container">
+		<div th:if="${successMessage}" class="alert alert-success container alert-dismissible">
 			<span th:text="${successMessage}"></span>
+			<span type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</span>
 		</div>
 		<main>
 			<form method="get" th:object="${profilForm}" class="form-inline">
@@ -31,6 +32,6 @@
 				</div>
 			</form>
 		</main>
-		<footer></footer>
+		<div th:replace="~{footer :: myFooter}"></div>
 	</body>
 </html>

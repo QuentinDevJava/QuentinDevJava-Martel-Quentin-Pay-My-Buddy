@@ -55,19 +55,24 @@ public class UserController {
 
 	@PostMapping("/updatePassword")
 	public String updatePassword(HttpServletRequest request, @Valid @ModelAttribute PasswordForm passwordForm,
-			BindingResult result, RedirectAttributes redirAttrs) throws Exception {
+			BindingResult result, RedirectAttributes redirAttrs) {
 		HttpSession session = request.getSession();
 
-		Map<String, String> response = userService
-				.validateAndUpdatePassword(session.getAttribute("username").toString(), passwordForm);
-
-		if ("succsess".equals(response.get("status"))) {
-			redirAttrs.addFlashAttribute("succsessMessage", response.get("message"));
-			return "redirect:/user/profile";
-		} else {
-			result.rejectValue("password", "error.loginForm", response.get("message"));
+		try {
+			Map<String, String> response = userService
+					.validateAndUpdatePassword(session.getAttribute("username").toString(), passwordForm);
+			if ("succsess".equals(response.get("status"))) {
+				redirAttrs.addFlashAttribute("successMessage", response.get("message"));
+				return "redirect:/user/profile";
+			} else {
+				result.rejectValue("password", "error.loginForm", response.get("message"));
+				return "user/password";
+			}
+		} catch (Exception e) {
+			result.rejectValue("password", "error.loginForm", e.getMessage());
 			return "user/password";
 		}
+
 	}
 
 	@GetMapping("/connexion")
@@ -86,29 +91,11 @@ public class UserController {
 				.validateAndUpdateConnexion(session.getAttribute("username").toString(), connexionForm);
 
 		if ("succsess".equals(response.get("status"))) {
-			redirAttrs.addFlashAttribute("succsessMessage", response.get("message"));
+			redirAttrs.addFlashAttribute("successMessage", response.get("message"));
 			return "redirect:/transaction";
 		} else {
 			result.rejectValue("email", "error.connexionForm", response.get("message"));
 			return "/connexion/connexion";
 		}
-
-//		User user = userService.getUserByEmail(session.getAttribute("username").toString());
-//		User connection = userService.getUserByEmail(connexionForm.getEmail());
-//		if (connection != null) {
-//			if (Objects.equals(user.getEmail(), connection.getEmail())) {
-//				log.warn("The user's email must be different from that of your");
-//				result.rejectValue("connexion.email", "error.connexion",
-//						"L'utilisateur ne peut pas établir une connexion avec lui-même.");
-//				return "/connexion/connexion";
-//			}
-//			user.getConnections().add(connection);
-//			userService.saveUser(user);
-//			return "redirect:/transaction";
-//		} else {
-//			log.warn("The user does not exist");
-//			result.rejectValue("connexion.email", "error.connexion", "Utilisateur inconnu.");
-//			return "/connexion/connexion";
-//		}
 	}
 }

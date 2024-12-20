@@ -8,10 +8,11 @@
 		<main>
 			<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
 				<div class="card" style="width: 100%; max-width: 450px;">
-					<div class="alert alert-danger text-center"
+					<div class="alert alert-danger text-center alert-dismissible"
 						th:if="${#fields.hasErrors('registrationForm.email')}">
 						<p th:each="err : ${#fields.errors('registrationForm.email')}" th:text="${err}">
 						</p>
+						<span type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</span>
 					</div>
 					<div class="card-body">
 						<h4 class="card-title text-center" style="min-width: 200px;">Pay My Buddy</h4>
@@ -35,7 +36,6 @@
 				</div>
 			</div>
 		</main>
-		<footer>
-		</footer>
+		<div th:replace="~{footer :: myFooter}"></div>
 	</body>
 </html>
