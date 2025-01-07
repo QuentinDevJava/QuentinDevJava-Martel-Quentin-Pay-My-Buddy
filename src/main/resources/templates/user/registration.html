@@ -14,9 +14,22 @@
 						</p>
 						<span type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</span>
 					</div>
+					<div class="alert alert-danger text-center alert-dismissible"
+						th:if="${#fields.hasErrors('registrationForm.username')}">
+						<p th:each="err : ${#fields.errors('registrationForm.username')}" th:text="${err}">
+						</p>
+						<span type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</span>
+					</div>
+					<div class="alert alert-danger text-center alert-dismissible"
+						th:if="${#fields.hasErrors('registrationForm.password')}">
+						<p th:each="err : ${#fields.errors('registrationForm.password')}" th:text="${err}">
+						</p>
+						<span type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</span>
+					</div>
 					<div class="card-body">
 						<h4 class="card-title text-center" style="min-width: 200px;">Pay My Buddy</h4>
-						<form method="post" th:object="${registrationForm}" class="grid-form">
+						<form action="#" th:action="@{/registration}" method="post" th:object="${registrationForm}"
+							class="grid-form">
 							<div class="form-group">
 								<input type="text" class="form-control" id="username" placeholder="Nom d'utilisateur"
 									th:field="*{username}" title="Indiquez votre nom d'utilisateur" required>

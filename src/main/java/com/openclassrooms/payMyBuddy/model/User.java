@@ -90,6 +90,7 @@ public class User {
 	@Column(name = "password")
 	private String password;
 
+//-------------------------------------------------------------------
 	// TODO lien bidirectionnel add javadoc
 	@OneToMany(mappedBy = "sender", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private List<Transaction> sentTransactions;
@@ -108,6 +109,8 @@ public class User {
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "user_connections", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "connection_id"))
 	private Set<User> connections = new HashSet<>();
+
+//-------------------------------------------------------------------
 
 	/**
 	 * Returns the user's ID.

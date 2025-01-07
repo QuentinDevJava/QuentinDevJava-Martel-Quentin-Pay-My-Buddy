@@ -2,7 +2,8 @@ package com.openclassrooms.payMyBuddy.web.form;
 
 import com.openclassrooms.payMyBuddy.model.Transaction;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,21 +15,20 @@ import lombok.ToString;
 @ToString
 public class TransactionFrom {
 
-	@NotEmpty
+	@NotNull
 	private int senderId;
 
-	@NotEmpty
+	@NotNull(message = "Veuillez selectionner une relation")
 	private int receiverId;
 
 	private String description;
 
-	@NotEmpty
+	@NotNull(message = "Le montant ne peut pas être nul.")
+	@Min(value = 1, message = "Le montant doit être supérieur ou égal à 1.")
 	private double amount;
 
-	@NotEmpty
 	private String receiverEmail;
 
-	@NotEmpty
 	private String receiverUsername;
 
 	public TransactionFrom(Transaction transaction) {

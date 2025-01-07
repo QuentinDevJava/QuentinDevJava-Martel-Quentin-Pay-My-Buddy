@@ -1,6 +1,6 @@
 package com.openclassrooms.payMyBuddy.web.form;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,13 +12,13 @@ import lombok.ToString;
 @ToString
 public class PasswordForm {
 
-	@NotEmpty()
+	@NotBlank
 	private String password;
 
-	@NotEmpty
+	@NotBlank
 	private String oldPassword;
 
-	@NotEmpty
+	@NotBlank
 	private String passwordConfirmation;
 
 }

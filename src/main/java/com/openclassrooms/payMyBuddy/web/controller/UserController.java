@@ -90,7 +90,7 @@ public class UserController {
 		Map<String, String> response = userService
 				.validateAndUpdateConnexion(session.getAttribute("username").toString(), connexionForm);
 
-		if ("succsess".equals(response.get("status"))) {
+		if ("success".equals(response.get("status"))) {
 			redirAttrs.addFlashAttribute("successMessage", response.get("message"));
 			return "redirect:/transaction";
 		} else {

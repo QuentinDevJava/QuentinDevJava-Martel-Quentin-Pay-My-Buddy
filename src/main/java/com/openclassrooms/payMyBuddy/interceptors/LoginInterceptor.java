@@ -17,7 +17,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		log.info("URL = " + request.getRequestURL() + " Methode = " + request.getMethod());
+		log.debug("URL = " + request.getRequestURL() + " Methode = " + request.getMethod());
 		HttpSession session = request.getSession();
 		if (session == null || session.getAttribute("username") == null) {
 			log.debug("Session is null redirect to authentication");

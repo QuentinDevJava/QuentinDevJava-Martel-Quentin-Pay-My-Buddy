@@ -34,14 +34,14 @@ public class UserService {
 		return user.orElse(null);
 	}
 
-	public User addUser(RegistrationForm registrationForm) throws Exception {
+	public void addUser(RegistrationForm registrationForm) throws Exception {
 		if (userExistsByEmail(registrationForm.getEmail()) || userExistsByUsername(registrationForm.getUsername())) {
 			log.warn("User already exists with email or username: {}", registrationForm.getEmail());
 			throw new IllegalArgumentException("Nom d'utilisateur ou mail déjà utilisé.");
 		}
 		User user = new User(registrationForm);
 		user.setPassword(registrationForm.getPassword());
-		return userRepository.save(user);
+		saveUser(user);
 	}
 
 	public boolean userExistsByEmail(String email) {

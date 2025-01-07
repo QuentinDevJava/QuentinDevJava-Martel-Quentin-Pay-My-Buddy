@@ -6,6 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.openclassrooms.payMyBuddy.model.User;
 import com.openclassrooms.payMyBuddy.service.UserService;
@@ -67,11 +68,16 @@ public class AuthenticationController {
 	}
 
 	@PostMapping("/registration")
-	public String createUser(@Valid @ModelAttribute RegistrationForm registrationForm, BindingResult result) {
+	public String createUser(@Valid @ModelAttribute RegistrationForm registrationForm, BindingResult result,
+			RedirectAttributes redirAttrs) {
 		try {
+			if (result.hasErrors()) {
+				return "user/registration";
+			}
 			userService.addUser(registrationForm);
 			log.debug("User successfully added: Username = {}, Email = {}", registrationForm.getUsername(),
 					registrationForm.getEmail());
+			redirAttrs.addFlashAttribute("successMessage", "Votre compte utilisateur a été créé avec succès.");
 			return "redirect:/login";
 		} catch (Exception ex) {
 			result.rejectValue("email", "error.loginForm", ex.getMessage());

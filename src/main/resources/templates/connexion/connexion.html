@@ -7,8 +7,7 @@
 		<main class="container">
 			<div class="alert alert-danger alert-dismissible"
 				th:if="${#fields.hasErrors('connexionForm.email')}">
-				<p th:each="err : ${#fields.errors('connexionForm.email')}" th:text="${err}">
-				</p>
+				<p th:each="err : ${#fields.errors('connexionForm.email')}" th:text="${err}"></p>
 				<span type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</span>
 			</div>
 			<form method="post" th:object="${connexionForm}" class="form-inline">
