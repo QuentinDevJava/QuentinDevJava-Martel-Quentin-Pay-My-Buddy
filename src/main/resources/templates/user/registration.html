@@ -8,24 +8,13 @@
 		<main>
 			<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
 				<div class="card" style="width: 100%; max-width: 450px;">
-					<div class="alert alert-danger text-center alert-dismissible"
-						th:if="${#fields.hasErrors('registrationForm.email')}">
-						<p th:each="err : ${#fields.errors('registrationForm.email')}" th:text="${err}">
-						</p>
-						<span type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</span>
-					</div>
-					<div class="alert alert-danger text-center alert-dismissible"
-						th:if="${#fields.hasErrors('registrationForm.username')}">
-						<p th:each="err : ${#fields.errors('registrationForm.username')}" th:text="${err}">
-						</p>
-						<span type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</span>
-					</div>
-					<div class="alert alert-danger text-center alert-dismissible"
-						th:if="${#fields.hasErrors('registrationForm.password')}">
-						<p th:each="err : ${#fields.errors('registrationForm.password')}" th:text="${err}">
-						</p>
-						<span type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</span>
-					</div>
+					<div
+						th:replace="~{fieldsErrorsMessages :: fieldsErrorsMessages(currentError='registrationForm.email')}"></div>
+					<div
+						th:replace="~{fieldsErrorsMessages :: fieldsErrorsMessages(currentError='registrationForm.username')}"></div>
+					<div
+						th:replace="~{fieldsErrorsMessages :: fieldsErrorsMessages(currentError='registrationForm.password')}"></div>
+
 					<div class="card-body">
 						<h4 class="card-title text-center" style="min-width: 200px;">Pay My Buddy</h4>
 						<form action="#" th:action="@{/registration}" method="post" th:object="${registrationForm}"

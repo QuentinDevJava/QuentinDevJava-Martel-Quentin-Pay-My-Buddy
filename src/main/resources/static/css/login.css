@@ -2,7 +2,6 @@
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 600;
   font-size: x-large;
-  width: min-content;
   height: auto;
   padding: 15px;
   padding-left: 20px;
@@ -15,7 +14,7 @@ h4 {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 600;
   font-size: x-large;
-  color: white;
+  color: white !important;
   background-color: orange;
   padding: 18px;
   margin: auto;
@@ -54,7 +53,7 @@ h4 {
   color: grey;
 }
 
-#email,
+#identifier,
 #password {
   width: 100%;
   max-width: 100%;
@@ -70,8 +69,19 @@ h4 {
   margin-bottom: 80px;
 }
 
+body .alert {
+  font-size: x-large;
+  font-weight: 600
+}
+
 @media (max-width: 576px) {
   .card {
     width: 80%;
+  }
+
+  #identifier,
+  #password {
+    min-width: auto;
+
   }
 }

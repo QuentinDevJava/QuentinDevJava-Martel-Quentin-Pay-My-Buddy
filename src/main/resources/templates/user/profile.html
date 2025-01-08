@@ -4,10 +4,9 @@
 		th:replace="~{head :: myHead(currentTitle='Profil', currentURL='../../css/profile.css')}"></div>
 	<body>
 		<div th:replace="~{header :: myHeader(currentPage='profile')}"></div>
-		<div th:if="${successMessage}" class="alert alert-success container alert-dismissible">
-			<span th:text="${successMessage}"></span>
-			<span type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</span>
-		</div>
+		<div
+			th:replace="~{flashAttributeMessage :: flashAttributeMessage(currentMessage=${successMessage} ,
+		alertType='success')}"></div>
 		<main>
 			<form method="get" th:object="${profilForm}" class="form-inline">
 				<div class="form-group">
@@ -16,19 +15,21 @@
 						<input type="text" class="form-control" id="username" th:placeholder="${profilForm.username}"
 							disabled>
 					</div>
-
 					<div class="form-row">
 						<label for="email">Mail</label>
 						<input type="text" class="form-control" id="email" th:placeholder="${profilForm.email}"
 							disabled>
 					</div>
-
 					<div class="form-row">
 						<label for="password">Mot de passe</label>
 						<input type="password" class="form-control" id="password"
 							placeholder="********" disabled>
 					</div>
-					<a href="/user/updatePassword" class="btn btn-warning btn-block mt-3">Modifier</a>
+					<a href="/user/updatePassword"
+						class="btn btn-warning btn-block mt-3"
+						role="button"
+						title="Cliquez pour accéder à la page de modification du mot de passe"
+						aria-label="Cliquez pour accéder à la page de modification du mot de passe">Modifier</a>
 				</div>
 			</form>
 		</main>

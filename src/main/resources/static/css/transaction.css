@@ -29,6 +29,10 @@ main {
     margin-right: 50px;
 }
 
+h4 {
+    font-weight: bold;
+}
+
 .form-inline {
     display: grid;
     grid-template-columns: 2fr 2fr 1fr 1fr;
@@ -38,6 +42,13 @@ main {
     margin-left: 50px;
 }
 
+#relation {
+    min-width: 320px;
+}
+
+#description {
+    min-width: 140px;
+}
 
 
 #relation,
@@ -55,6 +66,7 @@ main {
 
 .input-group {
     width: 100%;
+    min-width: 100px;
     height: 120px;
     margin-right: 20px;
 }
@@ -77,9 +89,9 @@ main {
     padding-left: 40px;
     height: min-content;
     width: max-content;
-    margin: auto !important;
     justify-self: center;
     align-self: center;
+    margin: auto;
     font-weight: 600;
     border-radius: 10px;
 }
@@ -94,7 +106,7 @@ main {
 
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
-    opacity: 1;
+    opacity: 10;
     border-radius: 10px;
 }
 
@@ -106,4 +118,9 @@ input[type=number]::-webkit-outer-spin-button {
     width: fit-content;
     justify-self: start;
     margin-left: 50px;
+}
+
+body .alert {
+    font-size: x-large;
+    font-weight: 600
 }

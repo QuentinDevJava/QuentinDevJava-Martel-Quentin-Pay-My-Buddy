@@ -38,15 +38,18 @@ public class AuthenticationController {
 	@PostMapping("/login")
 	public String authentication(@Valid @ModelAttribute LoginForm loginForm, BindingResult result, HttpSession session)
 			throws Exception {
-		if (userService.identifierIsValide(loginForm.getEmail(), loginForm.getPassword())) {
-			User user = userService.getUserByEmailOrUsername(loginForm.getEmail(), loginForm.getEmail());
-			session.setAttribute("username", user.getEmail());
-			log.info("User authenticated successfully: {}", loginForm.getEmail());
-			return "redirect:/transaction";
+		User user = userService.getUserByEmailOrUsername(loginForm.getIdentifier(), loginForm.getIdentifier());
+		if (user == null) {
+			result.rejectValue("identifier", "error.loginForm", "Identifiant inconnu.");
+			return "user/login";
 		}
-		log.warn("Failed authentication attempt for email or username: {}", loginForm.getEmail());
-		result.rejectValue("email", "error.loginForm", "Les informations de connexion fournies sont incorrectes.");
-		return "user/login";
+		if (!userService.identifierIsValide(loginForm.getIdentifier(), loginForm.getPassword())) {
+			result.rejectValue("identifier", "error.loginForm", "Le mot de passe est incorrecte.");
+			return "user/login";
+		}
+		session.setAttribute("username", user.getEmail());
+		log.info("User authenticated successfully: {}", loginForm.getIdentifier());
+		return "redirect:/transaction";
 	}
 
 	@GetMapping("/logout")

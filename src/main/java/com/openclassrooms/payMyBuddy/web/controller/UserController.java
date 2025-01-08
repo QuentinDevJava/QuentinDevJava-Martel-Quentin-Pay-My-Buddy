@@ -65,11 +65,11 @@ public class UserController {
 				redirAttrs.addFlashAttribute("successMessage", response.get("message"));
 				return "redirect:/user/profile";
 			} else {
-				result.rejectValue("password", "error.loginForm", response.get("message"));
+				result.rejectValue("password", "error.passwordForm", response.get("message"));
 				return "user/password";
 			}
 		} catch (Exception e) {
-			result.rejectValue("password", "error.loginForm", e.getMessage());
+			result.rejectValue("password", "error.passwordForm", e.getMessage());
 			return "user/password";
 		}
 

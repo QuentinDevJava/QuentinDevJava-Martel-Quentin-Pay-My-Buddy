@@ -32,8 +32,8 @@ import lombok.ToString;
  * </ul>
  */
 @Entity
-@Getter
 @Setter
+@Getter
 @ToString
 @EqualsAndHashCode
 @Table(name = "transaction")
@@ -57,7 +57,7 @@ public class Transaction {
 	 * The amount of money being transferred in the transaction.
 	 */
 	@Column(name = "amount")
-	private double amount;
+	private int amount;
 
 	// TODO javadoc
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)

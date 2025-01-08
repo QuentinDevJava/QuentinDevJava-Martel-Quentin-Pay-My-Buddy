@@ -57,11 +57,14 @@ public class TransactionController {
 
 	@PostMapping
 	public String createTransaction(HttpServletRequest request, @Valid @ModelAttribute TransactionFrom transactionFrom,
-			BindingResult result, RedirectAttributes redirectAttributes) {
-// TODO gestion erreur pas de relation selectionnée
+			BindingResult result, RedirectAttributes redirAttrs) {
+
 		if (result.hasErrors()) {
+			if (result.hasFieldErrors("receiverId")) {
+				redirAttrs.addFlashAttribute("emailError", result.getFieldError("receiverId").getDefaultMessage());
+			}
 			if (result.hasFieldErrors("amount")) {
-				redirectAttributes.addFlashAttribute("amountError", result.getFieldError("amount").getDefaultMessage());
+				redirAttrs.addFlashAttribute("amountError", result.getFieldError("amount").getDefaultMessage());
 			}
 			return "redirect:/transaction";
 		}
@@ -78,6 +81,8 @@ public class TransactionController {
 		transaction.setAmount(transactionFrom.getAmount());
 
 		transactionService.addTransaction(transaction);
+
+		redirAttrs.addFlashAttribute("successMessage", "Le transfert a été effectué avec succès.");
 
 		return "redirect:/transaction";
 	}

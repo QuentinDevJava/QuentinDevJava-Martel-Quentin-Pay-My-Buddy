@@ -4,13 +4,11 @@
 		th:replace="~{head :: myHead(currentTitle='Ajouter relation', currentURL='../../css/connexion.css') }"></div>
 	<body>
 		<div th:replace="~{header :: myHeader(currentPage='connexion')}"></div>
-		<main class="container">
-			<div class="alert alert-danger alert-dismissible"
-				th:if="${#fields.hasErrors('connexionForm.email')}">
-				<p th:each="err : ${#fields.errors('connexionForm.email')}" th:text="${err}"></p>
-				<span type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</span>
-			</div>
-			<form method="post" th:object="${connexionForm}" class="form-inline">
+		<main>
+			<div
+				th:replace="~{fieldsErrorsMessages :: fieldsErrorsMessages(currentError='connexionForm.email')}"></div>
+
+			<form method="post" th:object="${connexionForm}" class="form-inline container">
 				<div class="form-group">
 					<label for="relation">Chercher une relation</label>
 					<input type="text" class="form-control" id="relation" placeholder="Saisir une addresse mail"

@@ -19,13 +19,14 @@ public class TransactionFrom {
 	private int senderId;
 
 	@NotNull(message = "Veuillez selectionner une relation")
+	@Min(value = 1, message = "Veuillez selectionner une relation")
 	private int receiverId;
 
 	private String description;
 
 	@NotNull(message = "Le montant ne peut pas être nul.")
-	@Min(value = 1, message = "Le montant doit être supérieur ou égal à 1.")
-	private double amount;
+	@Min(value = 1, message = "Le montant du transfére doit être au supérieur ou égal à 1.")
+	private int amount;
 
 	private String receiverEmail;
 

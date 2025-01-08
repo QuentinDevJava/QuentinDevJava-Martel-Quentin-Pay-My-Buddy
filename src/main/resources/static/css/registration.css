@@ -16,7 +16,7 @@ h4 {
   font-family: ar Arial, Helvetica, sans-serif;
   font-weight: 600;
   font-size: x-large;
-  color: white;
+  color: white !important;
   background-color: orange;
   padding: 15px;
   border-radius: 10px;
@@ -87,6 +87,7 @@ body .alert {
   font-size: x-large;
   font-weight: 600
 }
+
 
 @media (max-width: 576px) {
   .card {
