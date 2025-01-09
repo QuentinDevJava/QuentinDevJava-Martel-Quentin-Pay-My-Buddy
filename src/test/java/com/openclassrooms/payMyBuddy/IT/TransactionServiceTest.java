@@ -1,0 +1,57 @@
+package com.openclassrooms.payMyBuddy.IT;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+
+import com.openclassrooms.payMyBuddy.model.Transaction;
+import com.openclassrooms.payMyBuddy.model.User;
+import com.openclassrooms.payMyBuddy.repository.TransactionRepository;
+import com.openclassrooms.payMyBuddy.repository.UserRepository;
+import com.openclassrooms.payMyBuddy.service.TransactionService;
+
+@SpringBootTest
+@ActiveProfiles("prod")
+public class TransactionServiceTest {
+	@Autowired
+	private TransactionService transactionService;
+	@Autowired
+	private TransactionRepository transactionRepository;
+	@Autowired
+	private UserRepository userRepository;
+
+	@Test
+	public void testTransactionService() throws Exception {
+		User user = new User();
+		user.setUsername("Test");
+		user.setEmail("Test@test.fr");
+		user.setPassword("Test1!78");
+		User user2 = new User();
+		user2.setUsername("Test2");
+		user2.setEmail("Test2@test.fr");
+		user2.setPassword("Test1!78");
+
+		Transaction transaction = new Transaction();
+		transaction.setDescription("Test");
+		transaction.setAmount(10);
+		transaction.setSender(user);
+		transaction.setReceiver(user2);
+
+		transactionService.addTransaction(transaction);
+
+		List<Transaction> transactions = transactionService.getTransactionsBySenderId(user.getId());
+
+		assertEquals("Test", transactions.get(0).getDescription());
+
+		transactionRepository.deleteById(transactions.get(0).getId());
+
+		userRepository.deleteById(user.getId());
+		userRepository.deleteById(user2.getId());
+
+	}
+}

@@ -56,14 +56,14 @@ public class UserService {
 		return userRepository.findByEmailOrUsername(email, username);
 	}
 
-	public void saveUser(User user) {
+	private void saveUser(User user) {
 		userRepository.save(user);
 	}
 
-	public boolean identifierIsValide(String email, String password) throws Exception {
+	public boolean identifierIsValide(String identifier, String password) throws Exception {
 		TrippleDes td = new TrippleDes();
-		return userRepository.existsByEmailAndPasswordOrUsernameAndPassword(email, td.encrypt(password), email,
-				td.encrypt(password));
+		return userRepository.existsByEmailAndPasswordOrUsernameAndPassword(identifier, td.encrypt(password),
+				identifier, td.encrypt(password));
 	}
 
 	public Map<String, String> validateAndUpdatePassword(String email, PasswordForm passwordForm) throws Exception {
