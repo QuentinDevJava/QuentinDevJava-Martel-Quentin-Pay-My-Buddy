@@ -9,10 +9,10 @@
 			<div class="container d-flex justify-content-center align-items-center" style="height:100vh;">
 				<div class="card" style="width: 100%; max-width: 450px;">
 					<div
-						th:replace="~{fieldsErrorsMessages :: fieldsErrorsMessages(currentError='loginForm.identifier')}"></div>
-
+						th:replace="~{flashAttributeMessage :: flashAttributeMessage(currentMessage=${error} ,
+					alertType='error')}"></div>
 					<div
-						th:replace="~{flashAttributeMessage :: flashAttributeMessage(currentMessage=${successMessage} ,
+						th:replace="~{flashAttributeMessage :: flashAttributeMessage(currentMessage=${success} ,
 					alertType='success')}"></div>
 
 					<div class="card-body">

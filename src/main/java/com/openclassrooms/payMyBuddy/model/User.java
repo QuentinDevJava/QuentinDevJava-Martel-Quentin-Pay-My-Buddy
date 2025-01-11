@@ -3,7 +3,6 @@ package com.openclassrooms.payMyBuddy.model;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import com.openclassrooms.payMyBuddy.service.TrippleDes;
 import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
@@ -55,8 +54,10 @@ import lombok.NoArgsConstructor;
 @Table(name = "user")
 public class User {
 
-	private static final String COMPLEX_PASSWORD_REGEX = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,32}$";
-	private static final Pattern PASSWORD_PATTERN = Pattern.compile(COMPLEX_PASSWORD_REGEX);
+	// private static final String COMPLEX_PASSWORD_REGEX =
+	// "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,32}$";
+	// private static final Pattern PASSWORD_PATTERN =
+	// Pattern.compile(COMPLEX_PASSWORD_REGEX);
 
 	// TODO javadoc
 	public User(RegistrationForm registrationForm) {
@@ -183,11 +184,11 @@ public class User {
 	 * @throws Exception 
 	 */
 	public void setPassword(String password) throws Exception {
-
-		if (!PASSWORD_PATTERN.matcher(password).matches()) {
-			throw new IllegalArgumentException(
-					"Le mot de passe doit contenir entre 8 et 32 caractères, avec au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial");
-		}
+//TODO verification du format de mot de passe plus utile dans la class user 
+//		if (!PASSWORD_PATTERN.matcher(password).matches()) {
+//			throw new IllegalArgumentException(
+//					"Le mot de passe doit contenir entre 8 et 32 caractères, avec au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial");
+//		}
 
 		TrippleDes td = new TrippleDes();
 		this.password = td.encrypt(password);

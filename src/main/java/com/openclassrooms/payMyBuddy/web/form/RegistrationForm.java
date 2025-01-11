@@ -16,7 +16,7 @@ import lombok.ToString;
 public class RegistrationForm {
 
 	@NotBlank
-	@Size(min = 2, max = 30, message = "La taille du nom d'utilisateur doit être comprise entre 2 et 30")
+	@Size(min = 2, max = 30, message = "Le nom d'utilisateur doit être comprise entre 2 et 30")
 	private String username;
 
 	@NotBlank
@@ -25,6 +25,7 @@ public class RegistrationForm {
 	private String email;
 
 	@NotBlank
+	@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,32}$", message = "Le mot de passe doit contenir entre 8 et 32 caractères, avec au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial")
 	private String password;
 
 }

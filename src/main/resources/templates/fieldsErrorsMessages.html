@@ -1,15 +1,12 @@
-<html>
-    <body>
-        <div th:fragment="fieldsErrorsMessages"
-            class="alert alert-danger  text-center container alert-dismissible"
-            th:if="${#fields.hasErrors(currentError)}"
-            role="alert">
-            <p th:each="err : ${#fields.errors(currentError)}" th:text="${err}">
-            </p>
-            <span type="button"
-                class="close"
-                data-dismiss="alert"
-                aria-label="Fermer">&times;</span>
-        </div>
-    </body>
-</html>
+
+<div th:fragment="fieldsErrorsMessages"
+    class="alert alert-danger  text-center container alert-dismissible"
+    th:if="${#fields.hasErrors(currentError)}"
+    role="alert">
+    <p th:each="err : ${#fields.errors(currentError)}" th:text="${err}">
+    </p>
+    <span type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Fermer">&times;</span>
+</div>

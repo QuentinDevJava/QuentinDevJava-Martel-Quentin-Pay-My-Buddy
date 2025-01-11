@@ -55,23 +55,29 @@ public class UserController {
 
 	@PostMapping("/updatePassword")
 	public String updatePassword(HttpServletRequest request, @Valid @ModelAttribute PasswordForm passwordForm,
-			BindingResult result, RedirectAttributes redirAttrs) {
+			BindingResult result, RedirectAttributes redirAttrs) throws Exception {
 		HttpSession session = request.getSession();
 
-		try {
-			Map<String, String> response = userService
-					.validateAndUpdatePassword(session.getAttribute("username").toString(), passwordForm);
-			if ("succsess".equals(response.get("status"))) {
-				redirAttrs.addFlashAttribute("successMessage", response.get("message"));
-				return "redirect:/user/profile";
-			} else {
-				result.rejectValue("password", "error.passwordForm", response.get("message"));
-				return "user/password";
-			}
-		} catch (Exception e) {
-			result.rejectValue("password", "error.passwordForm", e.getMessage());
+		if (result.hasErrors()) {
+			log.info("Formulaire modification mdp invalide");
 			return "user/password";
 		}
+
+		// try {
+		Map<String, String> response = userService
+				.validateAndUpdatePassword(session.getAttribute("username").toString(), passwordForm);
+
+		if ("succsess".equals(response.get("status"))) {
+			redirAttrs.addFlashAttribute("successMessage", response.get("message"));
+			return "redirect:/user/profile";
+		} else {
+			result.rejectValue("password", "error.passwordForm", response.get("message"));
+			return "user/password";
+		}
+//		} catch (Exception e) {
+//			result.rejectValue("password", "error.passwordForm", e.getMessage());
+//			return "user/password";
+//		}
 
 	}
 

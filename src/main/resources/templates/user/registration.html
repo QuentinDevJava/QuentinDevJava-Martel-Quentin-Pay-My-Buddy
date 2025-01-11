@@ -8,29 +8,33 @@
 		<main>
 			<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
 				<div class="card" style="width: 100%; max-width: 450px;">
-					<div
-						th:replace="~{fieldsErrorsMessages :: fieldsErrorsMessages(currentError='registrationForm.email')}"></div>
-					<div
-						th:replace="~{fieldsErrorsMessages :: fieldsErrorsMessages(currentError='registrationForm.username')}"></div>
-					<div
-						th:replace="~{fieldsErrorsMessages :: fieldsErrorsMessages(currentError='registrationForm.password')}"></div>
-
 					<div class="card-body">
 						<h4 class="card-title text-center" style="min-width: 200px;">Pay My Buddy</h4>
-						<form action="#" th:action="@{/registration}" method="post" th:object="${registrationForm}"
-							class="grid-form">
+
+						<form action="#" th:action="@{/registration}" method="post" th:object="${registrationForm}">
 							<div class="form-group">
-								<input type="text" class="form-control" id="username" placeholder="Nom d'utilisateur"
-									th:field="*{username}" title="Indiquez votre nom d'utilisateur" required>
+								<input type="text" class="form-control" id="username" aria-describedby="emailHelp"
+									placeholder="Nom d'utilisateur" th:field="*{username}"
+									title="Indiquez votre nom d'utilisateur" required>
+								<small th:if="${#fields.hasErrors('username')}" th:errors="*{username}" id="emailHelp"
+									class="form-text text-danger"></small>
 							</div>
+
 							<div class="form-group">
-								<input type="email" class="form-control" id="email" placeholder="Mail"
-									th:field="*{email}" title="Indiquez votre mail" required>
+								<input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+									placeholder="Mail" th:field="*{email}" title="Indiquez votre mail" required>
+								<small th:if="${#fields.hasErrors('email')}" th:errors="*{email}" id="emailHelp"
+									class="form-text text-danger"></small>
 							</div>
+
 							<div class="form-group">
 								<input type="password" class="form-control" id="password" placeholder="Mot de passe"
 									th:field="*{password}" title="Indiquez votre mot de passe" required>
+
+								<small th:if="${#fields.hasErrors('password')}" th:errors="*{password}" id="emailHelp"
+									class="form-text text-danger"></small>
 							</div>
+
 							<button type="submit" class="btn btn-primary btn-block"
 								title="Cliquez pour vous inscrire">S'inscrire</button>
 						</form>
