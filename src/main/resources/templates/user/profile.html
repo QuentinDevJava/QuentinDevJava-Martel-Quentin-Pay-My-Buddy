@@ -5,25 +5,25 @@
 	<body>
 		<div th:replace="~{header :: myHeader(currentPage='profile')}"></div>
 		<div
-			th:replace="~{flashAttributeMessage :: flashAttributeMessage(currentMessage=${successMessage} ,
-		alertType='success')}"></div>
+			th:replace="~{flashAttributeMessage :: flashAttributeMessage(currentMessage=${success} ,
+	alertType='success')}"></div>
 		<main>
 			<form method="get" th:object="${profilForm}" class="form-inline">
 				<div class="form-group">
 					<div class="form-row">
 						<label for="username">Username</label>
 						<input type="text" class="form-control" id="username" th:placeholder="${profilForm.username}"
-							disabled>
+							aria-describedby="Indiquez votre nom d'utilisateur" disabled>
 					</div>
 					<div class="form-row">
 						<label for="email">Mail</label>
 						<input type="text" class="form-control" id="email" th:placeholder="${profilForm.email}"
-							disabled>
+							aria-describedby="Indiquez votre mail" disabled>
 					</div>
 					<div class="form-row">
 						<label for="password">Mot de passe</label>
 						<input type="password" class="form-control" id="password"
-							placeholder="********" disabled>
+							placeholder="********" aria-describedby="Indiquez votre mot de passe" disabled>
 					</div>
 					<a href="/user/updatePassword"
 						class="btn btn-warning btn-block mt-3"

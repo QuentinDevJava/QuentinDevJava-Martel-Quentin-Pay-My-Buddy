@@ -18,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(loginInterceptor).addPathPatterns("/**").addPathPatterns("**")
 				.excludePathPatterns("/login").excludePathPatterns("/logout").excludePathPatterns("/registration")
-				.excludePathPatterns("/css/**");
+				.excludePathPatterns("/css/**").excludePathPatterns("/h2-console").excludePathPatterns("/favicon.ico");
 	}
 
 }

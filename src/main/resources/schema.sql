@@ -5,7 +5,7 @@
 -- 
 -- Structure of the `user` table
 -- 
-CREATE TABLE IF NOT EXISTS `user` (
+CREATE TABLE IF NOT EXISTS `users` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(255) NOT NULL, 
   `email` VARCHAR(255) NOT NULL UNIQUE,      
@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `description` TEXT DEFAULT NULL, 
   `amount` DECIMAL(10,2) NOT NULL,
   PRIMARY KEY (`id`),  
-  CONSTRAINT `transaction_sender_id_user_id` FOREIGN KEY (`sender_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `transaction_receiver_id_user_id` FOREIGN KEY (`receiver_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+  CONSTRAINT `transaction_sender_id_user_id` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `transaction_receiver_id_user_id` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -36,8 +36,8 @@ CREATE TABLE IF NOT EXISTS `user_connections` (
   `user_id` INT(11) NOT NULL, 
   `connection_id` INT(11) NOT NULL, 
   PRIMARY KEY (`user_id`, `connection_id`),  
-  CONSTRAINT `user_connections_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `user_connections_connection_id_fk` FOREIGN KEY (`connection_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `user_connections_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `user_connections_connection_id_fk` FOREIGN KEY (`connection_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CHECK (`user_id` != `connection_id`)      
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

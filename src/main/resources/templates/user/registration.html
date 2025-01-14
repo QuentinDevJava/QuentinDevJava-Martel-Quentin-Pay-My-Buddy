@@ -11,27 +11,42 @@
 					<div class="card-body">
 						<h4 class="card-title text-center" style="min-width: 200px;">Pay My Buddy</h4>
 
-						<form action="#" th:action="@{/registration}" method="post" th:object="${registrationForm}">
+						<form class="grid-form" action="#" th:action="@{/registration}" method="post"
+							th:object="${registrationForm}">
 							<div class="form-group">
-								<input type="text" class="form-control" id="username" aria-describedby="emailHelp"
-									placeholder="Nom d'utilisateur" th:field="*{username}"
+								<input type="text" class="form-control" id="username"
+									aria-label="Indiquez votre nom d'utilisateur"
+									aria-describedby="usernameHelp"
+									placeholder="Username"
+									th:field="*{username}"
 									title="Indiquez votre nom d'utilisateur" required>
-								<small th:if="${#fields.hasErrors('username')}" th:errors="*{username}" id="emailHelp"
+								<small th:if="${#fields.hasErrors('username')}" th:errors="*{username}" id="usernameHelp"
 									class="form-text text-danger"></small>
 							</div>
 
 							<div class="form-group">
-								<input type="email" class="form-control" id="email" aria-describedby="emailHelp"
-									placeholder="Mail" th:field="*{email}" title="Indiquez votre mail" required>
+								<input type="email"
+									class="form-control"
+									id="email"
+									aria-label="Indiquez votre mail"
+									aria-describedby="emailHelp"
+									placeholder="Mail"
+									th:field="*{email}"
+									title="Indiquez votre mail" required>
 								<small th:if="${#fields.hasErrors('email')}" th:errors="*{email}" id="emailHelp"
 									class="form-text text-danger"></small>
 							</div>
 
 							<div class="form-group">
-								<input type="password" class="form-control" id="password" placeholder="Mot de passe"
-									th:field="*{password}" title="Indiquez votre mot de passe" required>
-
-								<small th:if="${#fields.hasErrors('password')}" th:errors="*{password}" id="emailHelp"
+								<input type="password"
+									class="form-control"
+									id="password"
+									aria-label="Indiquez votre mot de passe"
+									aria-describedby="passwordHelp"
+									placeholder="Mot de passe"
+									th:field="*{password}"
+									title="Indiquez votre mot de passe" required>
+								<small th:if="${#fields.hasErrors('password')}" th:errors="*{password}" id="passwordHelp"
 									class="form-text text-danger"></small>
 							</div>
 

@@ -21,7 +21,7 @@ public class AppShutdownHandler {
 	public void onShutdown() {
 		HttpSession session = request.getSession(false);
 		if (session != null) {
-			session.removeAttribute("identifier");
+			session.removeAttribute("username");
 			log.debug("Session terminated, identifier removed from the session during shutdown.");
 		}
 	}

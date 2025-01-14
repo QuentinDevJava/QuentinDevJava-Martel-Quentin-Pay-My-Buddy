@@ -59,25 +59,20 @@ public class UserController {
 		HttpSession session = request.getSession();
 
 		if (result.hasErrors()) {
-			log.info("Formulaire modification mdp invalide");
+			log.info("Formulaire de modification du mdp invalide");
 			return "user/password";
 		}
 
-		// try {
 		Map<String, String> response = userService
 				.validateAndUpdatePassword(session.getAttribute("username").toString(), passwordForm);
 
 		if ("succsess".equals(response.get("status"))) {
-			redirAttrs.addFlashAttribute("successMessage", response.get("message"));
+			redirAttrs.addFlashAttribute("success", response.get("message"));
 			return "redirect:/user/profile";
 		} else {
-			result.rejectValue("password", "error.passwordForm", response.get("message"));
-			return "user/password";
+			redirAttrs.addFlashAttribute("error", response.get("message"));
+			return "redirect:/user/updatePassword";
 		}
-//		} catch (Exception e) {
-//			result.rejectValue("password", "error.passwordForm", e.getMessage());
-//			return "user/password";
-//		}
 
 	}
 
@@ -93,15 +88,20 @@ public class UserController {
 			BindingResult result, RedirectAttributes redirAttrs) {
 		HttpSession session = request.getSession();
 
+		if (result.hasErrors()) {
+			log.info("Formulaire d'ajout de relation invalide");
+			return "/connexion/connexion";
+		}
+
 		Map<String, String> response = userService
 				.validateAndUpdateConnexion(session.getAttribute("username").toString(), connexionForm);
 
 		if ("success".equals(response.get("status"))) {
-			redirAttrs.addFlashAttribute("successMessage", response.get("message"));
+			redirAttrs.addFlashAttribute("success", response.get("message"));
 			return "redirect:/transaction";
 		} else {
-			result.rejectValue("email", "error.connexionForm", response.get("message"));
-			return "/connexion/connexion";
+			redirAttrs.addFlashAttribute("error", response.get("message"));
+			return "redirect:/user/connexion";
 		}
 	}
 }

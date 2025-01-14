@@ -19,7 +19,7 @@ import com.openclassrooms.payMyBuddy.repository.TransactionRepository;
 import com.openclassrooms.payMyBuddy.service.TransactionService;
 
 @SpringBootTest
-@ActiveProfiles("prod")
+@ActiveProfiles("local")
 public class TransactionServiceTest {
 
 	@Mock

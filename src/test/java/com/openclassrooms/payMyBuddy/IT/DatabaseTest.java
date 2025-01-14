@@ -24,7 +24,7 @@ import com.openclassrooms.payMyBuddy.service.TrippleDes;
 import jakarta.transaction.Transactional;
 
 @SpringBootTest
-@ActiveProfiles("prod")
+@ActiveProfiles("local")
 public class DatabaseTest {
 
 	@Autowired
@@ -37,11 +37,12 @@ public class DatabaseTest {
 	private TransactionRepository transactionRepository;
 
 	@Test
+	@Transactional
 	public void testDatabaseConnection() throws SQLException {
-		Connection connection = dataSource.getConnection();
-		assertNotNull(connection);
-		assertTrue(connection.isValid(1));
-		connection.close();
+		try (Connection connection = dataSource.getConnection()) {
+			assertNotNull(connection);
+			assertTrue(connection.isValid(1));
+		}
 	}
 
 	@Test

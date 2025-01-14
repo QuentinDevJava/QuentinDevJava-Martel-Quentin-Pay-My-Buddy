@@ -43,13 +43,12 @@ h4 {
 }
 
 #relation {
-    min-width: 320px;
+    min-width: 280px;
 }
 
 #description {
     min-width: 140px;
 }
-
 
 #relation,
 #description {
@@ -102,6 +101,7 @@ h4 {
     margin-top: 150px;
     font-size: x-large;
     border-radius: 10px;
+    min-width: 400px;
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -121,6 +121,52 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 body .alert {
-    font-size: x-large;
+    font-size: large;
     font-weight: 600
+}
+
+@media (max-width: 1000px) {
+    .listOfTransaction * {
+        zoom: 0.9;
+    }
+
+    .form-inline * {
+        zoom: 0.9;
+    }
+}
+
+@media (max-width: 800px) {
+    .listOfTransaction * {
+        zoom: 0.85;
+    }
+
+    .form-inline * {
+        zoom: 0.85;
+    }
+}
+
+@media (max-width: 700px) {
+    .listOfTransaction * {
+        zoom: 0.75;
+    }
+
+    .form-inline * {
+        zoom: 0.75;
+    }
+}
+
+@media (max-width: 600px) {
+    .listOfTransaction * {
+        zoom: 0.65;
+    }
+
+    .form-inline * {
+        zoom: 0.65;
+    }
+}
+
+@media (max-width: 500px) {
+    .form-inline * {
+        zoom: 0.6;
+    }
 }

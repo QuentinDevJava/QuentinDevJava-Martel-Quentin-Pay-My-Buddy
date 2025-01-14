@@ -4,16 +4,15 @@
   font-size: x-large;
   width: min-content;
   height: auto;
-  padding: 10px;
+  padding: 15px;
   padding-left: 20px;
   padding-right: 20px;
-  margin-top: 80px;
-  margin-bottom: 0px;
   border-radius: 10px;
+  margin-bottom: 60px;
 }
 
 h4 {
-  font-family: ar Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-weight: 600;
   font-size: x-large;
   color: white !important;
@@ -43,9 +42,9 @@ h4 {
 
 .grid-form {
   display: grid;
-  grid-template-rows: 1fr auto auto auto 1fr;
+  grid-template-rows: auto auto auto auto;
   place-items: center;
-  row-gap: 50px 25px 50px;
+  width: 100%;
 }
 
 ::placeholder {
@@ -58,22 +57,20 @@ h4 {
 #username,
 #password {
   width: 100%;
-  max-width: 100%;
   min-width: 280px;
   padding: 10px;
-  height: 60px;
   border-radius: 10px;
 }
 
-.form-group.username {
-  margin-bottom: 20px;
+.form-group #username {
+  margin-bottom: 30px;
 }
 
-.form-group.mail {
-  margin-bottom: 20px;
+.form-group #email {
+  margin-bottom: 30px;
 }
 
-.form-group.password {
+.form-group #password {
   margin-bottom: 60px;
 }
 
@@ -84,7 +81,7 @@ h4 {
 }
 
 body .alert {
-  font-size: x-large;
+  font-size: large;
   font-weight: 600
 }
 

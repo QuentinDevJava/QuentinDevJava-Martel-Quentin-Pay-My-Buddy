@@ -3,7 +3,7 @@
 -- --------------------------------------------------------
 -- Loading data into the `user` table only if it is empty
 -- --------------------------------------------------------
-INSERT INTO `user` (`username`, `email`, `password`)
+INSERT INTO `users` (`username`, `email`, `password`)
 SELECT * FROM (SELECT 'JohnDoe', 'john@example.com', 'mW/NJJOjzvw=' UNION ALL
                SELECT 'JaneSmith', 'jane@example.com', 'mW/NJJOjzvw=' UNION ALL
                SELECT 'BobJohnson', 'bob@example.com', 'mW/NJJOjzvw=') AS v

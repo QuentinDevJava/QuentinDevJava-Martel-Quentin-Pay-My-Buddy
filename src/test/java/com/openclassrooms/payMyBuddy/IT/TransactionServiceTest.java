@@ -16,7 +16,7 @@ import com.openclassrooms.payMyBuddy.repository.UserRepository;
 import com.openclassrooms.payMyBuddy.service.TransactionService;
 
 @SpringBootTest
-@ActiveProfiles("prod")
+@ActiveProfiles("local")
 public class TransactionServiceTest {
 	@Autowired
 	private TransactionService transactionService;

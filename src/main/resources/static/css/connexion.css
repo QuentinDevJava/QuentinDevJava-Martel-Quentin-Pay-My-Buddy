@@ -49,6 +49,7 @@ main {
 
 .form-inline {
     display: grid;
+    grid-row: 1fr 1fr;
     grid-template-columns: 1fr 200px;
     gap: 10px;
     align-items: center;
@@ -75,12 +76,16 @@ main {
 
     width: fit-content;
     text-align: center;
-    margin-right: 200px;
-    margin-left: 150px;
-
+    grid-column-start: 1;
+    grid-column-end: 3;
 }
 
 body .alert {
-    font-size: x-large;
+    font-size: large;
     font-weight: 600
+}
+
+small {
+    grid-column-start: 1;
+    grid-column-end: 3;
 }

@@ -15,6 +15,6 @@ import lombok.ToString;
 public class ConnexionForm {
 
 	@NotBlank
-	@Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Le format de l'adresse mail doit être valide avec un domaine et une extension (ex: example@domain.com)")
+	@Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Le format de l'''adresse mail doit être valide avec un domaine et une extension (ex: example@domain.com)")
 	private String email;
 }

@@ -28,7 +28,7 @@ import com.openclassrooms.payMyBuddy.web.form.PasswordForm;
 import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 
 @SpringBootTest
-@ActiveProfiles("prod")
+@ActiveProfiles("local")
 public class UserServiceTest {
 
 	@Mock

@@ -6,7 +6,6 @@
   padding: 15px;
   padding-left: 20px;
   padding-right: 20px;
-  margin-bottom: 50px;
   border-radius: 10px;
 }
 
@@ -17,7 +16,6 @@ h4 {
   color: white !important;
   background-color: orange;
   padding: 18px;
-  margin: auto;
   border-radius: 10px;
 }
 
@@ -43,34 +41,33 @@ h4 {
   display: grid;
   grid-template-rows: 1fr auto auto 1fr;
   place-items: center;
-  row-gap: 50px 25px 50px;
+  width: 100%;
 }
 
 ::placeholder {
   font-family: Arial, Helvetica, sans-serif;
-  font-weight: 700;
-  font-size: x-large;
+  font-weight: 500;
+  font-size: large;
   color: grey;
 }
 
 #identifier,
 #password {
   width: 100%;
-  max-width: 100%;
   min-width: 250px;
   padding: 10px;
 }
 
-.form-group.mail {
+.form-group #identifier {
   margin-bottom: 40px;
 }
 
-.form-group.password {
+.form-group #password {
   margin-bottom: 80px;
 }
 
 body .alert {
-  font-size: x-large;
+  font-size: large;
   font-weight: 600
 }
 
