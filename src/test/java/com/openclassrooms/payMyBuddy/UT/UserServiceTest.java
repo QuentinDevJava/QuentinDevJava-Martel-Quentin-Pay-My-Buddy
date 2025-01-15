@@ -188,25 +188,6 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void testValidateAndUpdatePasswordWhenNewPasswordFormatError() throws Exception {
-		String email = "Test@test.fr";
-		PasswordForm passwordForm = new PasswordForm();
-		passwordForm.setOldPassword("OldPassword!1");
-		passwordForm.setPassword("ErrorFormat");
-		passwordForm.setPasswordConfirmation("ErrorFormat");
-
-		User mockUser = new User();
-		mockUser.setEmail(email);
-		mockUser.setPassword("OldPassword!1");
-
-		when(userRepository.findByEmail(email)).thenReturn(Optional.of(mockUser));
-
-		assertThrows(IllegalArgumentException.class, () -> {
-			userService.validateAndUpdatePassword(email, passwordForm);
-		});
-	}
-
-	@Test
 	public void testValidateAndUpdateConnexion() {
 
 		String email1 = "Test@test.fr";

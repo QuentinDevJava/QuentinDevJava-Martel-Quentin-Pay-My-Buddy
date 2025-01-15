@@ -17,7 +17,7 @@ import com.openclassrooms.payMyBuddy.service.TransactionService;
 
 @SpringBootTest
 @ActiveProfiles("local")
-public class TransactionServiceTest {
+public class TransactionServiceITest {
 	@Autowired
 	private TransactionService transactionService;
 	@Autowired

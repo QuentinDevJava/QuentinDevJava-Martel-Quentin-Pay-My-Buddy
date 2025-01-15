@@ -23,7 +23,7 @@ import com.openclassrooms.payMyBuddy.service.TrippleDes;
 import jakarta.transaction.Transactional;
 
 @SpringBootTest
-public class DatabaseTest {
+public class DatabaseITest {
 
 	@Autowired
 	private DataSource dataSource;

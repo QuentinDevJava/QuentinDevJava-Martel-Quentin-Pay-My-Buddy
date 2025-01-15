@@ -23,7 +23,7 @@ import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 
 @SpringBootTest
 @ActiveProfiles("local")
-public class UserServiceTest {
+public class UserServiceITest {
 
 	@Autowired
 	private UserService userService;

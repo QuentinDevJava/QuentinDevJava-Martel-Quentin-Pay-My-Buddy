@@ -55,9 +55,6 @@ public class AuthenticationController {
 	@GetMapping("/logout")
 	public String logout(HttpServletRequest request) {
 		log.info("Attempt to logout user ");
-		if (request.getSession() == null || request.getSession().getAttribute("username") == null) {
-			return "redirect:/login";
-		}
 		request.getSession().removeAttribute("username");
 		log.info("Username removed from the session. Do logout");
 		return "redirect:/login";
