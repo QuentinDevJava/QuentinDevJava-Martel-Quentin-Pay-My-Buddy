@@ -75,7 +75,7 @@ public class UserService {
 				user.setPassword(passwordForm.getPassword());
 				saveUser(user);
 				log.info("Password updated");
-				response.put("status", "succsess");
+				response.put("status", "success");
 				response.put("message", "Mot de passe mise à jour avec succès.");
 			} else {
 				log.warn("New password and password comfirmation not match");

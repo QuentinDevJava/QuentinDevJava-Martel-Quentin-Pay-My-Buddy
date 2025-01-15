@@ -184,7 +184,7 @@ public class UserServiceTest {
 		Map<String, String> response = userService.validateAndUpdatePassword(email, passwordForm);
 
 		assertEquals("Mot de passe mise à jour avec succès.", response.get("message"));
-		assertEquals("succsess", response.get("status"));
+		assertEquals("success", response.get("status"));
 	}
 
 	@Test

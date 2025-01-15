@@ -73,7 +73,7 @@ public class UserServiceITest {
 		passwordForm.setPasswordConfirmation("Test1!78@");
 
 		Map<String, String> response = new HashMap<>();
-		response.put("status", "succsess");
+		response.put("status", "success");
 		response.put("message", "Mot de passe mise à jour avec succès.");
 
 		userService.addUser(form);

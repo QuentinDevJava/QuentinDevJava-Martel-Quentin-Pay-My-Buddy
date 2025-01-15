@@ -66,7 +66,7 @@ public class UserController {
 		Map<String, String> response = userService
 				.validateAndUpdatePassword(session.getAttribute("username").toString(), passwordForm);
 
-		if ("succsess".equals(response.get("status"))) {
+		if ("success".equals(response.get("status"))) {
 			redirAttrs.addFlashAttribute("success", response.get("message"));
 			return "redirect:/user/profile";
 		} else {

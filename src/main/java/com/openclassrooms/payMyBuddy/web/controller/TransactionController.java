@@ -39,7 +39,6 @@ public class TransactionController {
 		HttpSession session = request.getSession();
 
 		User user = userService.getUserByEmail(session.getAttribute("username").toString());
-		user = userService.getUserById(user.getId());
 		Set<User> userSet = user.getConnections();
 
 		TransactionFrom transactionFrom = new TransactionFrom();
@@ -82,8 +81,8 @@ public class TransactionController {
 
 		transactionService.addTransaction(transaction);
 
-		redirAttrs.addFlashAttribute("success", "Le transfert a été effectué avec succès.");// TODO add info
-
+		redirAttrs.addFlashAttribute("success",
+				"Le transfert vers " + transaction.getReceiver().getUsername() + " a été effectué avec succès.");
 		return "redirect:/transaction";
 	}
 }
