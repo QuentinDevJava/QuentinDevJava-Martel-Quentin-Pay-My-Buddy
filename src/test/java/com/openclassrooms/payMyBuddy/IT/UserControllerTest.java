@@ -20,6 +20,8 @@ public class UserControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 
+	// mocker interceptor
+
 //TODO je doit moker qu'il y as une session ouvert pour pouvoir faire les test controller
 	@Test
 	public void testProfil() throws Exception {

@@ -13,7 +13,6 @@ import javax.sql.DataSource;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import com.openclassrooms.payMyBuddy.model.Transaction;
 import com.openclassrooms.payMyBuddy.model.User;
@@ -24,7 +23,6 @@ import com.openclassrooms.payMyBuddy.service.TrippleDes;
 import jakarta.transaction.Transactional;
 
 @SpringBootTest
-@ActiveProfiles("local")
 public class DatabaseTest {
 
 	@Autowired
