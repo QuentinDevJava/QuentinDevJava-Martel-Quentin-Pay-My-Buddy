@@ -46,8 +46,8 @@
 						class="form-control"
 						id="montant"
 						min="0"
-						step="1"
-						th:field="*{amount}" />
+						step="1.0"
+						th:field="*{amount}" required>
 				</div>
 				<button type="submit"
 					title="Cliquez pour effectuer le paiement"
@@ -71,7 +71,7 @@
 							<tr th:each="t : ${ListoftransactionFrom}">
 								<td style="text-align: left;" th:text="${t.receiverUsername}"></td>
 								<td style="text-align: center;" th:text="${t.description}"></td>
-								<td style="text-align: right;" th:text="${t.amount}"><span>jnefknfgk</span></td>
+								<td style="text-align: right;" th:text="${t.amount} +' €'"></td>
 							</tr>
 						</tbody>
 					</table>

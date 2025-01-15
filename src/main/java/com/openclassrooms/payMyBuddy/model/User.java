@@ -51,7 +51,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
-@Table(name = "users")
+@Table(name = "pmb_user")
 public class User {
 
 	// TODO javadoc
@@ -103,7 +103,7 @@ public class User {
 	 * operations persist and merge changes in the relationship.
 	 */
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "user_connections", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "connection_id"))
+	@JoinTable(name = "pmb_user_connections", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "connection_id"))
 	private Set<User> connections = new HashSet<>();
 
 //-------------------------------------------------------------------

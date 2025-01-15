@@ -26,7 +26,7 @@ public class TransactionFrom {
 
 	@NotNull(message = "Le montant ne peut pas être nul.")
 	@Min(value = 1, message = "Le montant du transfére doit être au supérieur ou égal à 1.")
-	private int amount;
+	private double amount;
 
 	private String receiverEmail;
 
