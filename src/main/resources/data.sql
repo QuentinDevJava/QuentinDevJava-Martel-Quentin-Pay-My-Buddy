@@ -8,7 +8,7 @@ SELECT * FROM (SELECT 'JohnDoe', 'john@example.com', 'mW/NJJOjzvw=' UNION ALL
                SELECT 'JaneSmith', 'jane@example.com', 'mW/NJJOjzvw=' UNION ALL
                SELECT 'BobJohnson', 'bob@example.com', 'mW/NJJOjzvw=') AS v
 WHERE NOT EXISTS (
-    SELECT 1 FROM `user` LIMIT 1
+    SELECT 1 FROM `users` LIMIT 1
 );
 
 -- --------------------------------------------------------
