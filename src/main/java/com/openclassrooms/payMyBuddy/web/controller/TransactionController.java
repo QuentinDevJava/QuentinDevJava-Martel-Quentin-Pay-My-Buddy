@@ -82,7 +82,7 @@ public class TransactionController {
 
 		transactionService.addTransaction(transaction);
 
-		redirAttrs.addFlashAttribute("successMessage", "Le transfert a été effectué avec succès.");
+		redirAttrs.addFlashAttribute("success", "Le transfert a été effectué avec succès.");// TODO add info
 
 		return "redirect:/transaction";
 	}
