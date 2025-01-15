@@ -11,10 +11,10 @@ This document outlines the database structure, the relationships between tables,
 
 The physical data model (MPD) describes the tables, columns, and relationships between the main entities in the application. The following tables are included in the database design:
 
-![Diagramme](https://github.com/user-attachments/assets/04a94dcb-1629-4e7a-968a-60c3bc9e206e)
+![Diagramme](https://github.com/user-attachments/assets/e8ca84f0-ef6c-456d-8b1a-3dfc5b13a0c7)
 
 
-### 1. **User Table**
+### 1. **pbm_user Table**
 This table stores information about users in the application.
 - **Columns**: 
   - `id` (Primary Key)
@@ -22,7 +22,7 @@ This table stores information about users in the application.
   - `email` (Unique)
   - `password`
 
-### 2. **Transaction Table**
+### 2. **pbm_transaction Table**
 This table records the details of money transactions.
 - **Columns**:
   - `id` (Primary Key)
@@ -31,7 +31,7 @@ This table records the details of money transactions.
   - `description`
   - `amount` (Positive Value)
 
-### 3. **User_Connections Table**
+### 3. **pbm_user_connections Table**
 This table represents the **many-to-many relationship** between users, allowing them to connect with each other.
 - **Columns**:
   - `user_id` (Foreign Key, references `User(id)`)
@@ -42,39 +42,45 @@ This table represents the **many-to-many relationship** between users, allowing 
 
 The key relationships between the tables are outlined below:
 
-1. **User ↔ Transaction**: One-to-many relationship (1:N)
+1. **pbm_user ↔ pbm_transaction**: One-to-many relationship (1:N)
    - A user can send and receive multiple transactions.
    - `Transaction.sender_id` and `Transaction.receiver_id` are foreign keys referencing `User.id`.
 
-2. **User ↔ User_Connections**: Many-to-many relationship (M:N)
+2. **pbm_user ↔ pbm_user_connections**: Many-to-many relationship (M:N)
    - A user can connect with multiple other users, and vice versa.
    - The `User_Connections` table represents this relationship, where each entry contains a pair of `user_id` and `connection_id` referencing the `User.id`.
 
 ### **Foreign Keys and Integrity Constraints**
 - The foreign keys ensure referential integrity between the tables:
-  - `sender_id` and `receiver_id` in the **Transaction** table refer to `User.id`.
-  - `user_id` and `connection_id` in the **User_Connections** table refer to `User.id`.
-- The primary key for **User_Connections** is a composite key consisting of `user_id` and `connection_id`.
+  - `sender_id` and `receiver_id` in the **pbm_transaction** table refer to `User.id`.
+  - `user_id` and `connection_id` in the **pbm_user_connections** table refer to `User.id`.
+- The primary key for **pbm_user_connections** is a composite key consisting of `user_id` and `connection_id`.
 
 ## **Database Constraints**
 
 The following constraints have been applied to the database to maintain data integrity:
 
-1. **Unique Email**: Each user’s email address must be unique. This is enforced by a unique constraint on the `email` column in the **User** table.
+1. **Unique Email**: Each user’s email address must be unique. This is enforced by a unique constraint on the `email` column in the **pbm_user** table.
+
+2. **Unique Username**: Each user’s username must be unique. This is enforced by a unique constraint on the `username` column in the **pbm_user** table.
    
-2. **Positive Transaction Amount**: The amount of a transaction must always be positive. This constraint ensures that no transaction can have a negative or zero value in the **Transaction** table.
+3. **Positive Transaction Amount**: The amount of a transaction must always be positive. This constraint ensures that no transaction can have a negative or zero value in the **pbm_transaction** table.
 
-3. **No Self-Connections**: A user cannot connect to themselves. This is ensured by a check constraint or validation logic to prevent entries where `user_id` is equal to `connection_id` in the **User_Connections** table.
+4. **No Self-Connections**: A user cannot connect to themselves. This is ensured by a check constraint or validation logic to prevent entries where `user_id` is equal to `connection_id` in the **pbm_user_connections** table.
 
-4. **Primary Keys**: 
-   - The primary key for the **User** table is `id`.
-   - The primary key for the **Transaction** table is `id`.
-   - The primary key for the **User_Connections** table is the combination of `user_id` and `connection_id`.
+5. **Primary Keys**: 
+   - The primary key for the **pbm_user** table is `id`.
+   - The primary key for the **pbm_transaction** table is `id`.
+   - The primary key for the **pbm_user_connections** table is the combination of `user_id` and `connection_id`.
 
-5. **Foreign Keys**: 
-   - In the **Transaction** table, both `sender_id` and `receiver_id` are foreign keys referring to the **User** table.
-   - The **User_Connections** table contains foreign keys, `user_id` and `connection_id`, both referring to `User.id`.
+6. **Foreign Keys**: 
+   - In the **pbm_transaction** table, both `sender_id` and `receiver_id` are foreign keys referring to the **pbm_user** table.
+   - The **pbm_user_connections** table contains foreign keys, `user_id` and `connection_id`, both referring to `User.id`.
 
 ## **Development Setup**
 
-To run the application locally, follow the steps below:
+To run the application in a local environment, follow the steps below:
+
+
+To run the application in a production environment, follow the steps below:
+
