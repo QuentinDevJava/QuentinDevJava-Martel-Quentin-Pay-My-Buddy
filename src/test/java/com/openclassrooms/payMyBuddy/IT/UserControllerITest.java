@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -50,7 +51,7 @@ public class UserControllerITest {
 
 		when(userService.getUserByEmail(email)).thenReturn(mockUser);
 
-		mockMvc.perform(get("/user/profile").session(mockSession)).andExpect(status().isOk())
+		mockMvc.perform(get("/user/profile").session(mockSession)).andExpect(status().isOk()).andDo(print())
 				.andExpect(view().name("user/profile"));
 	}
 
@@ -60,7 +61,7 @@ public class UserControllerITest {
 		MockHttpSession mockSession = new MockHttpSession();
 		mockSession.setAttribute("username", "test@test.com");
 
-		mockMvc.perform(get("/user/updatePassword").session(mockSession)).andExpect(status().isOk())
+		mockMvc.perform(get("/user/updatePassword").session(mockSession)).andExpect(status().isOk()).andDo(print())
 				.andExpect(view().name("user/password"));
 	}
 
@@ -80,7 +81,7 @@ public class UserControllerITest {
 		when(userService.validateAndUpdatePassword(eq(email), any(PasswordForm.class))).thenReturn(response);
 
 		mockMvc.perform(post("/user/updatePassword").session(mockSession).param("oldPassword", password)
-				.param("password", newPassword).param("passwordConfirmation", newPassword))
+				.param("password", newPassword).param("passwordConfirmation", newPassword)).andDo(print())
 				.andExpect(status().isFound()).andExpect(view().name("redirect:/user/profile"));
 	}
 
@@ -100,7 +101,7 @@ public class UserControllerITest {
 		when(userService.validateAndUpdatePassword(eq(email), any(PasswordForm.class))).thenReturn(response);
 
 		mockMvc.perform(post("/user/updatePassword").session(mockSession).param("oldPassword", password)
-				.param("password", newPassword).param("passwordConfirmation", newPassword))
+				.param("password", newPassword).param("passwordConfirmation", newPassword)).andDo(print())
 				.andExpect(status().isFound()).andExpect(view().name("redirect:/user/updatePassword"));
 	}
 
@@ -115,7 +116,7 @@ public class UserControllerITest {
 
 		mockMvc.perform(post("/user/updatePassword").session(mockSession).param("oldPassword", password)
 				.param("password", newPassword).param("passwordConfirmation", newPassword)).andExpect(status().isOk())
-				.andExpect(view().name("user/password"));
+				.andDo(print()).andExpect(view().name("user/password"));
 	}
 
 	@Test
@@ -124,7 +125,7 @@ public class UserControllerITest {
 		MockHttpSession mockSession = new MockHttpSession();
 		mockSession.setAttribute("username", "test@test.com");
 
-		mockMvc.perform(get("/user/connexion").session(mockSession)).andExpect(status().isOk())
+		mockMvc.perform(get("/user/connexion").session(mockSession)).andExpect(status().isOk()).andDo(print())
 				.andExpect(view().name("/connexion/connexion"));
 	}
 
@@ -141,7 +142,7 @@ public class UserControllerITest {
 
 		when(userService.validateAndUpdateConnexion(eq(email), any(ConnexionForm.class))).thenReturn(response);
 
-		mockMvc.perform(post("/user/connexion").session(mockSession).param("email", email))
+		mockMvc.perform(post("/user/connexion").session(mockSession).param("email", email)).andDo(print())
 				.andExpect(status().isFound()).andExpect(view().name("redirect:/transaction"));
 	}
 
@@ -158,7 +159,7 @@ public class UserControllerITest {
 
 		when(userService.validateAndUpdateConnexion(eq(email), any(ConnexionForm.class))).thenReturn(response);
 
-		mockMvc.perform(post("/user/connexion").session(mockSession).param("email", email))
+		mockMvc.perform(post("/user/connexion").session(mockSession).param("email", email)).andDo(print())
 				.andExpect(status().isFound()).andExpect(view().name("redirect:/user/connexion"));
 	}
 
@@ -169,7 +170,7 @@ public class UserControllerITest {
 		MockHttpSession mockSession = new MockHttpSession();
 		mockSession.setAttribute("username", email);
 
-		mockMvc.perform(post("/user/connexion").session(mockSession).param("email", "errorFormatEmail"))
+		mockMvc.perform(post("/user/connexion").session(mockSession).param("email", "errorFormatEmail")).andDo(print())
 				.andExpect(status().isOk()).andExpect(view().name("/connexion/connexion"));
 	}
 

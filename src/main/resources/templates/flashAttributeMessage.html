@@ -1,8 +1,8 @@
 
 <div th:fragment="flashAttributeMessage" th:if="${currentMessage}"
-    th:class="${alertType == 'error' ? 'alert alert-danger text-center container alert-dismissible fade show' : 'alert alert-success text-center container alert-dismissible fade show'}"
+    th:class="${alertType == 'error' ? 'alert alert-danger text-left container alert-dismissible fade show' : 'alert alert-success text-left container alert-dismissible fade show'}"
     role="alert">
-    <span th:text="${currentMessage}"></span>
+    <span th:utext="${currentMessage}"></span>
     <span role="button"
         type="button"
         class="btn-close"

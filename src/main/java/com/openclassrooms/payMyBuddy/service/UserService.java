@@ -22,6 +22,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class UserService {
 
+	private static final String MESSAGE = "message";
+	private static final String STATUS = "status";
+	private static final String ERROR = "error";
+	private static final String SUCCESS = "success";
+
 	private final UserRepository userRepository;
 
 	public User getUserById(int id) {
@@ -75,18 +80,18 @@ public class UserService {
 				user.setPassword(passwordForm.getPassword());
 				saveUser(user);
 				log.info("Password updated");
-				response.put("status", "success");
-				response.put("message", "Mot de passe mise à jour avec succès.");
+				response.put(STATUS, SUCCESS);
+				response.put(MESSAGE, "Mot de passe mise à jour avec succès.");
 			} else {
 				log.warn("New password and password comfirmation not match");
-				response.put("status", "error");
-				response.put("message",
+				response.put(STATUS, ERROR);
+				response.put(MESSAGE,
 						"Le nouveau mot de passe et la confirmation du mot de passe ne correspondent pas.");
 			}
 		} else {
 			log.warn("Password not update ERROR old password fase");
-			response.put("status", "error");
-			response.put("message", "L'ancien mot de passe est incorrect.");
+			response.put(STATUS, ERROR);
+			response.put(MESSAGE, "L'ancien mot de passe est incorrect.");
 		}
 
 		return response;
@@ -99,19 +104,19 @@ public class UserService {
 		User connexion = getUserByEmail(connexionForm.getEmail());
 		if (connexion == null) {
 			log.warn("The user does not exist");
-			response.put("message", "Utilisateur inconnu.");
-			response.put("status", "error");
+			response.put(MESSAGE, "Utilisateur inconnu.");
+			response.put(STATUS, ERROR);
 		} else if (Objects.equals(user.getEmail(), connexion.getEmail())) {
 			log.warn("The user's email must be different from that of your");
-			response.put("message", "L'utilisateur ne peut pas établir une connexion avec lui-même.");
-			response.put("status", "error");
+			response.put(MESSAGE, "L'utilisateur ne peut pas établir une connexion avec lui-même.");
+			response.put(STATUS, ERROR);
 		} else if (user.getConnections().stream().anyMatch(c -> c.getEmail().equals(connexion.getEmail()))) {
 			log.warn("The user is already connected to this user");
-			response.put("message", "Utilisateur déjà ajouté.");
-			response.put("status", "error");
+			response.put(MESSAGE, "Utilisateur déjà ajouté.");
+			response.put(STATUS, ERROR);
 		} else {
-			response.put("message", "La relation avec " + connexion.getUsername() + " a été ajoutée avec succès.");
-			response.put("status", "success");
+			response.put(MESSAGE, "La relation avec " + connexion.getUsername() + " a été ajoutée avec succès.");
+			response.put(STATUS, SUCCESS);
 			user.getConnections().add(connexion);
 			saveUser(user);
 		}

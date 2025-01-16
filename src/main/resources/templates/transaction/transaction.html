@@ -6,13 +6,9 @@
 		<div th:replace="~{header :: myHeader(currentPage='transaction')}"></div>
 		<main>
 			<div
-				th:replace="~{flashAttributeMessage :: flashAttributeMessage(currentMessage=${emailError} ,
+				th:replace="~{flashAttributeMessage :: flashAttributeMessage(currentMessage=${error} ,
 				alertType='error')}"></div>
-			<div
-				th:replace="~{flashAttributeMessage :: flashAttributeMessage(currentMessage=${amountError} ,
-				alertType='error')}"></div>
-			<div
-				th:replace="~{flashAttributeMessage :: flashAttributeMessage(currentMessage=${success} ,
+			<div th:replace="~{flashAttributeMessage :: flashAttributeMessage(currentMessage=${success} ,
 				alertType='success')}"></div>
 
 			<form method="post" th:object="${transactionFrom}" class="form-inline">

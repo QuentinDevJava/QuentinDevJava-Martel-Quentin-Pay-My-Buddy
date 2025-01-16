@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.openclassrooms.payMyBuddy.constants.SessionConstants;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -19,12 +21,12 @@ public class LoginInterceptor implements HandlerInterceptor {
 			throws Exception {
 		log.debug("URL = " + request.getRequestURL() + " Methode = " + request.getMethod());
 		HttpSession session = request.getSession();
-		if (session == null || session.getAttribute("username") == null) {
+		if (session == null || session.getAttribute(SessionConstants.SESSION_ATTRIBUTE) == null) {
 			log.debug("Session is null redirect to authentication");
 			response.sendRedirect("/login");
 			return false;
 		} else {
-			String username = session.getAttribute("username").toString();
+			String username = session.getAttribute(SessionConstants.SESSION_ATTRIBUTE).toString();
 			log.debug("username retrieved from current session: {}", username);
 			return true;
 		}
@@ -35,11 +37,11 @@ public class LoginInterceptor implements HandlerInterceptor {
 			@Nullable ModelAndView modelAndView) throws Exception {
 		log.debug("URL = " + request.getRequestURL() + " Methode = " + request.getMethod());
 		HttpSession session = request.getSession();
-		if (session == null || session.getAttribute("username") == null) {
+		if (session == null || session.getAttribute(SessionConstants.SESSION_ATTRIBUTE) == null) {
 			log.debug("Session is null redirect to authentication");
 			response.sendRedirect("/login");
 		} else {
-			String username = session.getAttribute("username").toString();
+			String username = session.getAttribute(SessionConstants.SESSION_ATTRIBUTE).toString();
 			log.debug("username retrieved from current session: {}", username);
 		}
 	}

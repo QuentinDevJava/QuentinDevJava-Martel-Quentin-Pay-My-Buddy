@@ -18,8 +18,8 @@ public class TransactionFrom {
 	@NotNull
 	private int senderId;
 
-	@NotNull(message = "Veuillez selectionner une relation")
-	@Min(value = 1, message = "Veuillez selectionner une relation")
+	@NotNull(message = "Veuillez selectionner une relation.")
+	@Min(value = 1, message = "Veuillez selectionner une relation.")
 	private int receiverId;
 
 	private String description;
