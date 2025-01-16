@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.openclassrooms.payMyBuddy.service.TrippleDes;
 import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
-import com.openclassrooms.payMyBuddy.web.form.TransactionFrom;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -25,27 +24,22 @@ import lombok.NoArgsConstructor;
 /**
  * Represents a user in the system.
  * 
- * This class maps to the "user" table in the database and includes the user's
+ * This class maps to the "pmb_user" table in the database and includes the user's
  * personal details, as well as their transactions and connections with other
  * users.
  * 
  * <p><b>Attributes:</b></p>
  * <ul>
- *   <li><b>{@link #id}:</b> The unique identifier for the user (auto-generated).</li>
- *   <li><b>{@link #username}:</b> The username chosen by the user, used for
- *       logging in and identifying the user in the system.</li>
- *   <li><b>{@link #email}:</b> The user's email address, used for communication
- *       and authentication.</li>
- *   <li><b>{@link #password}:</b> The user's password (hashed), used for authentication.</li>
+ *   <li><b>{@link #id} :</b> Unique identifier of the user (automatically generated).</li>
+ *   <li><b>{@link #username} :</b> The user's username used for login and identification.</li>
+ *   <li><b>{@link #email} :</b> Email address used for communication and authentication.</li>
+ *   <li><b>{@link #password} :</b> Hashed password used for authentication.</li>
  * </ul>
  * 
  * <p><b>Relationships:</b></p>
  * <ul>
- *   <li>A {@link User} can send and receive {@link Transaction}s, which are mapped
- *       via the {@link OneToMany} relationship.</li>
- *   <li>A {@link User} can have multiple connections to other {@link User}s, which
- *       is managed through a {@link ManyToMany} relationship. These connections are stored
- *       in the "user_connections" table, where the user and their connections are linked.</li>
+ *   <li>A user can send and receive {@link Transaction}s through {@link OneToMany} relationships.</li>
+ *   <li>A user can be connected to multiple other users through a {@link ManyToMany} relationship. These connections are stored in the "pmb_user_connections" table.</li>
  * </ul>
  */
 
@@ -54,7 +48,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "pmb_user")
 public class User {
 
-	// TODO javadoc
 	public User(RegistrationForm registrationForm) {
 		this.username = registrationForm.getUsername();
 		this.email = registrationForm.getEmail();
@@ -69,7 +62,7 @@ public class User {
 	private int id;
 
 	/**
-	 * The username chosen by the user.
+	 * The username of the user.
 	 */
 	@Column(name = "username")
 	private String username;
@@ -86,19 +79,27 @@ public class User {
 	@Column(name = "password")
 	private String password;
 
-//-------------------------------------------------------------------
-	// TODO lien bidirectionnel add javadoc
+	/**
+	 * List of transactions sent by the user.
+	 * 
+	 * Each transaction represents a money transfer made by this user.
+	 */
+
 	@OneToMany(mappedBy = "sender", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private List<Transaction> sentTransactions;
 
+	/**
+	 * List of transactions received by the user.
+	 * 
+	 * Each transaction represents a money amount received by this user.
+	 */
 	@OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private List<Transaction> receivedTransactions;
-//-------------------------------------------------------------------
 
 	/**
 	 * The set of users that the current user is connected to.
 	 * 
-	 * The relationship is managed through the "user_connections" table. The
+	 * The relationship is managed through the "pmb_user_connections" table. The
 	 * connections are fetched lazily to optimize performance. The cascade
 	 * operations persist and merge changes in the relationship.
 	 */
@@ -165,40 +166,21 @@ public class User {
 	/**
 	 * Returns the user's password.
 	 * 
-	 * @return The password.
-	 * @throws Exception 
+	 * @return The hashed password.
 	 */
 	public String getPassword() {
 		return password;
 	}
 
 	/**
-	 * Sets the user's password.
+	 * Sets the user's password after encrypting it.
 	 * 
 	 * @param password The password to set.
-	 * @throws Exception 
+	 * @throws Exception If encryption fails.
 	 */
 	public void setPassword(String password) throws Exception {
 		TrippleDes td = new TrippleDes();
 		this.password = td.encrypt(password);
-	}
-
-	/**
-	 * Returns the list of transactions where the user is the sender.
-	 * 
-	 * @return A list of transactions where the user is the sender.
-	 */
-	public List<TransactionFrom> getSentTransactions() {
-		return sentTransactions.stream().map(TransactionFrom::new).toList();
-	}
-
-	/**
-	 * Returns the list of transactions where the user is the receiver.
-	 * 
-	 * @return A list of transactions where the user is the receiver.
-	 */
-	public List<TransactionFrom> getReceivedTransactions() {
-		return receivedTransactions.stream().map(TransactionFrom::new).toList();
 	}
 
 	/**

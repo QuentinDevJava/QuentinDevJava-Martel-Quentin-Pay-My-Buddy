@@ -16,7 +16,6 @@ import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-//TODO javadoc
 @Service
 @Slf4j
 @RequiredArgsConstructor

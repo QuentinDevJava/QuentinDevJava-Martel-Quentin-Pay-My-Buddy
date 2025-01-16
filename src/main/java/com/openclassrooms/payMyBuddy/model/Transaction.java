@@ -18,17 +18,15 @@ import lombok.ToString;
 /**
  * Represents a financial transaction between two users.
  * 
- * This class maps to the "transaction" table in the database and stores
- * the details of a financial transaction, including the sender, receiver,
- * amount, and a description of the transaction.
+ * This class maps to the "pmb_transaction" table in the database.
  * 
  * <p><b>Attributes:</b></p>
  * <ul>
- *   <li><b>{@link #id}:</b> The unique identifier for the transaction (auto-generated).</li>
- *   <li><b>{@link #senderId}:</b> The ID of the user who is sending the money.</li>
- *   <li><b>{@link #receiverId}:</b> The ID of the user who is receiving the money.</li>
- *   <li><b>{@link #description}:</b> A description or note for the transaction.</li>
- *   <li><b>{@link #amount}:</b> The amount of money being transferred in the transaction.</li>
+ *   <li><b>{@link #id}:</b> Unique identifier for the transaction.</li>
+ *   <li><b>{@link #sender}:</b> User sending the money.</li>
+ *   <li><b>{@link #receiver}:</b> User receiving the money.</li>
+ *   <li><b>{@link #description}:</b> Description of the transaction.</li>
+ *   <li><b>{@link #amount}:</b> Amount of money transferred.</li>
  * </ul>
  */
 @Entity
@@ -48,23 +46,27 @@ public class Transaction {
 	private int id;
 
 	/**
-	 * A description or note for the transaction.
+	 * A description of the transaction.
 	 */
 	@Column(name = "description")
 	private String description;
 
 	/**
-	 * The amount of money being transferred in the transaction.
+	 * The amount of money transferred in the transaction.
 	 */
 	@Column(name = "amount")
 	private double amount;
 
-	// TODO javadoc
+	/**
+	 * User sending the money.
+	 */
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "sender_id")
 	private User sender;
 
-	// TODO javadoc
+	/**
+	 * User receiving the money.
+	 */
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "receiver_id")
 	private User receiver;
