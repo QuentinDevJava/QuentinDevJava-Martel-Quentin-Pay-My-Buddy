@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.openclassrooms.payMyBuddy.exception.PasswordEncryptionError;
 import com.openclassrooms.payMyBuddy.service.TrippleDes;
 import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 
@@ -176,11 +177,16 @@ public class User {
 	 * Sets the user's password after encrypting it.
 	 * 
 	 * @param password The password to set.
+	 * @throws PasswordEncryptionError 
 	 * @throws Exception If encryption fails.
 	 */
-	public void setPassword(String password) throws Exception {
-		TrippleDes td = new TrippleDes();
-		this.password = td.encrypt(password);
+	public void setPassword(String password) throws PasswordEncryptionError {
+		try {
+			TrippleDes td = new TrippleDes();
+			this.password = td.encrypt(password);
+		} catch (Exception e) {
+			throw new PasswordEncryptionError("Password encryption error.");
+		}
 	}
 
 	/**

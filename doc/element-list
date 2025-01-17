@@ -1,0 +1,11 @@
+com.openclassrooms.payMyBuddy
+com.openclassrooms.payMyBuddy.config
+com.openclassrooms.payMyBuddy.constants
+com.openclassrooms.payMyBuddy.interceptors
+com.openclassrooms.payMyBuddy.IT
+com.openclassrooms.payMyBuddy.model
+com.openclassrooms.payMyBuddy.repository
+com.openclassrooms.payMyBuddy.service
+com.openclassrooms.payMyBuddy.UT
+com.openclassrooms.payMyBuddy.web.controller
+com.openclassrooms.payMyBuddy.web.form

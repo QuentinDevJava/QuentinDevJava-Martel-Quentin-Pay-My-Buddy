@@ -43,7 +43,7 @@ public class AuthenticationController {
 	public String authentication(@Valid @ModelAttribute LoginForm loginForm, RedirectAttributes redirAttrs,
 			HttpSession session) throws Exception {
 
-		if (!userService.identifierIsValide(loginForm.getIdentifier(), loginForm.getPassword())) {
+		if (!userService.identifierAndPasswordIsValide(loginForm.getIdentifier(), loginForm.getPassword())) {
 			log.info("Login error");
 			flashAttribute.errorMessage(redirAttrs, "Identifiant ou mot de passe incorrecte.");
 			return UrlConstants.REDIR_LOGIN;
