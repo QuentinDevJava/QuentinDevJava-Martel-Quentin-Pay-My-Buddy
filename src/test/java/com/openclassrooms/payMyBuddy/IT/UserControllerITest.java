@@ -1,20 +1,35 @@
 package com.openclassrooms.payMyBuddy.IT;
 
 import static com.openclassrooms.payMyBuddy.constants.AppConstants.ERROR;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.OLD_PASSWORD_FALSE;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.PASSWORD_NOT_MATCH;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.PASSWORD_SUCCESS;
 import static com.openclassrooms.payMyBuddy.constants.AppConstants.SESSION_ATTRIBUTE;
 import static com.openclassrooms.payMyBuddy.constants.AppConstants.SUCCESS;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.UNKNOW_USER;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.USER_ALREADY_ADDED;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.USER_CANNOT_CONNECT_TO_THEMSELF;
+import static com.openclassrooms.payMyBuddy.constants.UrlConstants.CONNECTION_CONNECTION;
+import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_TRANSACTION;
+import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_USER_CONNECTION;
+import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_USER_PROFIL;
+import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_USER_UPDATE_PASSWORD;
+import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_PASSWORD;
+import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_PROFIL;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -38,139 +53,158 @@ public class UserControllerITest {
 	@MockitoBean
 	private UserService userService;
 
+	private String email = "Test@test.fr";
+	private String username = "Test";
+	private String password = "TestPassword1!";
+	private MockHttpSession mockSession = new MockHttpSession();
+
+	@BeforeEach
+	public void setup() {
+
+		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
+	}
+
 	@Test
 	public void testGetProfil() throws Exception {
-		String email = "Test@test.fr";
-		String username = "Test";
-		String password = "TestPassword1!";
 
 		User mockUser = new User();
 		mockUser.setEmail(email);
 		mockUser.setUsername(username);
 		mockUser.setPassword(password);
 
-		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
-
 		when(userService.getUserByEmail(email)).thenReturn(mockUser);
 
 		mockMvc.perform(get("/user/profile").session(mockSession)).andExpect(status().isOk()).andDo(print())
-				.andExpect(view().name("user/profile"));
+				.andExpect(view().name(USER_PROFIL));
 	}
 
 	@Test
 	public void testGetUpdatePassword() throws Exception {
 
-		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute(SESSION_ATTRIBUTE, "test@test.com");
-
 		mockMvc.perform(get("/user/updatePassword").session(mockSession)).andExpect(status().isOk()).andDo(print())
-				.andExpect(view().name("user/password"));
+				.andExpect(view().name(USER_PASSWORD));
 	}
 
 	@Test
 	public void testPostUpdatePassword() throws Exception {
-		String email = "Test@test.fr";
-		String password = "TestPassword1!";
+
 		String newPassword = "TestPassword2!";
-
 		Map<String, String> response = new HashMap<>();
-		response.put(SUCCESS, "Mot de passe mise à jour avec succès.");
-
-		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
+		response.put(SUCCESS, PASSWORD_SUCCESS);
 
 		when(userService.validateAndUpdatePassword(eq(email), any(PasswordForm.class))).thenReturn(response);
 
 		mockMvc.perform(post("/user/updatePassword").session(mockSession).param("oldPassword", password)
 				.param("password", newPassword).param("passwordConfirmation", newPassword)).andDo(print())
-				.andExpect(status().isFound()).andExpect(view().name("redirect:/user/profile"));
+				.andExpect(flash().attribute(SUCCESS, PASSWORD_SUCCESS)).andExpect(status().isFound())
+				.andExpect(view().name(REDIR_USER_PROFIL));
 	}
 
 	@Test
-	public void testPostUpdatePasswordError() throws Exception {
-		String email = "Test@test.fr";
-		String password = "TestPassword1!";
-		String newPassword = "TestPassword2!";
+	public void testPostUpdatePasswordErrorNotMatch() throws Exception {
 
+		String newPassword1 = "TestPassword2!";
+		String newPassword2 = "TestPassword3!";
 		Map<String, String> response = new HashMap<>();
-		response.put(ERROR, "Erreur.");
-
-		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
+		response.put(ERROR, PASSWORD_NOT_MATCH);
 
 		when(userService.validateAndUpdatePassword(eq(email), any(PasswordForm.class))).thenReturn(response);
 
 		mockMvc.perform(post("/user/updatePassword").session(mockSession).param("oldPassword", password)
+				.param("password", newPassword1).param("passwordConfirmation", newPassword2)).andDo(print())
+				.andExpect(flash().attribute(ERROR, PASSWORD_NOT_MATCH)).andExpect(status().isFound())
+				.andExpect(status().isFound()).andExpect(view().name(REDIR_USER_UPDATE_PASSWORD));
+	}
+
+	@Test
+	public void testPostUpdatePasswordErrorOldPasswordFalse() throws Exception {
+
+		String newPassword = "TestPassword2!";
+		Map<String, String> response = new HashMap<>();
+		response.put(ERROR, OLD_PASSWORD_FALSE);
+
+		when(userService.validateAndUpdatePassword(eq(email), any(PasswordForm.class))).thenReturn(response);
+
+		mockMvc.perform(post("/user/updatePassword").session(mockSession).param("oldPassword", newPassword)
 				.param("password", newPassword).param("passwordConfirmation", newPassword)).andDo(print())
-				.andExpect(status().isFound()).andExpect(view().name("redirect:/user/updatePassword"));
+				.andExpect(flash().attribute(ERROR, OLD_PASSWORD_FALSE)).andExpect(status().isFound())
+				.andExpect(status().isFound()).andExpect(view().name(REDIR_USER_UPDATE_PASSWORD));
 	}
 
 	@Test
 	public void testPostUpdatePasswordErrorNewPasswordFormat() throws Exception {
-		String email = "Test@test.fr";
-		String password = "TestPassword1!";
-		String newPassword = "TestPasswordErrorFormat";
 
-		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
+		String newPassword = "TestPasswordErrorFormat";
 
 		mockMvc.perform(post("/user/updatePassword").session(mockSession).param("oldPassword", password)
 				.param("password", newPassword).param("passwordConfirmation", newPassword)).andExpect(status().isOk())
-				.andDo(print()).andExpect(view().name("user/password"));
+				.andDo(print()).andExpect(view().name(USER_PASSWORD));
 	}
 
 	@Test
 	public void testGetConnexion() throws Exception {
 
-		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute(SESSION_ATTRIBUTE, "test@test.com");
-
 		mockMvc.perform(get("/user/connexion").session(mockSession)).andExpect(status().isOk()).andDo(print())
-				.andExpect(view().name("/connexion/connexion"));
+				.andExpect(view().name(CONNECTION_CONNECTION));
 	}
 
 	@Test
 	public void testPostConnexion() throws Exception {
-		String email = "Test@test.fr";
 
 		Map<String, String> response = new HashMap<>();
-		response.put(SUCCESS, "La relation a été ajoutée avec succès.");
-
-		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
+		response.put(SUCCESS, "La relation avec " + email + " a été ajoutée avec succès.");
 
 		when(userService.addConnection(eq(email), any(ConnexionForm.class))).thenReturn(response);
 
 		mockMvc.perform(post("/user/connexion").session(mockSession).param("email", email)).andDo(print())
-				.andExpect(status().isFound()).andExpect(view().name("redirect:/transaction"));
+				.andExpect(flash().attribute(SUCCESS, response.get(SUCCESS))).andExpect(status().isFound())
+				.andExpect(view().name(REDIR_TRANSACTION));
 	}
 
 	@Test
 	public void testPostConnexionError() throws Exception {
-		String email = "Test@test.fr";
 
 		Map<String, String> response = new HashMap<>();
-		response.put(ERROR, "Erreur.");
-
-		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
+		response.put(ERROR, USER_CANNOT_CONNECT_TO_THEMSELF);
 
 		when(userService.addConnection(eq(email), any(ConnexionForm.class))).thenReturn(response);
 
 		mockMvc.perform(post("/user/connexion").session(mockSession).param("email", email)).andDo(print())
-				.andExpect(status().isFound()).andExpect(view().name("redirect:/user/connexion"));
+				.andExpect(flash().attribute(ERROR, response.get(ERROR))).andExpect(status().isFound())
+				.andExpect(status().isFound()).andExpect(view().name(REDIR_USER_CONNECTION));
+	}
+
+	@Test
+	public void testPostConnexionErrorUnknowUser() throws Exception {
+
+		Map<String, String> response = new HashMap<>();
+		response.put(ERROR, UNKNOW_USER);
+
+		when(userService.addConnection(eq(email), any(ConnexionForm.class))).thenReturn(response);
+
+		mockMvc.perform(post("/user/connexion").session(mockSession).param("email", "unknow@test.com")).andDo(print())
+				.andExpect(flash().attribute(ERROR, response.get(ERROR))).andExpect(status().isFound())
+				.andExpect(status().isFound()).andExpect(view().name(REDIR_USER_CONNECTION));
+	}
+
+	@Test
+	public void testPostConnexionErrorUserAlreadyAdd() throws Exception {
+
+		Map<String, String> response = new HashMap<>();
+		response.put(ERROR, USER_ALREADY_ADDED);
+
+		when(userService.addConnection(eq(email), any(ConnexionForm.class))).thenReturn(response);
+
+		mockMvc.perform(post("/user/connexion").session(mockSession).param("email", "user@test.com")).andDo(print())
+				.andExpect(flash().attribute(ERROR, response.get(ERROR))).andExpect(status().isFound())
+				.andExpect(status().isFound()).andExpect(view().name(REDIR_USER_CONNECTION));
 	}
 
 	@Test
 	public void testPostConnexionErrorFormat() throws Exception {
-		String email = "Test@test.fr";
-
-		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
 
 		mockMvc.perform(post("/user/connexion").session(mockSession).param("email", "errorFormatEmail")).andDo(print())
-				.andExpect(status().isOk()).andExpect(view().name("/connexion/connexion"));
+				.andExpect(status().isOk()).andExpect(view().name(CONNECTION_CONNECTION));
 	}
 
 }

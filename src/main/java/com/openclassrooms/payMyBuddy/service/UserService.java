@@ -1,7 +1,14 @@
 package com.openclassrooms.payMyBuddy.service;
 
 import static com.openclassrooms.payMyBuddy.constants.AppConstants.ERROR;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.OLD_PASSWORD_FALSE;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.PASSWORD_NOT_MATCH;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.PASSWORD_SUCCESS;
 import static com.openclassrooms.payMyBuddy.constants.AppConstants.SUCCESS;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.UNKNOW_USER;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.USERNAME_OR_EMAIL_IS_USE;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.USER_ALREADY_ADDED;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.USER_CANNOT_CONNECT_TO_THEMSELF;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -78,7 +85,7 @@ public class UserService {
 	public void addUser(RegistrationForm registrationForm) throws IllegalArgumentException, PasswordEncryptionError {
 		if (userExistsByEmail(registrationForm.getEmail()) || userExistsByUsername(registrationForm.getUsername())) {
 			log.warn("User already exists with email or username: {}", registrationForm.getEmail());
-			throw new IllegalArgumentException("Nom d'utilisateur ou mail déjà utilisé.");
+			throw new IllegalArgumentException(USERNAME_OR_EMAIL_IS_USE);
 		}
 		User user = new User(registrationForm);
 		user.setPassword(registrationForm.getPassword());
@@ -157,14 +164,14 @@ public class UserService {
 				user.setPassword(passwordForm.getPassword());
 				saveUser(user);
 				log.info("Password updated");
-				response.put(SUCCESS, "Mot de passe mise à jour avec succès.");
+				response.put(SUCCESS, PASSWORD_SUCCESS);
 			} else {
 				log.warn("New password and password comfirmation not match");
-				response.put(ERROR, "Le nouveau mot de passe et la confirmation du mot de passe ne correspondent pas.");
+				response.put(ERROR, PASSWORD_NOT_MATCH);
 			}
 		} else {
-			log.warn("Password not update ERROR old password fase");
-			response.put(ERROR, "L'ancien mot de passe est incorrect.");
+			log.warn("Password not update error old password fase");
+			response.put(ERROR, OLD_PASSWORD_FALSE);
 		}
 		return response;
 	}
@@ -184,19 +191,19 @@ public class UserService {
 
 		if (connexion == null) {
 			log.warn("The user does not exist");
-			response.put(ERROR, "Utilisateur inconnu.");
+			response.put(ERROR, UNKNOW_USER);
 			return response;
 		}
 
 		if (user.getEmail().equals(connexion.getEmail())) {
 			log.warn("The user's email must be different from that of your email");
-			response.put(ERROR, "L'utilisateur ne peut pas établir une connexion avec lui-même.");
+			response.put(ERROR, USER_CANNOT_CONNECT_TO_THEMSELF);
 			return response;
 		}
 
 		if (isConnectionExists(user, connexion)) {
 			log.warn("The user is already connected to this user");
-			response.put(ERROR, "Utilisateur déjà ajouté.");
+			response.put(ERROR, USER_ALREADY_ADDED);
 			return response;
 		}
 
