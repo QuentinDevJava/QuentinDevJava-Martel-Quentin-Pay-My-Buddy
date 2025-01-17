@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -43,42 +44,47 @@ public class TransactionControllerITest {
 	@MockitoBean
 	private TransactionService transactionService;
 
-	@Test
-	public void testGetTransaction() throws Exception {
-		String email = "Test@test.fr";
-		String username = "Test";
-		String password = "TestPassword1!";
+	private String email = "Test@test.fr";
+	private String username = "Test";
+	private String password = "TestPassword1!";
+	private User mockUser1 = new User();
+	private User mockUser2 = new User();
 
-		User mockUser1 = new User();
+	private Transaction transaction1 = new Transaction();
+	private Transaction transaction2 = new Transaction();
+	private List<Transaction> transactions = new ArrayList<>();
+	private MockHttpSession mockSession = new MockHttpSession();
+
+	@BeforeEach
+	public void setup() throws Exception {
 		mockUser1.setId(1);
 		mockUser1.setEmail(email);
 		mockUser1.setUsername(username);
 		mockUser1.setPassword(password);
 
-		User mockUser2 = new User();
 		mockUser2.setId(2);
 		mockUser2.setEmail(email);
-		mockUser2.setUsername(username);
+		mockUser2.setUsername("User2");
 		mockUser2.setPassword(password);
 
-		Transaction transaction1 = new Transaction();
 		transaction1.setSender(mockUser1);
 		transaction1.setReceiver(mockUser2);
 		transaction1.setAmount(100);
 		transaction1.setDescription("Transaction 1");
 
-		Transaction transaction2 = new Transaction();
 		transaction2.setSender(mockUser1);
 		transaction2.setReceiver(mockUser2);
 		transaction2.setAmount(200);
 		transaction2.setDescription("Transaction 2");
 
-		List<Transaction> transactions = new ArrayList<>();
 		transactions.add(transaction1);
 		transactions.add(transaction2);
 
-		MockHttpSession mockSession = new MockHttpSession();
 		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
+	}
+
+	@Test
+	public void testGetTransaction() throws Exception {
 
 		when(userService.getUserByEmail(email)).thenReturn(mockUser1);
 		when(transactionService.getTransactionsBySenderId(1)).thenReturn(transactions);
@@ -89,30 +95,6 @@ public class TransactionControllerITest {
 
 	@Test
 	public void testPostTransaction() throws Exception {
-		String email = "Test@test.fr";
-		String username = "Test";
-		String password = "TestPassword1!";
-
-		User mockUser1 = new User();
-		mockUser1.setId(1);
-		mockUser1.setEmail(email);
-		mockUser1.setUsername(username);
-		mockUser1.setPassword(password);
-
-		User mockUser2 = new User();
-		mockUser2.setId(2);
-		mockUser2.setEmail(email);
-		mockUser2.setUsername("User2");
-		mockUser2.setPassword(password);
-
-		Transaction transaction1 = new Transaction();
-		transaction1.setSender(mockUser1);
-		transaction1.setReceiver(mockUser2);
-		transaction1.setAmount(100);
-		transaction1.setDescription("Transaction 1");
-
-		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
 
 		when(userService.getUserByEmail(email)).thenReturn(mockUser1);
 		when(userService.getUserById(2)).thenReturn(mockUser2);
@@ -127,10 +109,6 @@ public class TransactionControllerITest {
 
 	@Test
 	public void testPostTransactionEmailError() throws Exception {
-		String email = "Test@test.fr";
-
-		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
 
 		mockMvc.perform(post("/transaction").session(mockSession).param("receiverId", "0").param("description", "KDO")
 				.param("amount", "100")).andExpect(status().isFound()).andDo(print())
@@ -140,10 +118,6 @@ public class TransactionControllerITest {
 
 	@Test
 	public void testPostTransactionAmoutError() throws Exception {
-		String email = "Test@test.fr";
-
-		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
 
 		mockMvc.perform(post("/transaction").session(mockSession).param("receiverId", "2").param("description", "KDO")
 				.param("amount", "0")).andExpect(status().isFound()).andDo(print())
