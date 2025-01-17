@@ -30,7 +30,7 @@ import com.openclassrooms.payMyBuddy.web.form.PasswordForm;
 import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 
 @SpringBootTest
-public class UserServiceITest {
+ class UserServiceITest {
 
 	@Autowired
 	private UserService userService;
@@ -43,7 +43,7 @@ public class UserServiceITest {
 	private PasswordForm passwordForm = new PasswordForm();
 
 	@BeforeEach
-	public void setup() {
+	 void setup() {
 
 		form.setUsername("Test");
 		form.setEmail("Test@test.fr");
@@ -60,7 +60,7 @@ public class UserServiceITest {
 	}
 
 	@Test
-	public void userServiceTest() throws Exception {
+	 void userServiceTest() throws Exception {
 
 		userService.addUser(form);
 
@@ -85,7 +85,7 @@ public class UserServiceITest {
 	}
 
 	@Test
-	public void validateAndUpdatePasswordTest() throws Exception {
+	 void validateAndUpdatePasswordTest() throws Exception {
 
 		Map<String, String> response = new HashMap<>();
 		response.put(SUCCESS, PASSWORD_SUCCESS);
@@ -118,7 +118,7 @@ public class UserServiceITest {
 
 	@Test
 	@Transactional
-	public void validateAndUpdateConnexionTest() throws Exception {
+	 void validateAndUpdateConnexionTest() throws Exception {
 
 		ConnexionForm connexionForm = new ConnexionForm();
 		connexionForm.setEmail("Test2@test.fr");

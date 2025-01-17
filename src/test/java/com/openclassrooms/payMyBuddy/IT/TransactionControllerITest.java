@@ -30,7 +30,7 @@ import com.openclassrooms.payMyBuddy.service.UserService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class TransactionControllerITest {
+ class TransactionControllerITest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -53,7 +53,7 @@ public class TransactionControllerITest {
 	private MockHttpSession mockSession = new MockHttpSession();
 
 	@BeforeEach
-	public void setup() throws Exception {
+	 void setup() throws Exception {
 		mockUser1.setId(1);
 		mockUser1.setEmail(email);
 		mockUser1.setUsername(username);
@@ -81,7 +81,7 @@ public class TransactionControllerITest {
 	}
 
 	@Test
-	public void testGetTransaction() throws Exception {
+	 void testGetTransaction() throws Exception {
 
 		when(userService.getUserByEmail(email)).thenReturn(mockUser1);
 		when(transactionService.getTransactionsBySenderId(1)).thenReturn(transactions);
@@ -91,7 +91,7 @@ public class TransactionControllerITest {
 	}
 
 	@Test
-	public void testPostTransaction() throws Exception {
+	 void testPostTransaction() throws Exception {
 
 		when(userService.getUserByEmail(email)).thenReturn(mockUser1);
 		when(userService.getUserById(2)).thenReturn(mockUser2);
@@ -105,7 +105,7 @@ public class TransactionControllerITest {
 	}
 
 	@Test
-	public void testPostTransactionEmailError() throws Exception {
+	 void testPostTransactionEmailError() throws Exception {
 
 		mockMvc.perform(post("/transaction").session(mockSession).param("receiverId", "0").param("description", "KDO")
 				.param("amount", "100")).andExpect(status().isFound()).andDo(print())
@@ -114,7 +114,7 @@ public class TransactionControllerITest {
 	}
 
 	@Test
-	public void testPostTransactionAmoutError() throws Exception {
+	 void testPostTransactionAmoutError() throws Exception {
 
 		mockMvc.perform(post("/transaction").session(mockSession).param("receiverId", "2").param("description", "KDO")
 				.param("amount", "0")).andExpect(status().isFound()).andDo(print())

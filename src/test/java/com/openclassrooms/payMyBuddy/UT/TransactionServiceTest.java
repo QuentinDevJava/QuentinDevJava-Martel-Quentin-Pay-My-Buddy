@@ -18,7 +18,7 @@ import com.openclassrooms.payMyBuddy.repository.TransactionRepository;
 import com.openclassrooms.payMyBuddy.service.TransactionService;
 
 @SpringBootTest
-public class TransactionServiceTest {
+ class TransactionServiceTest {
 
 	@Mock
 	private TransactionRepository transactionRepository;
@@ -27,7 +27,7 @@ public class TransactionServiceTest {
 	private TransactionService transactionService;
 
 	@Test
-	public void testGetTransactionsBySenderId() {
+	 void testGetTransactionsBySenderId() {
 
 		Transaction transaction1 = new Transaction();
 		transaction1.setAmount(100);
@@ -50,7 +50,7 @@ public class TransactionServiceTest {
 	}
 
 	@Test
-	public void testAddTransaction() {
+	 void testAddTransaction() {
 		Transaction transaction = new Transaction();
 		transaction.setAmount(50);
 		transaction.setDescription("Test Transaction");

@@ -45,7 +45,7 @@ import com.openclassrooms.payMyBuddy.web.form.PasswordForm;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserControllerITest {
+ class UserControllerITest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -59,13 +59,13 @@ public class UserControllerITest {
 	private MockHttpSession mockSession = new MockHttpSession();
 
 	@BeforeEach
-	public void setup() {
+	 void setup() {
 
 		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
 	}
 
 	@Test
-	public void testGetProfil() throws Exception {
+	 void testGetProfil() throws Exception {
 
 		User mockUser = new User();
 		mockUser.setEmail(email);
@@ -79,14 +79,14 @@ public class UserControllerITest {
 	}
 
 	@Test
-	public void testGetUpdatePassword() throws Exception {
+	 void testGetUpdatePassword() throws Exception {
 
 		mockMvc.perform(get("/user/updatePassword").session(mockSession)).andExpect(status().isOk()).andDo(print())
 				.andExpect(view().name(USER_PASSWORD));
 	}
 
 	@Test
-	public void testPostUpdatePassword() throws Exception {
+	 void testPostUpdatePassword() throws Exception {
 
 		String newPassword = "TestPassword2!";
 		Map<String, String> response = new HashMap<>();
@@ -101,7 +101,7 @@ public class UserControllerITest {
 	}
 
 	@Test
-	public void testPostUpdatePasswordErrorNotMatch() throws Exception {
+	 void testPostUpdatePasswordErrorNotMatch() throws Exception {
 
 		String newPassword1 = "TestPassword2!";
 		String newPassword2 = "TestPassword3!";
@@ -117,7 +117,7 @@ public class UserControllerITest {
 	}
 
 	@Test
-	public void testPostUpdatePasswordErrorOldPasswordFalse() throws Exception {
+	 void testPostUpdatePasswordErrorOldPasswordFalse() throws Exception {
 
 		String newPassword = "TestPassword2!";
 		Map<String, String> response = new HashMap<>();
@@ -132,7 +132,7 @@ public class UserControllerITest {
 	}
 
 	@Test
-	public void testPostUpdatePasswordErrorNewPasswordFormat() throws Exception {
+	 void testPostUpdatePasswordErrorNewPasswordFormat() throws Exception {
 
 		String newPassword = "TestPasswordErrorFormat";
 
@@ -142,14 +142,14 @@ public class UserControllerITest {
 	}
 
 	@Test
-	public void testGetConnexion() throws Exception {
+	 void testGetConnexion() throws Exception {
 
 		mockMvc.perform(get("/user/connexion").session(mockSession)).andExpect(status().isOk()).andDo(print())
 				.andExpect(view().name(CONNECTION_CONNECTION));
 	}
 
 	@Test
-	public void testPostConnexion() throws Exception {
+	 void testPostConnexion() throws Exception {
 
 		Map<String, String> response = new HashMap<>();
 		response.put(SUCCESS, "La relation avec " + email + " a été ajoutée avec succès.");
@@ -162,7 +162,7 @@ public class UserControllerITest {
 	}
 
 	@Test
-	public void testPostConnexionError() throws Exception {
+	 void testPostConnexionError() throws Exception {
 
 		Map<String, String> response = new HashMap<>();
 		response.put(ERROR, USER_CANNOT_CONNECT_TO_THEMSELF);
@@ -175,7 +175,7 @@ public class UserControllerITest {
 	}
 
 	@Test
-	public void testPostConnexionErrorUnknowUser() throws Exception {
+	 void testPostConnexionErrorUnknowUser() throws Exception {
 
 		Map<String, String> response = new HashMap<>();
 		response.put(ERROR, UNKNOW_USER);
@@ -188,7 +188,7 @@ public class UserControllerITest {
 	}
 
 	@Test
-	public void testPostConnexionErrorUserAlreadyAdd() throws Exception {
+	 void testPostConnexionErrorUserAlreadyAdd() throws Exception {
 
 		Map<String, String> response = new HashMap<>();
 		response.put(ERROR, USER_ALREADY_ADDED);
@@ -201,7 +201,7 @@ public class UserControllerITest {
 	}
 
 	@Test
-	public void testPostConnexionErrorFormat() throws Exception {
+	 void testPostConnexionErrorFormat() throws Exception {
 
 		mockMvc.perform(post("/user/connexion").session(mockSession).param("email", "errorFormatEmail")).andDo(print())
 				.andExpect(status().isOk()).andExpect(view().name(CONNECTION_CONNECTION));

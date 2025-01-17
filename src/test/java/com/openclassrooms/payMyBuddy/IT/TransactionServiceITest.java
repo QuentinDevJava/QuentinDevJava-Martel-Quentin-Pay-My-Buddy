@@ -13,13 +13,13 @@ import com.openclassrooms.payMyBuddy.model.User;
 import com.openclassrooms.payMyBuddy.service.TransactionService;
 
 @SpringBootTest
-public class TransactionServiceITest {
+ class TransactionServiceITest {
 
 	@Autowired
 	private TransactionService transactionService;
 
 	@Test
-	public void testTransactionService() throws Exception {
+	 void testTransactionService() throws Exception {
 		User user = new User();
 		user.setUsername("Test");
 		user.setEmail("Test@test.fr");

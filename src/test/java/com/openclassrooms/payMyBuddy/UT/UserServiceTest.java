@@ -36,7 +36,7 @@ import com.openclassrooms.payMyBuddy.web.form.PasswordForm;
 import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 
 @SpringBootTest
-public class UserServiceTest {
+ class UserServiceTest {
 
 	@Mock
 	UserRepository userRepository;
@@ -45,26 +45,26 @@ public class UserServiceTest {
 	UserService userService;
 
 	@Test
-	public void testGetUserById() {
+	 void testGetUserById() {
 		userService.getUserById(1);
 		verify(userRepository, times(1)).findById(1);
 	}
 
 	@Test
-	public void testGetUserByEmailOrUsername() {
+	 void testGetUserByEmailOrUsername() {
 		userService.getUserByEmailOrUsername("test@test.fr", "Test");
 		verify(userRepository, times(1)).findByEmailOrUsername(anyString(), anyString());
 	}
 
 	@Test
-	public void testidentifierIsValide() throws Exception {
+	 void testidentifierIsValide() throws Exception {
 		userService.identifierAndPasswordIsValide("test@test.fr", "Test1!78");
 		verify(userRepository, times(1)).existsByEmailAndPasswordOrUsernameAndPassword(anyString(), anyString(),
 				anyString(), anyString());
 	}
 
 	@Test
-	public void testAddUser() throws Exception {
+	 void testAddUser() throws Exception {
 		// Given
 		RegistrationForm form = new RegistrationForm();
 		form.setEmail("Test@test.fr");
@@ -86,7 +86,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void testAddUserWhenEmailAlreadyExists() {
+	 void testAddUserWhenEmailAlreadyExists() {
 		// Given
 		RegistrationForm form = new RegistrationForm();
 		form.setEmail("Test@test.fr");
@@ -110,7 +110,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void testAddUserWhenUsernameAlreadyExists() {
+	 void testAddUserWhenUsernameAlreadyExists() {
 		// Given
 		RegistrationForm form = new RegistrationForm();
 		form.setEmail("Test@test.fr");
@@ -134,7 +134,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void testValidateAndUpdatePasswordWhenOldPasswordIsIncorrect() throws Exception {
+	 void testValidateAndUpdatePasswordWhenOldPasswordIsIncorrect() throws Exception {
 		String email = "Test@test.fr";
 		PasswordForm passwordForm = new PasswordForm();
 		passwordForm.setOldPassword("wrongOldPassword!1");
@@ -154,7 +154,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void testValidateAndUpdatePasswordWhenNewPasswordIsNotEqualtoPasswordConfirmation() throws Exception {
+	 void testValidateAndUpdatePasswordWhenNewPasswordIsNotEqualtoPasswordConfirmation() throws Exception {
 		String email = "Test@test.fr";
 		PasswordForm passwordForm = new PasswordForm();
 		passwordForm.setOldPassword("wrongOldPassword!1");
@@ -174,7 +174,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void testValidateAndUpdatePassword() throws Exception {
+	 void testValidateAndUpdatePassword() throws Exception {
 		String email = "Test@test.fr";
 		PasswordForm passwordForm = new PasswordForm();
 		passwordForm.setOldPassword("wrongOldPassword!1");
@@ -194,7 +194,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void testValidateAndUpdateConnexion() {
+	 void testValidateAndUpdateConnexion() {
 
 		String email1 = "Test@test.fr";
 		String email2 = "Test1@test.fr";
@@ -222,7 +222,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void testValidateAndUpdateConnexionWhenUserIsTryingToConnectToHimself() {
+	 void testValidateAndUpdateConnexionWhenUserIsTryingToConnectToHimself() {
 
 		String email = "Test@test.fr";
 		ConnexionForm connexionForm = new ConnexionForm();
@@ -242,7 +242,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void testValidateAndUpdateConnexionWhenUserNotExists() {
+	 void testValidateAndUpdateConnexionWhenUserNotExists() {
 
 		String email = "Test@test.fr";
 		ConnexionForm connexionForm = new ConnexionForm();
@@ -257,7 +257,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void testValidateAndUpdateConnexionWhenUserIsAlreadyConnected() {
+	 void testValidateAndUpdateConnexionWhenUserIsAlreadyConnected() {
 		String email1 = "Test@test.fr";
 		String email2 = "Test1@test.fr";
 		String username1 = "Test1";

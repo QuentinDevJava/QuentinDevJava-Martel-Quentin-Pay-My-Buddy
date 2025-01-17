@@ -45,7 +45,7 @@ public class TransactionFrom {
 	 * The ID of the user receiving the money.
 	 */
 	@NotNull(message = "Please select a relation.")
-	@Min(value = 1, message = "Please select a relation.")
+	@Min(value = 1, message = "Veuillez selectionner une relation.")
 	private int receiverId;
 
 	/**
@@ -57,7 +57,7 @@ public class TransactionFrom {
 	 * The amount of the transaction.
 	 */
 	@NotNull(message = "Amount cannot be null.")
-	@Min(value = 1, message = "The transfer amount must be greater than or equal to 1.")
+	@Min(value = 1, message =  "Le montant du transfére doit être au supérieur ou égal à 1.")
 	private double amount;
 
 	/**
