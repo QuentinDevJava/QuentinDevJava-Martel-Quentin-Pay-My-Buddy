@@ -7,11 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@NoArgsConstructor
-@Getter
-@Setter
-@ToString
-
 /**
  * Connection form for linking two users via an email.
  *
@@ -25,12 +20,14 @@ import lombok.ToString;
  *   <li>The {@link #email} must be a valid email address and must not be blank.</li>
  * </ul>
  */
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class ConnexionForm {
 
 	/**
 	 * The user's email address used for the connection.
-	 * <p>This field must be a valid email format (e.g., example@domain.com).</p>
-	 * <p>This field must not be blank.</p>
 	 */
 	@NotBlank
 	@Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Le format de l'''adresse mail doit être valide avec un domaine et une extension (ex: example@domain.com)")
