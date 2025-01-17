@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * </ul>
  */
 @Service
-public class FlashAttribute {
+public class FlashMessageHandler {
 
 	/**
 	 * Adds a success message to the redirect attributes.

@@ -1,5 +1,8 @@
 package com.openclassrooms.payMyBuddy.web.controller;
 
+import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_TRANSACTION;
+import static com.openclassrooms.payMyBuddy.constants.UrlConstants.TRANSACTION;
+
 import java.util.List;
 import java.util.Set;
 
@@ -13,11 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.openclassrooms.payMyBuddy.constants.SessionConstants;
-import com.openclassrooms.payMyBuddy.constants.UrlConstants;
+import com.openclassrooms.payMyBuddy.constants.AppConstants;
 import com.openclassrooms.payMyBuddy.model.Transaction;
 import com.openclassrooms.payMyBuddy.model.User;
-import com.openclassrooms.payMyBuddy.service.FlashAttribute;
+import com.openclassrooms.payMyBuddy.service.FlashMessageHandler;
 import com.openclassrooms.payMyBuddy.service.TransactionService;
 import com.openclassrooms.payMyBuddy.service.UserService;
 import com.openclassrooms.payMyBuddy.web.form.TransactionFrom;
@@ -37,13 +39,13 @@ public class TransactionController {
 
 	private final TransactionService transactionService;
 	private final UserService userService;
-	private final FlashAttribute flashAttribute;
+	private final FlashMessageHandler flashAttribute;
 
 	@GetMapping
 	public String transaction(Model model, HttpServletRequest request) {
 
 		HttpSession session = request.getSession();
-		User user = userService.getUserByEmail(session.getAttribute(SessionConstants.SESSION_ATTRIBUTE).toString());
+		User user = userService.getUserByEmail(session.getAttribute(AppConstants.SESSION_ATTRIBUTE).toString());
 		Set<User> userSet = user.getConnections();
 
 		TransactionFrom transactionFrom = new TransactionFrom();
@@ -53,7 +55,7 @@ public class TransactionController {
 		model.addAttribute("transactionFrom", transactionFrom);
 		model.addAttribute("ListoftransactionFrom", transactionFroms);
 		model.addAttribute("userset", userSet);
-		return UrlConstants.TRANSACTION;
+		return TRANSACTION;
 	}
 
 	@PostMapping
@@ -69,7 +71,7 @@ public class TransactionController {
 			flashAttribute.errorMessage(redirAttrs, builder.toString());
 		} else {
 			HttpSession session = request.getSession();
-			int userId = userService.getUserByEmail(session.getAttribute(SessionConstants.SESSION_ATTRIBUTE).toString())
+			int userId = userService.getUserByEmail(session.getAttribute(AppConstants.SESSION_ATTRIBUTE).toString())
 					.getId();
 
 			Transaction transaction = new Transaction();
@@ -82,6 +84,6 @@ public class TransactionController {
 			flashAttribute.successMessage(redirAttrs,
 					"Le transfert vers " + transaction.getReceiver().getUsername() + " a été effectué avec succès.");
 		}
-		return UrlConstants.REDIR_TRANSACTION;
+		return REDIR_TRANSACTION;
 	}
 }

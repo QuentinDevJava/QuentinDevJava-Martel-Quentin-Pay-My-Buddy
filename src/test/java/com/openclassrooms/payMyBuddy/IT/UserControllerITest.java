@@ -1,5 +1,8 @@
 package com.openclassrooms.payMyBuddy.IT;
 
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.ERROR;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.SESSION_ATTRIBUTE;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.SUCCESS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -47,7 +50,7 @@ public class UserControllerITest {
 		mockUser.setPassword(password);
 
 		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute("username", email);
+		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
 
 		when(userService.getUserByEmail(email)).thenReturn(mockUser);
 
@@ -59,7 +62,7 @@ public class UserControllerITest {
 	public void testGetUpdatePassword() throws Exception {
 
 		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute("username", "test@test.com");
+		mockSession.setAttribute(SESSION_ATTRIBUTE, "test@test.com");
 
 		mockMvc.perform(get("/user/updatePassword").session(mockSession)).andExpect(status().isOk()).andDo(print())
 				.andExpect(view().name("user/password"));
@@ -72,11 +75,10 @@ public class UserControllerITest {
 		String newPassword = "TestPassword2!";
 
 		Map<String, String> response = new HashMap<>();
-		response.put("status", "success");
-		response.put("message", "Mot de passe mise à jour avec succès.");
+		response.put(SUCCESS, "Mot de passe mise à jour avec succès.");
 
 		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute("username", email);
+		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
 
 		when(userService.validateAndUpdatePassword(eq(email), any(PasswordForm.class))).thenReturn(response);
 
@@ -92,11 +94,10 @@ public class UserControllerITest {
 		String newPassword = "TestPassword2!";
 
 		Map<String, String> response = new HashMap<>();
-		response.put("status", "error");
-		response.put("message", "Erreur.");
+		response.put(ERROR, "Erreur.");
 
 		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute("username", email);
+		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
 
 		when(userService.validateAndUpdatePassword(eq(email), any(PasswordForm.class))).thenReturn(response);
 
@@ -112,7 +113,7 @@ public class UserControllerITest {
 		String newPassword = "TestPasswordErrorFormat";
 
 		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute("username", email);
+		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
 
 		mockMvc.perform(post("/user/updatePassword").session(mockSession).param("oldPassword", password)
 				.param("password", newPassword).param("passwordConfirmation", newPassword)).andExpect(status().isOk())
@@ -123,7 +124,7 @@ public class UserControllerITest {
 	public void testGetConnexion() throws Exception {
 
 		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute("username", "test@test.com");
+		mockSession.setAttribute(SESSION_ATTRIBUTE, "test@test.com");
 
 		mockMvc.perform(get("/user/connexion").session(mockSession)).andExpect(status().isOk()).andDo(print())
 				.andExpect(view().name("/connexion/connexion"));
@@ -134,13 +135,12 @@ public class UserControllerITest {
 		String email = "Test@test.fr";
 
 		Map<String, String> response = new HashMap<>();
-		response.put("status", "success");
-		response.put("message", "La relation a été ajoutée avec succès.");
+		response.put(SUCCESS, "La relation a été ajoutée avec succès.");
 
 		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute("username", email);
+		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
 
-		when(userService.validateAndUpdateConnexion(eq(email), any(ConnexionForm.class))).thenReturn(response);
+		when(userService.addConnection(eq(email), any(ConnexionForm.class))).thenReturn(response);
 
 		mockMvc.perform(post("/user/connexion").session(mockSession).param("email", email)).andDo(print())
 				.andExpect(status().isFound()).andExpect(view().name("redirect:/transaction"));
@@ -151,13 +151,12 @@ public class UserControllerITest {
 		String email = "Test@test.fr";
 
 		Map<String, String> response = new HashMap<>();
-		response.put("status", "error");
-		response.put("message", "Erreur.");
+		response.put(ERROR, "Erreur.");
 
 		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute("username", email);
+		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
 
-		when(userService.validateAndUpdateConnexion(eq(email), any(ConnexionForm.class))).thenReturn(response);
+		when(userService.addConnection(eq(email), any(ConnexionForm.class))).thenReturn(response);
 
 		mockMvc.perform(post("/user/connexion").session(mockSession).param("email", email)).andDo(print())
 				.andExpect(status().isFound()).andExpect(view().name("redirect:/user/connexion"));
@@ -168,7 +167,7 @@ public class UserControllerITest {
 		String email = "Test@test.fr";
 
 		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute("username", email);
+		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
 
 		mockMvc.perform(post("/user/connexion").session(mockSession).param("email", "errorFormatEmail")).andDo(print())
 				.andExpect(status().isOk()).andExpect(view().name("/connexion/connexion"));

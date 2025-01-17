@@ -1,5 +1,8 @@
 package com.openclassrooms.payMyBuddy.UT;
 
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.ERROR;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.SUCCESS;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -51,7 +54,7 @@ public class UserServiceTest {
 
 	@Test
 	public void testidentifierIsValide() throws Exception {
-		userService.identifierIsValide("test@test.fr", "Test1!78");
+		userService.identifierAndPasswordIsValide("test@test.fr", "Test1!78");
 		verify(userRepository, times(1)).existsByEmailAndPasswordOrUsernameAndPassword(anyString(), anyString(),
 				anyString(), anyString());
 	}
@@ -142,8 +145,8 @@ public class UserServiceTest {
 
 		Map<String, String> response = userService.validateAndUpdatePassword(email, passwordForm);
 
-		assertEquals("L'ancien mot de passe est incorrect.", response.get("message"));
-		assertEquals("error", response.get("status"));
+		assertEquals("L'ancien mot de passe est incorrect.", response.get(ERROR));
+		assertTrue(response.containsKey(ERROR));
 	}
 
 	@Test
@@ -163,8 +166,8 @@ public class UserServiceTest {
 		Map<String, String> response = userService.validateAndUpdatePassword(email, passwordForm);
 
 		assertEquals("Le nouveau mot de passe et la confirmation du mot de passe ne correspondent pas.",
-				response.get("message"));
-		assertEquals("error", response.get("status"));
+				response.get(ERROR));
+		assertTrue(response.containsKey(ERROR));
 	}
 
 	@Test
@@ -183,8 +186,8 @@ public class UserServiceTest {
 
 		Map<String, String> response = userService.validateAndUpdatePassword(email, passwordForm);
 
-		assertEquals("Mot de passe mise à jour avec succès.", response.get("message"));
-		assertEquals("success", response.get("status"));
+		assertEquals("Mot de passe mise à jour avec succès.", response.get(SUCCESS));
+		assertTrue(response.containsKey(SUCCESS));
 	}
 
 	@Test
@@ -207,11 +210,11 @@ public class UserServiceTest {
 		when(userRepository.findByEmail(email1)).thenReturn(Optional.of(mockUser1));
 		when(userRepository.findByEmail(email2)).thenReturn(Optional.of(mockUser2));
 
-		Map<String, String> response = userService.validateAndUpdateConnexion(email1, connexionForm);
+		Map<String, String> response = userService.addConnection(email1, connexionForm);
 
 		assertEquals("La relation avec " + mockUser2.getUsername() + " a été ajoutée avec succès.",
-				response.get("message"));
-		assertEquals("success", response.get("status"));
+				response.get(SUCCESS));
+		assertTrue(response.containsKey(SUCCESS));
 
 	}
 
@@ -228,10 +231,10 @@ public class UserServiceTest {
 
 		when(userRepository.findByEmail(email)).thenReturn(Optional.of(mockUser));
 
-		Map<String, String> response = userService.validateAndUpdateConnexion(email, connexionForm);
+		Map<String, String> response = userService.addConnection(email, connexionForm);
 
-		assertEquals("L'utilisateur ne peut pas établir une connexion avec lui-même.", response.get("message"));
-		assertEquals("error", response.get("status"));
+		assertEquals("L'utilisateur ne peut pas établir une connexion avec lui-même.", response.get(ERROR));
+		assertTrue(response.containsKey(ERROR));
 
 	}
 
@@ -244,10 +247,10 @@ public class UserServiceTest {
 
 		when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
 
-		Map<String, String> response = userService.validateAndUpdateConnexion(email, connexionForm);
+		Map<String, String> response = userService.addConnection(email, connexionForm);
 
-		assertEquals("Utilisateur inconnu.", response.get("message"));
-		assertEquals("error", response.get("status"));
+		assertEquals("Utilisateur inconnu.", response.get(ERROR));
+		assertTrue(response.containsKey(ERROR));
 	}
 
 	@Test
@@ -276,9 +279,9 @@ public class UserServiceTest {
 		when(userRepository.findByEmail(user1.getEmail())).thenReturn(Optional.of(user1));
 		when(userRepository.findByEmail(connexionForm.getEmail())).thenReturn(Optional.of(user2));
 
-		Map<String, String> response = userService.validateAndUpdateConnexion(user1.getEmail(), connexionForm);
+		Map<String, String> response = userService.addConnection(user1.getEmail(), connexionForm);
 
-		assertEquals("Utilisateur déjà ajouté.", response.get("message"));
-		assertEquals("error", response.get("status"));
+		assertEquals("Utilisateur déjà ajouté.", response.get(ERROR));
+		assertTrue(response.containsKey(ERROR));
 	}
 }

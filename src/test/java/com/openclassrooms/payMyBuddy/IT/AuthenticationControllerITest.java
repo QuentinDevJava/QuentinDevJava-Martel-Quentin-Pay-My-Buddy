@@ -1,5 +1,6 @@
 package com.openclassrooms.payMyBuddy.IT;
 
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.SESSION_ATTRIBUTE;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -50,7 +51,7 @@ public class AuthenticationControllerITest {
 		mockUser.setPassword(password);
 
 		when(userService.getUserByEmailOrUsername(email, email)).thenReturn(mockUser);
-		when(userService.identifierIsValide(anyString(), anyString())).thenReturn(true);
+		when(userService.identifierAndPasswordIsValide(anyString(), anyString())).thenReturn(true);
 		mockMvc.perform(post("/login").param("identifier", email).param("password", password))
 				.andExpect(view().name("redirect:/transaction"));
 	}
@@ -77,7 +78,7 @@ public class AuthenticationControllerITest {
 		mockUser.setPassword(password);
 
 		when(userService.getUserByEmailOrUsername(email, email)).thenReturn(mockUser);
-		when(userService.identifierIsValide(anyString(), anyString())).thenReturn(false);
+		when(userService.identifierAndPasswordIsValide(anyString(), anyString())).thenReturn(false);
 		mockMvc.perform(post("/login").param("identifier", email).param("password", password))
 				.andExpect(view().name("redirect:/login"));
 	}
@@ -126,7 +127,7 @@ public class AuthenticationControllerITest {
 	@Test
 	public void testLogout() throws Exception {
 		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute("username", "test@test.com");
+		mockSession.setAttribute(SESSION_ATTRIBUTE, "test@test.com");
 		mockMvc.perform(get("/logout").session(mockSession)).andExpect(status().isFound())
 				.andExpect(view().name("redirect:/login"));
 	}

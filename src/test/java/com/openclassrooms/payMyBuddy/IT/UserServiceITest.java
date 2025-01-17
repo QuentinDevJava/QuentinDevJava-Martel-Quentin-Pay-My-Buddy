@@ -1,5 +1,7 @@
 package com.openclassrooms.payMyBuddy.IT;
 
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.ERROR;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.SUCCESS;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -50,8 +52,8 @@ public class UserServiceITest {
 
 		assertTrue(userService.userExistsByEmail(foundUser.getEmail()));
 		assertTrue(userService.userExistsByUsername(foundUser.getUsername()));
-		assertTrue(userService.identifierIsValide(foundUser.getEmail(), "Test1!78"));
-		assertTrue(userService.identifierIsValide(foundUser.getUsername(), "Test1!78"));
+		assertTrue(userService.identifierAndPasswordIsValide(foundUser.getEmail(), "Test1!78"));
+		assertTrue(userService.identifierAndPasswordIsValide(foundUser.getUsername(), "Test1!78"));
 
 		assertThrows(IllegalArgumentException.class, () -> {
 			userService.addUser(form);
@@ -73,8 +75,8 @@ public class UserServiceITest {
 		passwordForm.setPasswordConfirmation("Test1!78@");
 
 		Map<String, String> response = new HashMap<>();
-		response.put("status", "success");
-		response.put("message", "Mot de passe mise à jour avec succès.");
+
+		response.put(SUCCESS, "Mot de passe mise à jour avec succès.");
 
 		userService.addUser(form);
 
@@ -87,8 +89,8 @@ public class UserServiceITest {
 		passwordForm.setPasswordConfirmation("Test1!78@");
 
 		response.clear();
-		response.put("status", "error");
-		response.put("message", "Le nouveau mot de passe et la confirmation du mot de passe ne correspondent pas.");
+
+		response.put(ERROR, "Le nouveau mot de passe et la confirmation du mot de passe ne correspondent pas.");
 		assertEquals(response, userService.validateAndUpdatePassword(foundUser.getEmail(), passwordForm));
 
 		passwordForm.setOldPassword("erreur");
@@ -96,8 +98,8 @@ public class UserServiceITest {
 		passwordForm.setPasswordConfirmation("Test1!78");
 
 		response.clear();
-		response.put("status", "error");
-		response.put("message", "L'ancien mot de passe est incorrect.");
+
+		response.put(ERROR, "L'ancien mot de passe est incorrect.");
 		assertEquals(response, userService.validateAndUpdatePassword(foundUser.getEmail(), passwordForm));
 
 		userRepository.delete(foundUser);
@@ -120,8 +122,7 @@ public class UserServiceITest {
 		connexionForm.setEmail("Test2@test.fr");
 
 		Map<String, String> response = new HashMap<>();
-		response.put("message", "La relation avec " + form2.getUsername() + " a été ajoutée avec succès.");
-		response.put("status", "success");
+		response.put(SUCCESS, "La relation avec " + form2.getUsername() + " a été ajoutée avec succès.");
 
 		userService.addUser(form);
 		userService.addUser(form2);
@@ -129,25 +130,25 @@ public class UserServiceITest {
 		User foundUser = userService.getUserByEmail(form.getEmail());
 		User foundUser2 = userService.getUserByEmail(form2.getEmail());
 
-		assertEquals(response, userService.validateAndUpdateConnexion(foundUser.getEmail(), connexionForm));
+		assertEquals(response, userService.addConnection(foundUser.getEmail(), connexionForm));
 
 		response.clear();
-		response.put("message", "Utilisateur déjà ajouté.");
-		response.put("status", "error");
-		assertEquals(response, userService.validateAndUpdateConnexion(foundUser.getEmail(), connexionForm));
+		response.put(ERROR, "Utilisateur déjà ajouté.");
+
+		assertEquals(response, userService.addConnection(foundUser.getEmail(), connexionForm));
 
 		response.clear();
-		response.put("message", "Utilisateur inconnu.");
-		response.put("status", "error");
+		response.put(ERROR, "Utilisateur inconnu.");
+
 		connexionForm.setEmail("error@error.fr");
 
-		assertEquals(response, userService.validateAndUpdateConnexion(foundUser.getEmail(), connexionForm));
+		assertEquals(response, userService.addConnection(foundUser.getEmail(), connexionForm));
 
 		response.clear();
-		response.put("message", "L'utilisateur ne peut pas établir une connexion avec lui-même.");
-		response.put("status", "error");
+		response.put(ERROR, "L'utilisateur ne peut pas établir une connexion avec lui-même.");
+
 		connexionForm.setEmail("Test@test.fr");
-		assertEquals(response, userService.validateAndUpdateConnexion(foundUser.getEmail(), connexionForm));
+		assertEquals(response, userService.addConnection(foundUser.getEmail(), connexionForm));
 
 		userRepository.delete(foundUser);
 		userRepository.delete(foundUser2);

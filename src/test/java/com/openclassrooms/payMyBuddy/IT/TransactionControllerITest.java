@@ -1,5 +1,8 @@
 package com.openclassrooms.payMyBuddy.IT;
 
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.ERROR;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.SESSION_ATTRIBUTE;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.SUCCESS;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -75,7 +78,7 @@ public class TransactionControllerITest {
 		transactions.add(transaction2);
 
 		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute("username", email);
+		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
 
 		when(userService.getUserByEmail(email)).thenReturn(mockUser1);
 		when(transactionService.getTransactionsBySenderId(1)).thenReturn(transactions);
@@ -109,7 +112,7 @@ public class TransactionControllerITest {
 		transaction1.setDescription("Transaction 1");
 
 		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute("username", email);
+		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
 
 		when(userService.getUserByEmail(email)).thenReturn(mockUser1);
 		when(userService.getUserById(2)).thenReturn(mockUser2);
@@ -117,7 +120,7 @@ public class TransactionControllerITest {
 		mockMvc.perform(post("/transaction")
 				.session(mockSession).param("receiverId", "2").param("description", "KDO").param("amount", "100"))
 				.andExpect(status().isFound()).andDo(print())
-				.andExpect(flash().attribute("success",
+				.andExpect(flash().attribute(SUCCESS,
 						"Le transfert vers " + mockUser2.getUsername() + " a été effectué avec succès."))
 				.andExpect(view().name("redirect:/transaction"));
 	}
@@ -127,11 +130,11 @@ public class TransactionControllerITest {
 		String email = "Test@test.fr";
 
 		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute("username", email);
+		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
 
 		mockMvc.perform(post("/transaction").session(mockSession).param("receiverId", "0").param("description", "KDO")
 				.param("amount", "100")).andExpect(status().isFound()).andDo(print())
-				.andExpect(flash().attribute("emailError", "Veuillez selectionner une relation"))
+				.andExpect(flash().attribute(ERROR, "Veuillez selectionner une relation.<br>"))
 				.andExpect(view().name("redirect:/transaction"));
 	}
 
@@ -140,13 +143,11 @@ public class TransactionControllerITest {
 		String email = "Test@test.fr";
 
 		MockHttpSession mockSession = new MockHttpSession();
-		mockSession.setAttribute("username", email);
+		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
 
-		mockMvc.perform(post("/transaction")
-				.session(mockSession).param("receiverId", "2").param("description", "KDO").param("amount", "0"))
-				.andExpect(status().isFound()).andDo(print())
-				.andExpect(
-						flash().attribute("amountError", "Le montant du transfére doit être au supérieur ou égal à 1."))
+		mockMvc.perform(post("/transaction").session(mockSession).param("receiverId", "2").param("description", "KDO")
+				.param("amount", "0")).andExpect(status().isFound()).andDo(print())
+				.andExpect(flash().attribute(ERROR, "Le montant du transfére doit être au supérieur ou égal à 1.<br>"))
 				.andExpect(view().name("redirect:/transaction"));
 	}
 }

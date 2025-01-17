@@ -12,11 +12,14 @@ import javax.crypto.spec.DESedeKeySpec;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 
+import com.openclassrooms.payMyBuddy.exception.PasswordEncryptionError;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class TrippleDes {
 
+	// TODO javadoc ??
 	private static final Charset UNICODE_FORMAT = StandardCharsets.UTF_8;
 	public static final String DESEDE_ENCRYPTION_SCHEME = "DESede";
 	private KeySpec ks;
@@ -28,14 +31,19 @@ public class TrippleDes {
 	private String myEncryptionScheme;
 	SecretKey key;
 
-	public TrippleDes() throws Exception { // TODO exeption personalisée ??
+	public TrippleDes() throws PasswordEncryptionError {
 		myEncryptionKey = "ThisIsASecureKeyForProtectPassword";
 		myEncryptionScheme = DESEDE_ENCRYPTION_SCHEME;
 		arrayBytes = myEncryptionKey.getBytes(UNICODE_FORMAT);
-		ks = new DESedeKeySpec(arrayBytes);
-		skf = SecretKeyFactory.getInstance(myEncryptionScheme);
-		cipher = Cipher.getInstance(myEncryptionScheme);
-		key = skf.generateSecret(ks);
+		try {
+			ks = new DESedeKeySpec(arrayBytes);
+			skf = SecretKeyFactory.getInstance(myEncryptionScheme);
+			cipher = Cipher.getInstance(myEncryptionScheme);
+			key = skf.generateSecret(ks);
+
+		} catch (Exception e) {
+			throw new PasswordEncryptionError(e.getMessage());
+		}
 	}
 
 	public String encrypt(String unencryptedString) {
