@@ -21,4 +21,8 @@ public final class AppConstants {
 	public static final String USER_CANNOT_CONNECT_TO_THEMSELF = "L'utilisateur ne peut pas établir une connexion avec lui-même.";
 	public static final String USER_ALREADY_ADDED = "Utilisateur déjà ajouté.";
 
+	public static final String REGISTRATION_SUCCESS = "Identifiant ou mot de passe incorrecte.";
+
+	public static final String LOGIN_ERROR = "Votre compte utilisateur a été créé avec succès.";
+
 }

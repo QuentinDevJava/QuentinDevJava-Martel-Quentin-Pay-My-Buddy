@@ -1,5 +1,8 @@
 package com.openclassrooms.payMyBuddy.web.controller;
 
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.LOGIN_ERROR;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.REGISTRATION_SUCCESS;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.SESSION_ATTRIBUTE;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.LOGIN;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.LOGOUT;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_LOGIN;
@@ -8,7 +11,6 @@ import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REGISTRATION;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_LOGIN;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_REGISTRATION;
 
-//TODO Import static urlconstants
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.openclassrooms.payMyBuddy.constants.AppConstants;
 import com.openclassrooms.payMyBuddy.model.User;
 import com.openclassrooms.payMyBuddy.service.FlashMessageHandler;
 import com.openclassrooms.payMyBuddy.service.UserService;
@@ -52,12 +53,12 @@ public class AuthenticationController {
 			HttpSession session) throws Exception {
 
 		if (!userService.identifierAndPasswordIsValide(loginForm.getIdentifier(), loginForm.getPassword())) {
-			log.info("Login error");
-			flashAttribute.errorMessage(redirAttrs, "Identifiant ou mot de passe incorrecte.");
+			log.debug("Login error : {}", LOGIN_ERROR);
+			flashAttribute.errorMessage(redirAttrs, LOGIN_ERROR);
 			return REDIR_LOGIN;
 		}
 		User user = userService.getUserByEmailOrUsername(loginForm.getIdentifier(), loginForm.getIdentifier());
-		session.setAttribute(AppConstants.SESSION_ATTRIBUTE, user.getEmail());
+		session.setAttribute(SESSION_ATTRIBUTE, user.getEmail());
 		log.info("User authenticated successfully: {}", loginForm.getIdentifier());
 		return REDIR_TRANSACTION;
 	}
@@ -66,7 +67,7 @@ public class AuthenticationController {
 	public String logout(HttpServletRequest request) {
 
 		log.info("Attempt to logout user ");
-		request.getSession().removeAttribute(AppConstants.SESSION_ATTRIBUTE);
+		request.getSession().removeAttribute(SESSION_ATTRIBUTE);
 		log.info("Username removed from the session. Do logout");
 		return REDIR_LOGIN;
 	}
@@ -84,13 +85,13 @@ public class AuthenticationController {
 			RedirectAttributes redirAttrs) throws Exception {
 
 		if (result.hasErrors()) {
-			log.info("Invalid form");
+			log.debug("Invalid form");
 			return USER_REGISTRATION;
 		}
 		userService.addUser(registrationForm);
-		log.debug("User successfully added: Username = {}, Email = {}", registrationForm.getUsername(),
+		log.info("User successfully added: Username = {}, Email = {}", registrationForm.getUsername(),
 				registrationForm.getEmail());
-		flashAttribute.successMessage(redirAttrs, "Votre compte utilisateur a été créé avec succès.");
+		flashAttribute.successMessage(redirAttrs, REGISTRATION_SUCCESS);
 		return REDIR_LOGIN;
 	}
 }

@@ -1,5 +1,6 @@
 package com.openclassrooms.payMyBuddy.web.controller;
 
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.SESSION_ATTRIBUTE;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_TRANSACTION;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.TRANSACTION;
 
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.openclassrooms.payMyBuddy.constants.AppConstants;
 import com.openclassrooms.payMyBuddy.model.Transaction;
 import com.openclassrooms.payMyBuddy.model.User;
 import com.openclassrooms.payMyBuddy.service.FlashMessageHandler;
@@ -43,9 +43,9 @@ public class TransactionController {
 
 	@GetMapping
 	public String transaction(Model model, HttpServletRequest request) {
-
+		log.info("Loading the transaction page");
 		HttpSession session = request.getSession();
-		User user = userService.getUserByEmail(session.getAttribute(AppConstants.SESSION_ATTRIBUTE).toString());
+		User user = userService.getUserByEmail(session.getAttribute(SESSION_ATTRIBUTE).toString());
 		Set<User> userSet = user.getConnections();
 
 		TransactionFrom transactionFrom = new TransactionFrom();
@@ -68,11 +68,11 @@ public class TransactionController {
 			for (FieldError error : result.getFieldErrors()) {
 				builder.append(error.getDefaultMessage()).append("<br>");
 			}
+			log.debug("Transaction error : {}", builder.toString());
 			flashAttribute.errorMessage(redirAttrs, builder.toString());
 		} else {
 			HttpSession session = request.getSession();
-			int userId = userService.getUserByEmail(session.getAttribute(AppConstants.SESSION_ATTRIBUTE).toString())
-					.getId();
+			int userId = userService.getUserByEmail(session.getAttribute(SESSION_ATTRIBUTE).toString()).getId();
 
 			Transaction transaction = new Transaction();
 			transaction.setReceiver(userService.getUserById(transactionFrom.getReceiverId()));
@@ -80,7 +80,7 @@ public class TransactionController {
 			transaction.setDescription(transactionFrom.getDescription());
 			transaction.setAmount(transactionFrom.getAmount());
 			transactionService.addTransaction(transaction);
-
+			log.info("Transaction successfully added");
 			flashAttribute.successMessage(redirAttrs,
 					"Le transfert vers " + transaction.getReceiver().getUsername() + " a été effectué avec succès.");
 		}

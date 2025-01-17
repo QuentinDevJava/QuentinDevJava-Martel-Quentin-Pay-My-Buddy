@@ -1,7 +1,13 @@
 package com.openclassrooms.payMyBuddy.IT;
 
 import static com.openclassrooms.payMyBuddy.constants.AppConstants.ERROR;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.OLD_PASSWORD_FALSE;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.PASSWORD_NOT_MATCH;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.PASSWORD_SUCCESS;
 import static com.openclassrooms.payMyBuddy.constants.AppConstants.SUCCESS;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.UNKNOW_USER;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.USER_ALREADY_ADDED;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.USER_CANNOT_CONNECT_TO_THEMSELF;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,10 +16,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.openclassrooms.payMyBuddy.model.User;
@@ -24,7 +30,6 @@ import com.openclassrooms.payMyBuddy.web.form.PasswordForm;
 import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 
 @SpringBootTest
-@ActiveProfiles("local")
 public class UserServiceITest {
 
 	@Autowired
@@ -32,12 +37,30 @@ public class UserServiceITest {
 	@Autowired
 	private UserRepository userRepository;
 
-	@Test
-	public void userServiceTest() throws Exception {
-		RegistrationForm form = new RegistrationForm();
+	private RegistrationForm form = new RegistrationForm();
+	private RegistrationForm form2 = new RegistrationForm();
+
+	private PasswordForm passwordForm = new PasswordForm();
+
+	@BeforeEach
+	public void setup() {
+
 		form.setUsername("Test");
 		form.setEmail("Test@test.fr");
 		form.setPassword("Test1!78");
+
+		passwordForm.setOldPassword("Test1!78");
+		passwordForm.setPassword("Test1!78@");
+		passwordForm.setPasswordConfirmation("Test1!78@");
+
+		form2.setUsername("Test2");
+		form2.setEmail("Test2@test.fr");
+		form2.setPassword("Test1!78@");
+
+	}
+
+	@Test
+	public void userServiceTest() throws Exception {
 
 		userService.addUser(form);
 
@@ -58,25 +81,14 @@ public class UserServiceITest {
 		assertThrows(IllegalArgumentException.class, () -> {
 			userService.addUser(form);
 		});
-
 		userRepository.delete(foundUser);
 	}
 
 	@Test
 	public void validateAndUpdatePasswordTest() throws Exception {
-		RegistrationForm form = new RegistrationForm();
-		form.setUsername("Test");
-		form.setEmail("Test@test.fr");
-		form.setPassword("Test1!78");
-
-		PasswordForm passwordForm = new PasswordForm();
-		passwordForm.setOldPassword("Test1!78");
-		passwordForm.setPassword("Test1!78@");
-		passwordForm.setPasswordConfirmation("Test1!78@");
 
 		Map<String, String> response = new HashMap<>();
-
-		response.put(SUCCESS, "Mot de passe mise à jour avec succès.");
+		response.put(SUCCESS, PASSWORD_SUCCESS);
 
 		userService.addUser(form);
 
@@ -90,7 +102,7 @@ public class UserServiceITest {
 
 		response.clear();
 
-		response.put(ERROR, "Le nouveau mot de passe et la confirmation du mot de passe ne correspondent pas.");
+		response.put(ERROR, PASSWORD_NOT_MATCH);
 		assertEquals(response, userService.validateAndUpdatePassword(foundUser.getEmail(), passwordForm));
 
 		passwordForm.setOldPassword("erreur");
@@ -99,24 +111,14 @@ public class UserServiceITest {
 
 		response.clear();
 
-		response.put(ERROR, "L'ancien mot de passe est incorrect.");
+		response.put(ERROR, OLD_PASSWORD_FALSE);
 		assertEquals(response, userService.validateAndUpdatePassword(foundUser.getEmail(), passwordForm));
-
 		userRepository.delete(foundUser);
-
 	}
 
 	@Test
 	@Transactional
 	public void validateAndUpdateConnexionTest() throws Exception {
-		RegistrationForm form = new RegistrationForm();
-		form.setUsername("Test");
-		form.setEmail("Test@test.fr");
-		form.setPassword("Test1!78");
-		RegistrationForm form2 = new RegistrationForm();
-		form2.setUsername("Test2");
-		form2.setEmail("Test2@test.fr");
-		form2.setPassword("Test1!78@");
 
 		ConnexionForm connexionForm = new ConnexionForm();
 		connexionForm.setEmail("Test2@test.fr");
@@ -127,29 +129,28 @@ public class UserServiceITest {
 		userService.addUser(form);
 		userService.addUser(form2);
 
-		User foundUser = userService.getUserByEmail(form.getEmail());
-		User foundUser2 = userService.getUserByEmail(form2.getEmail());
-
-		assertEquals(response, userService.addConnection(foundUser.getEmail(), connexionForm));
+		assertEquals(response, userService.addConnection(form.getEmail(), connexionForm));
 
 		response.clear();
-		response.put(ERROR, "Utilisateur déjà ajouté.");
+		response.put(ERROR, USER_ALREADY_ADDED);
 
-		assertEquals(response, userService.addConnection(foundUser.getEmail(), connexionForm));
+		assertEquals(response, userService.addConnection(form.getEmail(), connexionForm));
 
 		response.clear();
-		response.put(ERROR, "Utilisateur inconnu.");
+		response.put(ERROR, UNKNOW_USER);
 
 		connexionForm.setEmail("error@error.fr");
 
-		assertEquals(response, userService.addConnection(foundUser.getEmail(), connexionForm));
+		assertEquals(response, userService.addConnection(form.getEmail(), connexionForm));
 
 		response.clear();
-		response.put(ERROR, "L'utilisateur ne peut pas établir une connexion avec lui-même.");
+		response.put(ERROR, USER_CANNOT_CONNECT_TO_THEMSELF);
 
 		connexionForm.setEmail("Test@test.fr");
-		assertEquals(response, userService.addConnection(foundUser.getEmail(), connexionForm));
+		assertEquals(response, userService.addConnection(form.getEmail(), connexionForm));
 
+		User foundUser = userService.getUserByEmail(form.getEmail());
+		User foundUser2 = userService.getUserByEmail(form2.getEmail());
 		userRepository.delete(foundUser);
 		userRepository.delete(foundUser2);
 

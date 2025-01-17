@@ -1,7 +1,13 @@
 package com.openclassrooms.payMyBuddy.UT;
 
 import static com.openclassrooms.payMyBuddy.constants.AppConstants.ERROR;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.OLD_PASSWORD_FALSE;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.PASSWORD_NOT_MATCH;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.PASSWORD_SUCCESS;
 import static com.openclassrooms.payMyBuddy.constants.AppConstants.SUCCESS;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.UNKNOW_USER;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.USER_ALREADY_ADDED;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.USER_CANNOT_CONNECT_TO_THEMSELF;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -21,7 +27,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import com.openclassrooms.payMyBuddy.model.User;
 import com.openclassrooms.payMyBuddy.repository.UserRepository;
@@ -31,7 +36,6 @@ import com.openclassrooms.payMyBuddy.web.form.PasswordForm;
 import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 
 @SpringBootTest
-@ActiveProfiles("local")
 public class UserServiceTest {
 
 	@Mock
@@ -145,7 +149,7 @@ public class UserServiceTest {
 
 		Map<String, String> response = userService.validateAndUpdatePassword(email, passwordForm);
 
-		assertEquals("L'ancien mot de passe est incorrect.", response.get(ERROR));
+		assertEquals(OLD_PASSWORD_FALSE, response.get(ERROR));
 		assertTrue(response.containsKey(ERROR));
 	}
 
@@ -165,8 +169,7 @@ public class UserServiceTest {
 
 		Map<String, String> response = userService.validateAndUpdatePassword(email, passwordForm);
 
-		assertEquals("Le nouveau mot de passe et la confirmation du mot de passe ne correspondent pas.",
-				response.get(ERROR));
+		assertEquals(PASSWORD_NOT_MATCH, response.get(ERROR));
 		assertTrue(response.containsKey(ERROR));
 	}
 
@@ -186,7 +189,7 @@ public class UserServiceTest {
 
 		Map<String, String> response = userService.validateAndUpdatePassword(email, passwordForm);
 
-		assertEquals("Mot de passe mise à jour avec succès.", response.get(SUCCESS));
+		assertEquals(PASSWORD_SUCCESS, response.get(SUCCESS));
 		assertTrue(response.containsKey(SUCCESS));
 	}
 
@@ -233,7 +236,7 @@ public class UserServiceTest {
 
 		Map<String, String> response = userService.addConnection(email, connexionForm);
 
-		assertEquals("L'utilisateur ne peut pas établir une connexion avec lui-même.", response.get(ERROR));
+		assertEquals(USER_CANNOT_CONNECT_TO_THEMSELF, response.get(ERROR));
 		assertTrue(response.containsKey(ERROR));
 
 	}
@@ -249,7 +252,7 @@ public class UserServiceTest {
 
 		Map<String, String> response = userService.addConnection(email, connexionForm);
 
-		assertEquals("Utilisateur inconnu.", response.get(ERROR));
+		assertEquals(UNKNOW_USER, response.get(ERROR));
 		assertTrue(response.containsKey(ERROR));
 	}
 
@@ -281,7 +284,7 @@ public class UserServiceTest {
 
 		Map<String, String> response = userService.addConnection(user1.getEmail(), connexionForm);
 
-		assertEquals("Utilisateur déjà ajouté.", response.get(ERROR));
+		assertEquals(USER_ALREADY_ADDED, response.get(ERROR));
 		assertTrue(response.containsKey(ERROR));
 	}
 }

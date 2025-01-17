@@ -7,23 +7,16 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import com.openclassrooms.payMyBuddy.model.Transaction;
 import com.openclassrooms.payMyBuddy.model.User;
-import com.openclassrooms.payMyBuddy.repository.TransactionRepository;
-import com.openclassrooms.payMyBuddy.repository.UserRepository;
 import com.openclassrooms.payMyBuddy.service.TransactionService;
 
 @SpringBootTest
-@ActiveProfiles("local")
 public class TransactionServiceITest {
+
 	@Autowired
 	private TransactionService transactionService;
-	@Autowired
-	private TransactionRepository transactionRepository;
-	@Autowired
-	private UserRepository userRepository;
 
 	@Test
 	public void testTransactionService() throws Exception {
@@ -47,11 +40,6 @@ public class TransactionServiceITest {
 		List<Transaction> transactions = transactionService.getTransactionsBySenderId(user.getId());
 
 		assertEquals("Test", transactions.get(0).getDescription());
-
-		transactionRepository.deleteById(transactions.get(0).getId());
-
-		userRepository.deleteById(user.getId());
-		userRepository.deleteById(user2.getId());
 
 	}
 }

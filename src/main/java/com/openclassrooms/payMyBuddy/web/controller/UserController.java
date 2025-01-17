@@ -77,16 +77,18 @@ public class UserController {
 		HttpSession session = request.getSession();
 
 		if (result.hasErrors()) {
-			log.info("Formulaire de modification du mdp invalide");
+			log.debug("Invalid password change form.");
 			return USER_PASSWORD;
 		}
 		Map<String, String> response = userService.validateAndUpdatePassword(
 				session.getAttribute(AppConstants.SESSION_ATTRIBUTE).toString(), passwordForm);
 
 		if (response.containsKey(SUCCESS)) {
+			log.info("Update password success : {}", response.get(SUCCESS));
 			flashAttribute.successMessage(redirAttrs, response.get(SUCCESS));
 			return REDIR_USER_PROFIL;
 		} else {
+			log.debug("Update password error : {}", response.get(ERROR));
 			flashAttribute.errorMessage(redirAttrs, response.get(ERROR));
 			return REDIR_USER_UPDATE_PASSWORD;
 		}
@@ -105,16 +107,18 @@ public class UserController {
 			BindingResult result, RedirectAttributes redirAttrs) {
 
 		if (result.hasErrors()) {
-			log.info("Formulaire d'ajout de relation invalide");
+			log.debug("Invalid add relation form.");
 			return CONNECTION_CONNECTION;
 		}
 		HttpSession session = request.getSession();
 		Map<String, String> response = userService
 				.addConnection(session.getAttribute(AppConstants.SESSION_ATTRIBUTE).toString(), connexionForm);
 		if (response.containsKey(SUCCESS)) {
+			log.info("Connection success : {}", response.get(SUCCESS));
 			flashAttribute.successMessage(redirAttrs, response.get(SUCCESS));
 			return REDIR_TRANSACTION;
 		} else {
+			log.debug("Connection error : {}", response.get(ERROR));
 			flashAttribute.errorMessage(redirAttrs, response.get(ERROR));
 			return REDIR_USER_CONNECTION;
 		}

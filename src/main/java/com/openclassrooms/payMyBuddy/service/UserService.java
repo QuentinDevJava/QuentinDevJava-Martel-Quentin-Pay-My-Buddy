@@ -210,6 +210,7 @@ public class UserService {
 		response.put(SUCCESS, "La relation avec " + connexion.getUsername() + " a été ajoutée avec succès.");
 		user.getConnections().add(connexion);
 		saveUser(user);
+		log.info("User has been successfully added.");
 		return response;
 	}
 

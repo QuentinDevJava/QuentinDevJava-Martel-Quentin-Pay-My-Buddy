@@ -28,10 +28,10 @@ public class AppShutdownHandler {
 				session.removeAttribute("username");
 				log.debug("Session terminated, identifier removed from the session during shutdown.");
 			} else {
-				log.info("Session exists, but no 'username' attribute found to remove.");
+				log.debug("Session exists, but no 'username' attribute found to remove.");
 			}
 		} else {
-			log.info("No active session found during shutdown.");
+			log.debug("No active session found during shutdown.");
 		}
 	}
 }

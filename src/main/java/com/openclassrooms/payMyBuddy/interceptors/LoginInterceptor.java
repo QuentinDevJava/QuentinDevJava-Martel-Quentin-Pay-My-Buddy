@@ -19,7 +19,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		log.debug("URL = " + request.getRequestURL() + " Methode = " + request.getMethod());
+		log.debug("preHandle : URL = " + request.getRequestURL() + " Methode = " + request.getMethod());
 		HttpSession session = request.getSession();
 		if (session == null || session.getAttribute(AppConstants.SESSION_ATTRIBUTE) == null) {
 			log.debug("Session is null redirect to authentication");
@@ -35,7 +35,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			@Nullable ModelAndView modelAndView) throws Exception {
-		log.debug("URL = " + request.getRequestURL() + " Methode = " + request.getMethod());
+		log.debug("postHandle URL = " + request.getRequestURL() + " Methode = " + request.getMethod());
 		HttpSession session = request.getSession();
 		if (session == null || session.getAttribute(AppConstants.SESSION_ATTRIBUTE) == null) {
 			log.debug("Session is null redirect to authentication");
