@@ -3,7 +3,7 @@
 -- 
 -- --------------------------------------------------------
 -- 
--- Structure of the `user` table
+-- Structure of the `pmb_user` table
 -- 
 CREATE TABLE IF NOT EXISTS `pmb_user` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `pmb_user` (
 
 -- --------------------------------------------------------
 -- 
--- Structure of the `transaction` table
+-- Structure of the `pmb_transaction` table
 -- 
 CREATE TABLE IF NOT EXISTS `pmb_transaction` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `pmb_transaction` (
 
 -- --------------------------------------------------------
 -- 
--- Structure of the `user_connections` table
+-- Structure of the `pmb_user_connections` table
 -- 
 CREATE TABLE IF NOT EXISTS `pmb_user_connections` (
   `user_id` INT(11) NOT NULL, 
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `pmb_user_connections` (
 
 -- --------------------------------------------------------
 -- 
--- Index for the `transaction` table
+-- Index for the `pmb_transaction` table
 -- 
 ALTER TABLE `pmb_transaction`
   ADD KEY IF NOT EXISTS `transaction_sender_id_user_id` (`sender_id`),
@@ -51,7 +51,7 @@ ALTER TABLE `pmb_transaction`
 
 -- --------------------------------------------------------
 -- 
--- Index for the `user_connections` table
+-- Index for the `pmb_user_connections` table
 -- 
 ALTER TABLE `pmb_user_connections`
   ADD KEY IF NOT EXISTS `connection_id` (`connection_id`);

@@ -8,12 +8,21 @@ import com.openclassrooms.payMyBuddy.interceptors.LoginInterceptor;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Configuration class for web interceptors.
+ */
 @Configuration
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
+	/** The login interceptor. */
 	private final LoginInterceptor loginInterceptor;
 
+	 /**
+     * Registers the interceptors for the web application.
+     * 
+     * @param registry The interceptor registry.
+     */
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(loginInterceptor).addPathPatterns("/**").addPathPatterns("**")

@@ -39,16 +39,29 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-//TODO javadoc
+
+/**
+ * Controller responsible for handling user-related actions such as viewing and updating profile,
+ * updating password, and managing user connections.
+ */
 @Controller
 @RequestMapping(USER)
 @Slf4j
 @RequiredArgsConstructor
 public class UserController {
 
+	/** The user service. */
 	private final UserService userService;
+	
+	/** The flash attribute. */
 	private final FlashMessageHandler flashAttribute;
-
+    /**
+     * Displays the profile page for the logged-in user.
+     * 
+     * @param model The model used to pass data to the view.
+     * @param request The HTTP request containing session information.
+     * @return The profile view page.
+     */
 	@GetMapping(PROFIL)
 	public String profil(Model model, HttpServletRequest request) {
 		log.info("Loading the profile page");
@@ -63,6 +76,13 @@ public class UserController {
 		return USER_PROFIL;
 	}
 
+    /**
+     * Displays the password update page.
+     * 
+     * @param model The model used to pass data to the view.
+     * @param request The HTTP request containing session information.
+     * @return The password update view page.
+     */
 	@GetMapping(UPDATE_PASSWORD)
 	public String updatePassword(Model model, HttpServletRequest request) {
 
@@ -71,6 +91,18 @@ public class UserController {
 		return USER_PASSWORD;
 	}
 
+
+    /**
+     * Handles the password update form submission. If the form is valid, it attempts to update the password.
+     * Displays a success or error message accordingly.
+     * 
+     * @param request The HTTP request containing session information.
+     * @param passwordForm The password form submitted by the user.
+     * @param result The result of form validation.
+     * @param redirAttrs Attributes used to pass messages between redirects.
+     * @return A redirect to the profile page or password update page with appropriate messages.
+     * @throws Exception If an error occurs while updating the password.
+     */
 	@PostMapping(UPDATE_PASSWORD)
 	public String updatePassword(HttpServletRequest request, @Valid @ModelAttribute PasswordForm passwordForm,
 			BindingResult result, RedirectAttributes redirAttrs) throws Exception {
@@ -94,6 +126,13 @@ public class UserController {
 		}
 	}
 
+	   /**
+     * Displays the connection page where the user can add connections.
+     * 
+     * @param request The HTTP request containing session information.
+     * @param model The model used to pass data to the view.
+     * @return The connection page view.
+     */
 	@GetMapping(CONNECTION)
 	public String connexion(HttpServletRequest request, Model model) {
 
@@ -101,7 +140,16 @@ public class UserController {
 		model.addAttribute("connexionForm", new ConnexionForm());
 		return CONNECTION_CONNECTION;
 	}
-
+    /**
+     * Handles the connection form submission. If the form is valid, it attempts to add a connection between the user and another user.
+     * Displays a success or error message accordingly.
+     * 
+     * @param request The HTTP request containing session information.
+     * @param connexionForm The connection form submitted by the user.
+     * @param result The result of form validation.
+     * @param redirAttrs Attributes used to pass messages between redirects.
+     * @return A redirect to the transaction page or the connection page with appropriate messages.
+     */
 	@PostMapping(CONNECTION)
 	public String addConnexion(HttpServletRequest request, @Valid @ModelAttribute ConnexionForm connexionForm,
 			BindingResult result, RedirectAttributes redirAttrs) {

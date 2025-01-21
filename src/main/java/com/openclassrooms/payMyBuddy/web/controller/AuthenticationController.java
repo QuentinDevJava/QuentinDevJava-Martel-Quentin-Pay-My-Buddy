@@ -30,16 +30,28 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-//TODO javadoc
 
+/**
+ * Controller responsible for handling user authentication,
+ * including login, registration, and logout functionalities.
+ */
 @Controller
 @Slf4j
 @RequiredArgsConstructor
 public class AuthenticationController {
 
+	/** The user service. */
 	private final UserService userService;
+	
+	/** The flash attribute. */
 	private final FlashMessageHandler flashAttribute;
 
+    /**
+     * Displays the login page.
+     * 
+     * @param model The model used to pass data to the view.
+     * @return The name of the login view.
+     */
 	@GetMapping(LOGIN)
 	public String login(Model model) {
 
@@ -47,7 +59,17 @@ public class AuthenticationController {
 		model.addAttribute("loginForm", new LoginForm());
 		return USER_LOGIN;
 	}
-
+	
+    /**
+     * Authenticates the user based on their login credentials.
+     * If authentication fails, an error message is displayed.
+     * 
+     * @param loginForm The form containing the login credentials.
+     * @param redirAttrs Attributes used to pass messages between redirects.
+     * @param session The HTTP session of the user.
+     * @return A redirect to the transaction page or back to the login page if an error occurs.
+     * @throws Exception If an error occurs during authentication.
+     */
 	@PostMapping(LOGIN)
 	public String authentication(@Valid @ModelAttribute LoginForm loginForm, RedirectAttributes redirAttrs,
 			HttpSession session) throws Exception {
@@ -62,7 +84,13 @@ public class AuthenticationController {
 		log.info("User authenticated successfully: {}", loginForm.getIdentifier());
 		return REDIR_TRANSACTION;
 	}
-
+	
+    /**
+     * Logs out the user by removing their identifier from the session.
+     * 
+     * @param request The HTTP request.
+     * @return A redirect to the login page after logging out.
+     */
 	@GetMapping(LOGOUT)
 	public String logout(HttpServletRequest request) {
 
@@ -72,6 +100,13 @@ public class AuthenticationController {
 		return REDIR_LOGIN;
 	}
 
+
+    /**
+     * Displays the user registration page.
+     * 
+     * @param model The model used to pass data to the view.
+     * @return The name of the registration view.
+     */
 	@GetMapping(REGISTRATION)
 	public String createUser(Model model) {
 
@@ -79,7 +114,17 @@ public class AuthenticationController {
 		model.addAttribute("registrationForm", new RegistrationForm());
 		return USER_REGISTRATION;
 	}
-
+	
+    /**
+     * Creates a new user after validating the registration form.
+     * If there are errors in the form, the registration page is redisplayed.
+     * 
+     * @param registrationForm The form containing the registration details.
+     * @param result The result of form validation.
+     * @param redirAttrs Attributes used to pass messages between redirects.
+     * @return A redirect to the login page after successful registration.
+     * @throws Exception If an error occurs while creating the user.
+     */
 	@PostMapping(REGISTRATION)
 	public String createUser(@Valid @ModelAttribute RegistrationForm registrationForm, BindingResult result,
 			RedirectAttributes redirAttrs) throws Exception {

@@ -1,13 +1,19 @@
 package com.openclassrooms.payMyBuddy.exception;
 
+/**
+* Exception thrown when an error occurs during password encryption.
+*/
 public class PasswordEncryptionError extends Exception {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+ /** The constant {@code serialVersionUID}. */
+ private static final long serialVersionUID = 1L;
 
-	public PasswordEncryptionError(String message) {
-		super(message);
-	}
+ /**
+  * Creates a new exception with the specified error message.
+  * 
+  * @param message The error message.
+  */
+ public PasswordEncryptionError(String message) {
+     super(message);
+ }
 }

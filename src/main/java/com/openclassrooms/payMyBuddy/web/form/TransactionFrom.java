@@ -72,6 +72,7 @@ public class TransactionFrom {
 
 	/**
 	 * Constructor that initializes a TransactionFrom object from a {@link Transaction} instance.
+	 * @param transaction the {@link Transaction} object that provides data to initialize the TransactionFrom object.
 	 */
 	public TransactionFrom(Transaction transaction) {
 		this.senderId = transaction.getSender().getId();

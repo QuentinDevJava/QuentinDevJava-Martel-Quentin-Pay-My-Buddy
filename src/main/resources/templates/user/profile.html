@@ -8,7 +8,7 @@
 			th:replace="~{flashAttributeMessage :: flashAttributeMessage(currentMessage=${success} ,
 	alertType='success')}"></div>
 		<main>
-			<form method="get" th:object="${profilForm}" class="form-inline">
+			<form action="/user/updatePassword" method="get" th:object="${profilForm}" class="form-inline">
 				<div class="form-group">
 					<div class="form-row">
 						<label for="username">Username</label>
@@ -25,11 +25,10 @@
 						<input type="password" class="form-control" id="password"
 							placeholder="********" aria-label="Votre mot de passe" disabled>
 					</div>
-					<a href="/user/updatePassword"
-						class="btn btn-warning btn-block mt-3"
-						role="button"
-						title="Cliquez pour accéder à la page de modification du mot de passe"
-						aria-label="Cliquez pour accéder à la page de modification du mot de passe">Modifier</a>
+					<button type="submit" class="btn btn-warning btn-block mt-3"
+							title="Cliquez pour accéder à la page de modification du mot de passe"
+							aria-label="Cliquez pour accéder à la page de modification du mot de passe">Modifier</button>
+
 				</div>
 			</form>
 		</main>

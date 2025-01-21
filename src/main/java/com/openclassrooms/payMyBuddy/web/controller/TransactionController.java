@@ -29,18 +29,33 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-//TODO javadoc
 
+/**
+ * Controller responsible for managing transactions between users.
+ * Handles displaying the transaction page, creating new transactions, and providing error handling.
+ */
 @Controller
 @RequestMapping({ "/transaction", "", "/" })
 @Slf4j
 @RequiredArgsConstructor
 public class TransactionController {
 
+	/** The transaction service. */
 	private final TransactionService transactionService;
+	
+	/** The user service. */
 	private final UserService userService;
+	
+	/** The flash attribute. */
 	private final FlashMessageHandler flashAttribute;
 
+	  /**
+	  * Displays the transaction page, showing the current user's connections and past transactions.
+	  * 
+	  * @param model The model used to pass data to the view.
+	  * @param request The HTTP request containing the session information.
+	  * @return The name of the transaction view.
+	  */
 	@GetMapping
 	public String transaction(Model model, HttpServletRequest request) {
 		log.info("Loading the transaction page");
@@ -57,7 +72,17 @@ public class TransactionController {
 		model.addAttribute("userset", userSet);
 		return TRANSACTION;
 	}
-
+	
+    /**
+     * Handles the creation of a new transaction. If there are validation errors, the errors are shown; 
+     * otherwise, the transaction is saved and a success message is displayed.
+     * 
+     * @param request The HTTP request containing session information.
+     * @param transactionFrom The transaction form data submitted by the user.
+     * @param result The result of validation on the form data.
+     * @param redirAttrs Attributes used to pass messages between redirects.
+     * @return A redirect to the transaction page, with either an error or success message.
+     */
 	@PostMapping
 	public String createTransaction(HttpServletRequest request, @Valid @ModelAttribute TransactionFrom transactionFrom,
 			BindingResult result, RedirectAttributes redirAttrs) {

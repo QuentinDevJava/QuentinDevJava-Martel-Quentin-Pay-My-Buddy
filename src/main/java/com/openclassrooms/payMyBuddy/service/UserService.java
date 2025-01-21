@@ -43,7 +43,7 @@ import lombok.extern.slf4j.Slf4j;
  *   <li><b>{@link #getUserByEmailOrUsername} :</b> Retrieves a user by their email or username.</li>
  *   <li><b>{@link #identifierAndPasswordIsValide} :</b> Checks if the email (or username) and password are valid.</li>
  *   <li><b>{@link #validateAndUpdatePassword} :</b> Validates and updates the user's password.</li>
- *   <li><b>{@link #validateAndUpdateConnexion} :</b> Validates and adds a connection with another user.</li>
+ *   <li><b>{@link #addConnection} :</b> Validates and adds a connection with another user.</li>
  * </ul>
  */
 @Service
@@ -177,7 +177,7 @@ public class UserService {
 	}
 
 	/**
-	 * Validates and adds a connection with another user.
+	 * Adds a connection with another user.
 	 * 
 	 * @param email The email of the user who wants to add a connection.
 	 * @param connexionForm The details of the user to connect with.

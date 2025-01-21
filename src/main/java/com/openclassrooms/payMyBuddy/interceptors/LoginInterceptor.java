@@ -16,6 +16,15 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
 
+	   /**
+     * Pre-handle method to check if the user session exists. If not, redirects to the login page.
+     * 
+     * @param request the current HTTP request
+     * @param response the current HTTP response
+     * @param handler the handler to execute
+     * @return true if the user is authenticated, false otherwise (redirects to login page)
+     * @throws Exception if an error occurs during the process
+     */
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
@@ -32,6 +41,16 @@ public class LoginInterceptor implements HandlerInterceptor {
 		}
 	}
 
+    /**
+     * Post-handle method to check if the user session exists after handling the request.
+     * If the session is invalid, redirects to the login page.
+     * 
+     * @param request the current HTTP request
+     * @param response the current HTTP response
+     * @param handler the handler that was executed
+     * @param modelAndView the model and view to be rendered
+     * @throws Exception if an error occurs during the process
+     */
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			@Nullable ModelAndView modelAndView) throws Exception {

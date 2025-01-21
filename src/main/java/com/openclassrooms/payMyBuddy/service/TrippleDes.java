@@ -10,29 +10,53 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Value;
 
 import com.openclassrooms.payMyBuddy.exception.PasswordEncryptionError;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * The Class TrippleDes.
+ */
 @Slf4j
 public class TrippleDes {
 
-	// TODO javadoc ??
+	// TODO javadoc ou pas ??
+	
+	/** The Constant UNICODE_FORMAT. */
 	private static final Charset UNICODE_FORMAT = StandardCharsets.UTF_8;
+	
+	/** The Constant DESEDE_ENCRYPTION_SCHEME. */
 	public static final String DESEDE_ENCRYPTION_SCHEME = "DESede";
+	
+	/** The ks. */
 	private KeySpec ks;
+	
+	/** The skf. */
 	private SecretKeyFactory skf;
+	
+	/** The cipher. */
 	private Cipher cipher;
+	
+	/** The array bytes. */
 	byte[] arrayBytes;
-	@Value("${encryption.key}")
+	
+	/** The my encryption key. */
 	private String myEncryptionKey;
+	
+	/** The my encryption scheme. */
 	private String myEncryptionScheme;
+	
+	/** The key. */
 	SecretKey key;
 
+	/**
+	 * Instantiates a new tripple des.
+	 *
+	 * @throws PasswordEncryptionError the password encryption error
+	 */
 	public TrippleDes() throws PasswordEncryptionError {
-		myEncryptionKey = "ThisIsASecureKeyForProtectPassword";
+		myEncryptionKey = "ThisIsASecureKeyForProtectPassword"; 
 		myEncryptionScheme = DESEDE_ENCRYPTION_SCHEME;
 		arrayBytes = myEncryptionKey.getBytes(UNICODE_FORMAT);
 		try {
@@ -46,6 +70,12 @@ public class TrippleDes {
 		}
 	}
 
+	/**
+	 * Encrypt.
+	 *
+	 * @param unencryptedString the unencrypted string
+	 * @return the string
+	 */
 	public String encrypt(String unencryptedString) {
 		String encryptedString = null;
 		try {

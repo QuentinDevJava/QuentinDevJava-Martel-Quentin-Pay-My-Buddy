@@ -56,7 +56,6 @@ import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 		form2.setUsername("Test2");
 		form2.setEmail("Test2@test.fr");
 		form2.setPassword("Test1!78@");
-
 	}
 
 	@Test

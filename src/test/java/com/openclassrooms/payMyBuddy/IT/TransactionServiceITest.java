@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.openclassrooms.payMyBuddy.model.Transaction;
 import com.openclassrooms.payMyBuddy.model.User;
+import com.openclassrooms.payMyBuddy.repository.TransactionRepository;
+import com.openclassrooms.payMyBuddy.repository.UserRepository;
 import com.openclassrooms.payMyBuddy.service.TransactionService;
 
 @SpringBootTest
@@ -17,6 +19,10 @@ import com.openclassrooms.payMyBuddy.service.TransactionService;
 
 	@Autowired
 	private TransactionService transactionService;
+	@Autowired
+	private TransactionRepository transactionRepository;
+	@Autowired
+	private UserRepository userRepository;
 
 	@Test
 	 void testTransactionService() throws Exception {
@@ -40,6 +46,11 @@ import com.openclassrooms.payMyBuddy.service.TransactionService;
 		List<Transaction> transactions = transactionService.getTransactionsBySenderId(user.getId());
 
 		assertEquals("Test", transactions.get(0).getDescription());
-
+		 
+				transactionRepository.deleteById(transactions.get(0).getId());
+		
+				userRepository.deleteById(user.getId());
+				userRepository.deleteById(user2.getId());
+		
 	}
 }
