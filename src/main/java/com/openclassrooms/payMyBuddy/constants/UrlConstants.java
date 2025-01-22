@@ -26,6 +26,9 @@ public final class UrlConstants {
     /** The registration page URL. */
     public static final String REGISTRATION = "/registration";
     
+    /** Redirect URL for registration page. */
+    public static final String REDIR_REGISTRATION = "redirect:/registration";
+    
     /** The user registration page view. */
     public static final String USER_REGISTRATION = "user/registration";
 

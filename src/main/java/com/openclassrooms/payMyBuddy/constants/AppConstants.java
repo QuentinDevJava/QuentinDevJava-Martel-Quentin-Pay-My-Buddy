@@ -7,7 +7,7 @@ package com.openclassrooms.payMyBuddy.constants;
  */
 public final class AppConstants {
 
-    /** The session attribute for storing the username. */
+    /** The session attribute for storing the username or email. */
     public static final String SESSION_ATTRIBUTE = "username";
 
     /** The key for error messages. */

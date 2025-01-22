@@ -8,6 +8,9 @@
 		<main>
 			<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
 				<div class="card" style="width: 100%; max-width: 450px;">
+					<div
+						th:replace="~{flashAttributeMessage :: flashAttributeMessage(currentMessage=${error} ,
+					alertType='error')}"></div>
 					<div class="card-body">
 						<h4 class="card-title text-center" style="min-width: 200px;">Pay My Buddy</h4>
 

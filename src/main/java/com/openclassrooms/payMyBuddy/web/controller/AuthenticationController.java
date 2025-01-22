@@ -6,6 +6,7 @@ import static com.openclassrooms.payMyBuddy.constants.AppConstants.SESSION_ATTRI
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.LOGIN;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.LOGOUT;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_LOGIN;
+import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_REGISTRATION;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_TRANSACTION;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REGISTRATION;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_LOGIN;
@@ -138,10 +139,12 @@ public class AuthenticationController {
 		log.info("User successfully added: Username = {}, Email = {}", registrationForm.getUsername(),
 				registrationForm.getEmail());
 		flashAttribute.successMessage(redirAttrs, REGISTRATION_SUCCESS);
+		return REDIR_LOGIN;
+
 		}catch (Exception e) {
 			log.debug("User already exists : Username = {}, Email = {}", registrationForm.getUsername(), registrationForm.getEmail());
 			flashAttribute.errorMessage(redirAttrs, e.getMessage());
+			return REDIR_REGISTRATION ;
 		}
-		return REDIR_LOGIN;
 	}
 }

@@ -5,15 +5,19 @@ import static com.openclassrooms.payMyBuddy.constants.AppConstants.LOGIN_ERROR;
 import static com.openclassrooms.payMyBuddy.constants.AppConstants.REGISTRATION_SUCCESS;
 import static com.openclassrooms.payMyBuddy.constants.AppConstants.SESSION_ATTRIBUTE;
 import static com.openclassrooms.payMyBuddy.constants.AppConstants.SUCCESS;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.USERNAME_OR_EMAIL_IS_USE;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.LOGIN;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.LOGOUT;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_LOGIN;
+import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_REGISTRATION;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_TRANSACTION;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REGISTRATION;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_LOGIN;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_REGISTRATION;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -123,9 +127,20 @@ public class AuthenticationControllerITest {
 
 	@Test
 	public void testPostRegistrationError() throws Exception {
+		
+        doThrow(new IllegalArgumentException(USERNAME_OR_EMAIL_IS_USE))
+        .when(userService).addUser(any(RegistrationForm.class));
+        
+		mockMvc.perform(post(REGISTRATION).param("username", username).param("email", email).param("password", password))
+		.andExpect(flash().attribute(ERROR, USERNAME_OR_EMAIL_IS_USE))		
+		.andExpect(view().name(REDIR_REGISTRATION));
 
+	}
+	@Test
+	public void testPostRegistrationFormError() throws Exception {
+		
 		mockMvc.perform(post(REGISTRATION).param("username", username).param("email", email).param("password", "Test"))
-				.andExpect(view().name(USER_REGISTRATION));
+		.andExpect(view().name(USER_REGISTRATION));
 	}
 
 }
