@@ -48,7 +48,7 @@ The key relationships between the tables are outlined below:
 
 2. **pbm_user ↔ pbm_user_connections**: Many-to-many relationship (M:N)
    - A user can connect with multiple other users, and vice versa.
-   - The `User_Connections` table represents this relationship, where each entry contains a pair of `user_id` and `connection_id` referencing the `User.id`.
+   - The `pbm_user_Connections` table represents this relationship, where each entry contains a pair of `user_id` and `connection_id` referencing the `User.id`.
 
 ### **Foreign Keys and Integrity Constraints**
 - The foreign keys ensure referential integrity between the tables:
