@@ -37,11 +37,11 @@ public final class AppConstants {
     /** Message when a user has already been added. */
     public static final String USER_ALREADY_ADDED = "Utilisateur déjà ajouté.";
 
-    /** Message when the registration fails due to incorrect username or password. */
-    public static final String REGISTRATION_SUCCESS = "Identifiant ou mot de passe incorrecte.";
+    /** Message  when there is a login error due to incorrect username or password. */
+    public static final String LOGIN_ERROR  = "Identifiant ou mot de passe incorrecte.";
 
-    /** Message when there is a login error. */
-    public static final String LOGIN_ERROR = "Votre compte utilisateur a été créé avec succès.";
+    /** Message when the registration success. */
+    public static final String REGISTRATION_SUCCESS = "Votre compte utilisateur a été créé avec succès.";
 
     /** Private constructor to prevent instantiation. */
     private AppConstants() {

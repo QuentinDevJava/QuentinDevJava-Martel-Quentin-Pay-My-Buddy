@@ -84,7 +84,7 @@ public class UserService {
 	*/
 	public void addUser(RegistrationForm registrationForm) throws IllegalArgumentException, PasswordEncryptionError {
 		if (userExistsByEmail(registrationForm.getEmail()) || userExistsByUsername(registrationForm.getUsername())) {
-			log.warn("User already exists with email or username: {}", registrationForm.getEmail());
+			log.warn("User already exists : Username = {}, Email = {}", registrationForm.getUsername(), registrationForm.getEmail());
 			throw new IllegalArgumentException(USERNAME_OR_EMAIL_IS_USE);
 		}
 		User user = new User(registrationForm);

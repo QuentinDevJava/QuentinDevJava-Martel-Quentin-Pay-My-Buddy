@@ -133,10 +133,15 @@ public class AuthenticationController {
 			log.debug("Invalid form");
 			return USER_REGISTRATION;
 		}
+		try {
 		userService.addUser(registrationForm);
 		log.info("User successfully added: Username = {}, Email = {}", registrationForm.getUsername(),
 				registrationForm.getEmail());
 		flashAttribute.successMessage(redirAttrs, REGISTRATION_SUCCESS);
+		}catch (Exception e) {
+			log.debug("User already exists : Username = {}, Email = {}", registrationForm.getUsername(), registrationForm.getEmail());
+			flashAttribute.errorMessage(redirAttrs, e.getMessage());
+		}
 		return REDIR_LOGIN;
 	}
 }
