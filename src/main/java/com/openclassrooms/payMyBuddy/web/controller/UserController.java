@@ -84,7 +84,7 @@ public class UserController {
      * @return The password update view page.
      */
 	@GetMapping(UPDATE_PASSWORD)
-	public String updatePassword(Model model, HttpServletRequest request) {
+	public String updatePasswordForm(Model model, HttpServletRequest request) {
 
 		log.info("Loading the password page");
 		model.addAttribute("passwordForm", new PasswordForm());
@@ -134,7 +134,7 @@ public class UserController {
      * @return The connection page view.
      */
 	@GetMapping(CONNECTION)
-	public String connexion(HttpServletRequest request, Model model) {
+	public String connexionForm(HttpServletRequest request, Model model) {
 
 		log.info("Loading the connexion page");
 		model.addAttribute("connexionForm", new ConnexionForm());

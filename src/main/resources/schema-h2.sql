@@ -38,6 +38,12 @@ FOREIGN KEY (sender_id)
 REFERENCES pmb_user (id)
 ON DELETE CASCADE;
 
+ALTER TABLE pmb_transaction
+ADD CONSTRAINT "transaction_receiver_id_user_id"
+FOREIGN KEY (receiver_id)
+REFERENCES pmb_user (id)
+ON DELETE CASCADE;
+
 ALTER TABLE pmb_user_connections
 ADD CONSTRAINT "user_connections_user_id_fk"
 FOREIGN KEY (user_id)

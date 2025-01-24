@@ -57,7 +57,7 @@ public class TransactionController {
 	  * @return The name of the transaction view.
 	  */
 	@GetMapping
-	public String transaction(Model model, HttpServletRequest request) {
+	public String transactionForm(Model model, HttpServletRequest request) {
 		log.info("Loading the transaction page");
 		HttpSession session = request.getSession();
 		User user = userService.getUserByEmail(session.getAttribute(SESSION_ATTRIBUTE).toString());

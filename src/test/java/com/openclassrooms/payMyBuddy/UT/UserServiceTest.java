@@ -30,6 +30,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.openclassrooms.payMyBuddy.model.User;
 import com.openclassrooms.payMyBuddy.repository.UserRepository;
+import com.openclassrooms.payMyBuddy.service.PasswordEncoder;
 import com.openclassrooms.payMyBuddy.service.UserService;
 import com.openclassrooms.payMyBuddy.web.form.ConnexionForm;
 import com.openclassrooms.payMyBuddy.web.form.PasswordForm;
@@ -40,10 +41,13 @@ import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 
 	@Mock
 	UserRepository userRepository;
+	
+	@Mock
+	PasswordEncoder passwordEncoder;
 
 	@InjectMocks
 	UserService userService;
-
+	
 	@Test
 	 void testGetUserById() {
 		userService.getUserById(1);
@@ -52,12 +56,14 @@ import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 
 	@Test
 	 void testGetUserByEmailOrUsername() {
+		
 		userService.getUserByEmailOrUsername("test@test.fr", "Test");
 		verify(userRepository, times(1)).findByEmailOrUsername(anyString(), anyString());
 	}
 
 	@Test
-	 void testidentifierIsValide() throws Exception {
+	 void testidentifierIsValide() {
+        when(passwordEncoder.encrypt("Test1!78")).thenReturn("encryptedPassword");
 		userService.identifierAndPasswordIsValide("test@test.fr", "Test1!78");
 		verify(userRepository, times(1)).existsByEmailAndPasswordOrUsernameAndPassword(anyString(), anyString(),
 				anyString(), anyString());
@@ -163,7 +169,8 @@ import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 
 		User mockUser = new User();
 		mockUser.setEmail(email);
-		mockUser.setPassword("wrongOldPassword!1");
+		mockUser.setPassword(passwordEncoder.encrypt("wrongOldPassword!1"));
+		
 
 		when(userRepository.findByEmail(email)).thenReturn(Optional.of(mockUser));
 
@@ -183,7 +190,7 @@ import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 
 		User mockUser = new User();
 		mockUser.setEmail(email);
-		mockUser.setPassword("wrongOldPassword!1");
+		mockUser.setPassword(passwordEncoder.encrypt("wrongOldPassword!1"));
 
 		when(userRepository.findByEmail(email)).thenReturn(Optional.of(mockUser));
 

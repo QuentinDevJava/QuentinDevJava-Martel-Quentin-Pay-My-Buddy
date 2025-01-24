@@ -54,7 +54,7 @@ public class AuthenticationController {
      * @return The name of the login view.
      */
 	@GetMapping(LOGIN)
-	public String login(Model model) {
+	public String loginForm(Model model) {
 
 		log.info("Loading the login page");
 		model.addAttribute("loginForm", new LoginForm());
@@ -109,7 +109,7 @@ public class AuthenticationController {
      * @return The name of the registration view.
      */
 	@GetMapping(REGISTRATION)
-	public String createUser(Model model) {
+	public String registrationForm(Model model) {
 
 		log.info("Loading the registration page");
 		model.addAttribute("registrationForm", new RegistrationForm());

@@ -52,7 +52,9 @@ import lombok.extern.slf4j.Slf4j;
 public class UserService {
 
 	private final UserRepository userRepository;
-
+	
+	private final PasswordEncoder passwordEncoder;
+	
 	/**
 	 * Retrieves a user by their ID.
 	 * 
@@ -88,7 +90,7 @@ public class UserService {
 			throw new IllegalArgumentException(USERNAME_OR_EMAIL_IS_USE);
 		}
 		User user = new User(registrationForm);
-		user.setPassword(registrationForm.getPassword());
+		user.setPassword(passwordEncoder.encrypt(registrationForm.getPassword()));
 		saveUser(user);
 	}
 
@@ -141,10 +143,9 @@ public class UserService {
 	 * @return true if the email (or username) and password are valid, false otherwise.
 	 * @throws Exception If an error occurs during the validation.
 	 */
-	public boolean identifierAndPasswordIsValide(String identifier, String password) throws PasswordEncryptionError {
-		TrippleDes td = new TrippleDes();
-		return userRepository.existsByEmailAndPasswordOrUsernameAndPassword(identifier, td.encrypt(password),
-				identifier, td.encrypt(password));
+	public boolean identifierAndPasswordIsValide(String identifier, String password) {
+		return userRepository.existsByEmailAndPasswordOrUsernameAndPassword(identifier, passwordEncoder.encrypt(password),
+				identifier,passwordEncoder.encrypt(password));
 	}
 
 	/**
@@ -157,11 +158,10 @@ public class UserService {
 	*/
 	public Map<String, String> validateAndUpdatePassword(String email, PasswordForm passwordForm) throws Exception {
 		Map<String, String> response = new HashMap<>();
-		TrippleDes td = new TrippleDes();
 		User user = getUserByEmail(email);
-		if (Objects.equals(td.encrypt(passwordForm.getOldPassword()), user.getPassword())) {
+		if (Objects.equals(passwordEncoder.encrypt(passwordForm.getOldPassword()), user.getPassword())) {
 			if (Objects.equals(passwordForm.getPasswordConfirmation(), passwordForm.getPassword())) {
-				user.setPassword(passwordForm.getPassword());
+				user.setPassword(passwordEncoder.encrypt(passwordForm.getPassword()));
 				saveUser(user);
 				log.info("Password updated");
 				response.put(SUCCESS, PASSWORD_SUCCESS);

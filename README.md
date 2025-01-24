@@ -77,10 +77,44 @@ The following constraints have been applied to the database to maintain data int
    - In the **pbm_transaction** table, both `sender_id` and `receiver_id` are foreign keys referring to the **pbm_user** table.
    - The **pbm_user_connections** table contains foreign keys, `user_id` and `connection_id`, both referring to `User.id`.
 
-## **Development Setup**
+## **Setup**
 
-To run the application in a local environment, follow the steps below:
+## Running the Application Locally
 
+To run the application locally, you need to activate the `local` profile. The application uses two separate configuration files: `application-local.properties` and `application-prod.properties`.
+
+### Steps:
+
+1. **Activate the Local Profile**:
+   When starting the application, make sure to use the `local` profile to configure the application in development mode. This profile will create and use the H2 database.
+
+2. **Start the Application**:
+   You can start the application with the `local` profile by running the following command:
+
+   ```bash
+   java -Dspring.profiles.active=local -jar your-application-name.jar
+
+
+## Running the Application in Production
 
 To run the application in a production environment, follow the steps below:
 
+### Database Configuration
+
+1. **Create the Database**  
+   Before starting the application, ensure that a MySQL database named `paymybuddy` is created.
+
+2. **Set Environment Variables**  
+   You need to configure two environment variables on your machine to provide the database connection credentials:
+   - `DB_USERNAME`: The username for the database.
+   - `DB_PASSWORD`: The password associated with the username.
+
+3. **Start the Application**  
+   After the database is created and the environment variables are set, you can start the application. Spring Boot will automatically read these variables to establish the database connection and run the application properly.
+
+---
+
+To run the application with the production configuration, make sure to activate the `prod` profile. You can do this by running the following command:
+
+```bash
+java -Dspring.profiles.active=prod -jar your-application-name.jar

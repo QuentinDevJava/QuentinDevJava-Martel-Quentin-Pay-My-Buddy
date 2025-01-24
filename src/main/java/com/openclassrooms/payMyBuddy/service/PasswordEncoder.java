@@ -10,18 +10,16 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.stereotype.Component;
 
 import com.openclassrooms.payMyBuddy.exception.PasswordEncryptionError;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
- * The Class TrippleDes.
+ * The Class PasswordEncoder.
  */
-@Slf4j
-public class TrippleDes {
-
-	// TODO javadoc ou pas ??
+//TODO a verifier et javadoc a faire 
+@Component
+public class PasswordEncoder {
 	
 	/** The Constant UNICODE_FORMAT. */
 	private static final Charset UNICODE_FORMAT = StandardCharsets.UTF_8;
@@ -51,11 +49,11 @@ public class TrippleDes {
 	SecretKey key;
 
 	/**
-	 * Instantiates a new tripple des.
+	 * Instantiates a PasswordEncoder .
 	 *
 	 * @throws PasswordEncryptionError the password encryption error
 	 */
-	public TrippleDes() throws PasswordEncryptionError {
+	public PasswordEncoder() throws PasswordEncryptionError {
 		myEncryptionKey = "ThisIsASecureKeyForProtectPassword"; 
 		myEncryptionScheme = DESEDE_ENCRYPTION_SCHEME;
 		arrayBytes = myEncryptionKey.getBytes(UNICODE_FORMAT);

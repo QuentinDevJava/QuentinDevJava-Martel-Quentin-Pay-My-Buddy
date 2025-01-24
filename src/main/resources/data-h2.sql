@@ -28,8 +28,6 @@ WHERE NOT EXISTS (
 -- --------------------------------------------------------
 INSERT INTO `pmb_user_connections` (`user_id`, `connection_id`)
 SELECT * FROM (SELECT 1, 2 UNION ALL
-               SELECT 1, 3 UNION ALL
-               SELECT 2, 1 UNION ALL
                SELECT 2, 3 UNION ALL
                SELECT 3, 1 UNION ALL
                SELECT 3, 2) AS v
