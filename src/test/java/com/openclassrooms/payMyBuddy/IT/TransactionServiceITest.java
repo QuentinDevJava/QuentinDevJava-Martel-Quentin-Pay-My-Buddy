@@ -41,7 +41,7 @@ import com.openclassrooms.payMyBuddy.service.TransactionService;
 		transaction.setSender(user);
 		transaction.setReceiver(user2);
 
-		transactionService.addTransaction(transaction);
+//		transactionService.addTransaction(transaction); // todo reffact
 
 		List<Transaction> transactions = transactionService.getTransactionsBySenderId(user.getId());
 

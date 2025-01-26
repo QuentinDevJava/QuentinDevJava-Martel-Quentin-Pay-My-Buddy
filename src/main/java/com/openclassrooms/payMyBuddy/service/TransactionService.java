@@ -1,15 +1,15 @@
 package com.openclassrooms.payMyBuddy.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.openclassrooms.payMyBuddy.model.Transaction;
+import com.openclassrooms.payMyBuddy.model.User;
 import com.openclassrooms.payMyBuddy.repository.TransactionRepository;
-
+import com.openclassrooms.payMyBuddy.web.form.TransactionFrom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Service for managing transactions.
@@ -29,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class TransactionService {
 
 	private final TransactionRepository transactionRepository;
+	private final UserService userService;
 
 	/**
 	 * Retrieves all transactions sent by a user based on their ID.
@@ -42,12 +43,22 @@ public class TransactionService {
 		return senderTransaction;
 	}
 
-	/**
-	 * Adds a new transaction to the database.
-	 * 
-	 * @param transaction The transaction to add.
-	 */
-	public void addTransaction(Transaction transaction) {
-		transactionRepository.save(transaction);
+
+	public Transaction addTransaction(TransactionFrom transactionForm, String identifier) {
+		User user = userService.getUserByEmailOrUsername(identifier);
+		Transaction transaction = buildTransaction(transactionForm, user);
+		Transaction createdTransaction = transactionRepository.save(transaction);
+		log.info("Transaction successfully added");
+		return createdTransaction;
+	}
+
+	private Transaction buildTransaction(TransactionFrom transactionForm, User user) {
+		User receiver = userService.getUserById(transactionForm.getReceiverId());
+		Transaction transaction = new Transaction();
+		transaction.setSender(user);
+		transaction.setReceiver(receiver);
+		transaction.setDescription(transactionForm.getDescription());
+		transaction.setAmount(transactionForm.getAmount());
+		return transaction;
 	}
 }

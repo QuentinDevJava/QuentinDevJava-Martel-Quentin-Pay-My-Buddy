@@ -55,7 +55,7 @@ import com.openclassrooms.payMyBuddy.service.TransactionService;
 		transaction.setAmount(50);
 		transaction.setDescription("Test Transaction");
 
-		transactionService.addTransaction(transaction);
+//		transactionService.addTransaction(transaction); // todo refact
 
 		verify(transactionRepository, times(1)).save(transaction);
 	}

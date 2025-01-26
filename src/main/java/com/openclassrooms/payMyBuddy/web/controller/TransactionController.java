@@ -78,13 +78,13 @@ public class TransactionController {
      * otherwise, the transaction is saved and a success message is displayed.
      * 
      * @param request The HTTP request containing session information.
-     * @param transactionFrom The transaction form data submitted by the user.
+     * @param transactionForm The transaction form data submitted by the user.
      * @param result The result of validation on the form data.
      * @param redirAttrs Attributes used to pass messages between redirects.
      * @return A redirect to the transaction page, with either an error or success message.
      */
 	@PostMapping
-	public String createTransaction(HttpServletRequest request, @Valid @ModelAttribute TransactionFrom transactionFrom,
+	public String createTransaction(HttpServletRequest request, @Valid @ModelAttribute TransactionFrom transactionForm,
 			BindingResult result, RedirectAttributes redirAttrs) {
 
 		StringBuilder builder = new StringBuilder();
@@ -97,15 +97,8 @@ public class TransactionController {
 			flashAttribute.errorMessage(redirAttrs, builder.toString());
 		} else {
 			HttpSession session = request.getSession();
-			int userId = userService.getUserByEmailOrUsername(session.getAttribute(SESSION_ATTRIBUTE).toString()).getId();
-
-			Transaction transaction = new Transaction();
-			transaction.setReceiver(userService.getUserById(transactionFrom.getReceiverId()));
-			transaction.setSender(userService.getUserById(userId));
-			transaction.setDescription(transactionFrom.getDescription());
-			transaction.setAmount(transactionFrom.getAmount());
-			transactionService.addTransaction(transaction);
-			log.info("Transaction successfully added");
+			String identifier = session.getAttribute(SESSION_ATTRIBUTE).toString();
+			Transaction transaction = transactionService.addTransaction(transactionForm, identifier);
 			flashAttribute.successMessage(redirAttrs,
 					"Le transfert vers " + transaction.getReceiver().getUsername() + " a été effectué avec succès.");
 		}
