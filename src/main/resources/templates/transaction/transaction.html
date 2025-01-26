@@ -19,7 +19,7 @@
 						id="relation"
 						th:field="*{receiverId}">
 						<option value="0" th:text="'Sélectionner une relation'" selected disabled></option>
-						<option th:each="u : ${userset}"
+						<option th:each="u : ${connections}"
 							th:value="${u.id}"
 							th:text="${u.email}"></option>
 					</select>
@@ -64,7 +64,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="t : ${ListoftransactionFrom}">
+							<tr th:each="t : ${listOfTransactionForm}">
 								<td style="text-align: left;" th:text="${t.receiverUsername}"></td>
 								<td style="text-align: center;" th:text="${t.description}"></td>
 								<td style="text-align: right;" th:text="${t.amount} +' €'"></td>

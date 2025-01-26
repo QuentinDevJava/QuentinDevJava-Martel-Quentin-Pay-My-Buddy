@@ -10,7 +10,7 @@ import static com.openclassrooms.payMyBuddy.constants.AppConstants.UNKNOW_USER;
 import static com.openclassrooms.payMyBuddy.constants.AppConstants.USER_ALREADY_ADDED;
 import static com.openclassrooms.payMyBuddy.constants.AppConstants.USER_CANNOT_CONNECT_TO_THEMSELF;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.CONNECTION_CONNECTION;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_TRANSACTION;
+import static com.openclassrooms.payMyBuddy.constants.UrlConstants.TRANSACTION_PAGE;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_USER_CONNECTION;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_USER_PROFIL;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_USER_UPDATE_PASSWORD;
@@ -158,7 +158,7 @@ import com.openclassrooms.payMyBuddy.web.form.PasswordForm;
 
 		mockMvc.perform(post("/user/connexion").session(mockSession).param("email", email)).andDo(print())
 				.andExpect(flash().attribute(SUCCESS, response.get(SUCCESS))).andExpect(status().isFound())
-				.andExpect(view().name(REDIR_TRANSACTION));
+				.andExpect(view().name(TRANSACTION_PAGE));
 	}
 
 	@Test

@@ -1,7 +1,7 @@
 package com.openclassrooms.payMyBuddy.web.controller;
 
 import static com.openclassrooms.payMyBuddy.constants.AppConstants.SESSION_ATTRIBUTE;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_TRANSACTION;
+import static com.openclassrooms.payMyBuddy.constants.UrlConstants.TRANSACTION_PAGE;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.TRANSACTION;
 
 import java.util.List;
@@ -57,19 +57,19 @@ public class TransactionController {
 	  * @return The name of the transaction view.
 	  */
 	@GetMapping
-	public String transactionForm(Model model, HttpServletRequest request) {
+	public String listAndDisplayTransactionsForm(Model model, HttpServletRequest request) {
 		log.info("Loading the transaction page");
 		HttpSession session = request.getSession();
 		User user = userService.getUserByEmail(session.getAttribute(SESSION_ATTRIBUTE).toString());
-		Set<User> userSet = user.getConnections();
+		Set<User> connections = user.getConnections();
 
-		TransactionFrom transactionFrom = new TransactionFrom();
+		TransactionFrom transactionForm = new TransactionFrom();
 		List<Transaction> transactions = transactionService.getTransactionsBySenderId(user.getId());
-		List<TransactionFrom> transactionFroms = transactions.stream().map(TransactionFrom::new).toList();
+		List<TransactionFrom> listOfTransactionForm = transactions.stream().map(TransactionFrom::new).toList();
 
-		model.addAttribute("transactionFrom", transactionFrom);
-		model.addAttribute("ListoftransactionFrom", transactionFroms);
-		model.addAttribute("userset", userSet);
+		model.addAttribute("transactionFrom", transactionForm);
+		model.addAttribute("listOfTransactionForm", listOfTransactionForm);
+		model.addAttribute("connections", connections);
 		return TRANSACTION;
 	}
 	
@@ -93,7 +93,7 @@ public class TransactionController {
 			for (FieldError error : result.getFieldErrors()) {
 				builder.append(error.getDefaultMessage()).append("<br>");
 			}
-			log.debug("Transaction error : {}", builder.toString());
+			log.debug("Transaction error : {}", builder);
 			flashAttribute.errorMessage(redirAttrs, builder.toString());
 		} else {
 			HttpSession session = request.getSession();
@@ -109,6 +109,6 @@ public class TransactionController {
 			flashAttribute.successMessage(redirAttrs,
 					"Le transfert vers " + transaction.getReceiver().getUsername() + " a été effectué avec succès.");
 		}
-		return REDIR_TRANSACTION;
+		return TRANSACTION_PAGE;
 	}
 }

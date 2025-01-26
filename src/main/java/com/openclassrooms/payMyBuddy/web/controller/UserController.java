@@ -5,7 +5,7 @@ import static com.openclassrooms.payMyBuddy.constants.AppConstants.SUCCESS;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.CONNECTION;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.CONNECTION_CONNECTION;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.PROFIL;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_TRANSACTION;
+import static com.openclassrooms.payMyBuddy.constants.UrlConstants.TRANSACTION_PAGE;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_USER_CONNECTION;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_USER_PROFIL;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_USER_UPDATE_PASSWORD;
@@ -106,12 +106,13 @@ public class UserController {
 	@PostMapping(UPDATE_PASSWORD)
 	public String updatePassword(HttpServletRequest request, @Valid @ModelAttribute PasswordForm passwordForm,
 			BindingResult result, RedirectAttributes redirAttrs) throws Exception {
-		HttpSession session = request.getSession();
 
 		if (result.hasErrors()) {
 			log.debug("Invalid password change form.");
 			return USER_PASSWORD;
 		}
+
+		HttpSession session = request.getSession();
 		Map<String, String> response = userService.validateAndUpdatePassword(
 				session.getAttribute(AppConstants.SESSION_ATTRIBUTE).toString(), passwordForm);
 
@@ -164,7 +165,7 @@ public class UserController {
 		if (response.containsKey(SUCCESS)) {
 			log.info("Connection success : {}", response.get(SUCCESS));
 			flashAttribute.successMessage(redirAttrs, response.get(SUCCESS));
-			return REDIR_TRANSACTION;
+			return TRANSACTION_PAGE;
 		} else {
 			log.debug("Connection error : {}", response.get(ERROR));
 			flashAttribute.errorMessage(redirAttrs, response.get(ERROR));

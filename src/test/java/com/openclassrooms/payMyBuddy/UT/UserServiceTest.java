@@ -64,7 +64,7 @@ import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 	@Test
 	 void testidentifierIsValide() {
         when(passwordEncoder.encrypt("Test1!78")).thenReturn("encryptedPassword");
-		userService.identifierAndPasswordIsValide("test@test.fr", "Test1!78");
+		userService.isValidCredentials("test@test.fr", "Test1!78");
 		verify(userRepository, times(1)).existsByEmailAndPasswordOrUsernameAndPassword(anyString(), anyString(),
 				anyString(), anyString());
 	}

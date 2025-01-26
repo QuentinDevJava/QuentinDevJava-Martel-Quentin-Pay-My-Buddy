@@ -36,7 +36,7 @@ public final class UrlConstants {
     public static final String TRANSACTION = "transaction/transaction";
     
     /** Redirect URL for transactions. */
-    public static final String REDIR_TRANSACTION = "redirect:/transaction";
+    public static final String TRANSACTION_PAGE = "redirect:/transaction";
 
     /** The user management URL. */
     public static final String USER = "/user";

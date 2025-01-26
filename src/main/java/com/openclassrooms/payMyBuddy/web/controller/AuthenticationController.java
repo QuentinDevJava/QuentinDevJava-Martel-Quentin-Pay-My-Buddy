@@ -7,7 +7,7 @@ import static com.openclassrooms.payMyBuddy.constants.UrlConstants.LOGIN;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.LOGOUT;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_LOGIN;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_REGISTRATION;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_TRANSACTION;
+import static com.openclassrooms.payMyBuddy.constants.UrlConstants.TRANSACTION_PAGE;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REGISTRATION;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_LOGIN;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_REGISTRATION;
@@ -69,13 +69,11 @@ public class AuthenticationController {
      * @param redirAttrs Attributes used to pass messages between redirects.
      * @param session The HTTP session of the user.
      * @return A redirect to the transaction page or back to the login page if an error occurs.
-     * @throws Exception If an error occurs during authentication.
      */
 	@PostMapping(LOGIN)
-	public String authentication(@Valid @ModelAttribute LoginForm loginForm, RedirectAttributes redirAttrs,
-			HttpSession session) throws Exception {
+	public String authentication(@Valid @ModelAttribute LoginForm loginForm, RedirectAttributes redirAttrs, HttpSession session) {
 
-		if (!userService.identifierAndPasswordIsValide(loginForm.getIdentifier(), loginForm.getPassword())) {
+		if (!userService.isValidCredentials(loginForm.getIdentifier(), loginForm.getPassword())) {
 			log.debug("Login error : {}", LOGIN_ERROR);
 			flashAttribute.errorMessage(redirAttrs, LOGIN_ERROR);
 			return REDIR_LOGIN;
@@ -83,7 +81,7 @@ public class AuthenticationController {
 		User user = userService.getUserByEmailOrUsername(loginForm.getIdentifier(), loginForm.getIdentifier());
 		session.setAttribute(SESSION_ATTRIBUTE, user.getEmail());
 		log.info("User authenticated successfully: {}", loginForm.getIdentifier());
-		return REDIR_TRANSACTION;
+		return TRANSACTION_PAGE;
 	}
 	
     /**
@@ -124,11 +122,9 @@ public class AuthenticationController {
      * @param result The result of form validation.
      * @param redirAttrs Attributes used to pass messages between redirects.
      * @return A redirect to the login page after successful registration.
-     * @throws Exception If an error occurs while creating the user.
      */
 	@PostMapping(REGISTRATION)
-	public String createUser(@Valid @ModelAttribute RegistrationForm registrationForm, BindingResult result,
-			RedirectAttributes redirAttrs) throws Exception {
+	public String createUser(@Valid @ModelAttribute RegistrationForm registrationForm, BindingResult result, RedirectAttributes redirAttrs) {
 
 		if (result.hasErrors()) {
 			log.debug("Invalid form");

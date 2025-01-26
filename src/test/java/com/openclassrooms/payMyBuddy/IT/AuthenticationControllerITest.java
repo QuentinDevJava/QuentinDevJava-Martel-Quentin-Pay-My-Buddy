@@ -10,7 +10,7 @@ import static com.openclassrooms.payMyBuddy.constants.UrlConstants.LOGIN;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.LOGOUT;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_LOGIN;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_REGISTRATION;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_TRANSACTION;
+import static com.openclassrooms.payMyBuddy.constants.UrlConstants.TRANSACTION_PAGE;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REGISTRATION;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_LOGIN;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_REGISTRATION;
@@ -80,10 +80,10 @@ public class AuthenticationControllerITest {
 	public void testPostLogin() throws Exception {
 
 		when(userService.getUserByEmailOrUsername(email, email)).thenReturn(mockUser);
-		when(userService.identifierAndPasswordIsValide(anyString(), anyString())).thenReturn(true);
+		when(userService.isValidCredentials(anyString(), anyString())).thenReturn(true);
 
 		mockMvc.perform(post(LOGIN).param("identifier", email).param("password", password))
-				.andExpect(view().name(REDIR_TRANSACTION));
+				.andExpect(view().name(TRANSACTION_PAGE));
 	}
 
 	@Test
@@ -97,7 +97,7 @@ public class AuthenticationControllerITest {
 	public void testPostLoginErrorPassword() throws Exception {
 
 		when(userService.getUserByEmailOrUsername(email, email)).thenReturn(mockUser);
-		when(userService.identifierAndPasswordIsValide(anyString(), anyString())).thenReturn(false);
+		when(userService.isValidCredentials(anyString(), anyString())).thenReturn(false);
 
 		mockMvc.perform(post(LOGIN).param("identifier", email).param("password", password))
 				.andExpect(flash().attribute(ERROR, LOGIN_ERROR)).andExpect(view().name(REDIR_LOGIN));

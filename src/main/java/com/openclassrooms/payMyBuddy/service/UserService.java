@@ -41,7 +41,7 @@ import lombok.extern.slf4j.Slf4j;
  *   <li><b>{@link #userExistsByEmail} :</b> Checks if a user exists with the given email.</li>
  *   <li><b>{@link #userExistsByUsername} :</b> Checks if a user exists with the given username.</li>
  *   <li><b>{@link #getUserByEmailOrUsername} :</b> Retrieves a user by their email or username.</li>
- *   <li><b>{@link #identifierAndPasswordIsValide} :</b> Checks if the email (or username) and password are valid.</li>
+ *   <li><b>{@link #isValidCredentials} :</b> Checks if the email (or username) and password are valid.</li>
  *   <li><b>{@link #validateAndUpdatePassword} :</b> Validates and updates the user's password.</li>
  *   <li><b>{@link #addConnection} :</b> Validates and adds a connection with another user.</li>
  * </ul>
@@ -82,9 +82,8 @@ public class UserService {
 	* 
 	* @param registrationForm The registration details of the user.
 	* @throws IllegalArgumentException If a user with the same email or username already exists.
-	* @throws PasswordEncryptionError If an error occurs during password encryption.
-	*/
-	public void addUser(RegistrationForm registrationForm) throws IllegalArgumentException, PasswordEncryptionError {
+     */
+	public void addUser(RegistrationForm registrationForm) throws IllegalArgumentException {
 		if (userExistsByEmail(registrationForm.getEmail()) || userExistsByUsername(registrationForm.getUsername())) {
 			log.warn("User already exists : Username = {}, Email = {}", registrationForm.getUsername(), registrationForm.getEmail());
 			throw new IllegalArgumentException(USERNAME_OR_EMAIL_IS_USE);
@@ -143,7 +142,7 @@ public class UserService {
 	 * @return true if the email (or username) and password are valid, false otherwise.
 	 * @throws Exception If an error occurs during the validation.
 	 */
-	public boolean identifierAndPasswordIsValide(String identifier, String password) {
+	public boolean isValidCredentials(String identifier, String password) {
 		return userRepository.existsByEmailAndPasswordOrUsernameAndPassword(identifier, passwordEncoder.encrypt(password),
 				identifier,passwordEncoder.encrypt(password));
 	}

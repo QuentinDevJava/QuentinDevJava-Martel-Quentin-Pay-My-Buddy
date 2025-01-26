@@ -74,8 +74,8 @@ import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 
 		assertTrue(userService.userExistsByEmail(foundUser.getEmail()));
 		assertTrue(userService.userExistsByUsername(foundUser.getUsername()));
-		assertTrue(userService.identifierAndPasswordIsValide(foundUser.getEmail(), "Test1!78"));
-		assertTrue(userService.identifierAndPasswordIsValide(foundUser.getUsername(), "Test1!78"));
+		assertTrue(userService.isValidCredentials(foundUser.getEmail(), "Test1!78"));
+		assertTrue(userService.isValidCredentials(foundUser.getUsername(), "Test1!78"));
 
 		assertThrows(IllegalArgumentException.class, () -> {
 			userService.addUser(form);
