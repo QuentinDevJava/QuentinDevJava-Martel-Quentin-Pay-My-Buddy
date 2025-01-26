@@ -81,16 +81,6 @@ public class AuthenticationController {
 		log.debug("Login error : {}", LOGIN_ERROR);
 		flashAttribute.errorMessage(redirAttrs, LOGIN_ERROR);
 		return REDIR_LOGIN;
-//
-//		if (!userService.isValidCredentials(loginForm.getIdentifier(), loginForm.getPassword())) {
-//
-//		}
-//		// TODO
-//		User user = userService.getByUsernameOrEmail(loginForm.getIdentifier()); // identifier can be username or email
-//		if (user == null) {
-//			log.info("User not found ");
-//		}
-////		User user = userService.getUserByEmailOrUsername(loginForm.getIdentifier(), loginForm.getIdentifier());
 	}
 	
     /**
