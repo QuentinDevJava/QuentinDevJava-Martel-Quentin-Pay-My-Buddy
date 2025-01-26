@@ -11,7 +11,7 @@
 			<div th:replace="~{flashAttributeMessage :: flashAttributeMessage(currentMessage=${success} ,
 				alertType='success')}"></div>
 
-			<form method="post" th:object="${transactionFrom}" class="form-inline">
+			<form method="post" th:object="${transactionForm}" class="form-inline">
 				<div class=" relation">
 					<select title="Selectionnez une relation"
 						aria-label="Selectionnez une relation"

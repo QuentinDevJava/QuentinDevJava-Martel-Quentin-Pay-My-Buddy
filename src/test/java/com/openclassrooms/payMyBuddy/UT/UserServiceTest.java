@@ -58,15 +58,14 @@ import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 	 void testGetUserByEmailOrUsername() {
 		
 		userService.getUserByEmailOrUsername("test@test.fr");
-		verify(userRepository, times(1)).findByEmailOrUsername(anyString(), anyString());
+		verify(userRepository, times(1)).byUsernameOrEmail(anyString());
 	}
 
 	@Test
 	 void testidentifierIsValide() {
         when(passwordEncoder.encrypt("Test1!78")).thenReturn("encryptedPassword");
 		userService.isValidCredentials("test@test.fr", "Test1!78");
-		verify(userRepository, times(1)).existsByEmailAndPasswordOrUsernameAndPassword(anyString(), anyString(),
-				anyString(), anyString());
+		verify(userRepository, times(1)).existsByEmailOrUsernameAndPassword(anyString(), anyString(), anyString());
 	}
 
 	@Test
@@ -82,8 +81,7 @@ import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 		mockUser.setUsername(form.getUsername());
 
 		// When
-		when(userRepository.existsByEmail(form.getEmail())).thenReturn(false);
-		when(userRepository.existsByUsername(form.getUsername())).thenReturn(false);
+		when(userRepository.existsByEmailOrUsername(form.getEmail(),form.getUsername())).thenReturn(false);
 
 		// Then
 		userService.addUser(form);
@@ -92,7 +90,7 @@ import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 	}
 
 	@Test
-	 void testAddUserWhenEmailAlreadyExists() {
+	 void testAddUserWhenEmailOrUsernameAlreadyExists() {
 		// Given
 		RegistrationForm form = new RegistrationForm();
 		form.setEmail("Test@test.fr");
@@ -104,32 +102,7 @@ import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 		mockUser.setUsername(form.getUsername());
 
 		// When
-		when(userRepository.existsByEmail(form.getEmail())).thenReturn(true);
-		when(userRepository.existsByUsername(form.getUsername())).thenReturn(false);
-
-		// Then
-		assertThrows(IllegalArgumentException.class, () -> {
-			userService.addUser(form);
-		});
-
-		verify(userRepository, never()).save(any(User.class));
-	}
-
-	@Test
-	 void testAddUserWhenUsernameAlreadyExists() {
-		// Given
-		RegistrationForm form = new RegistrationForm();
-		form.setEmail("Test@test.fr");
-		form.setUsername("Test");
-		form.setPassword("Test1!78");
-
-		User mockUser = new User();
-		mockUser.setEmail(form.getEmail());
-		mockUser.setUsername(form.getUsername());
-
-		// When
-		when(userRepository.existsByEmail(form.getEmail())).thenReturn(false);
-		when(userRepository.existsByUsername(form.getUsername())).thenReturn(true);
+		when(userRepository.existsByEmailOrUsername(form.getEmail(),form.getUsername())).thenReturn(true);
 
 		// Then
 		assertThrows(IllegalArgumentException.class, () -> {

@@ -1,15 +1,17 @@
 package com.openclassrooms.payMyBuddy.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.openclassrooms.payMyBuddy.model.Transaction;
 import com.openclassrooms.payMyBuddy.model.User;
 import com.openclassrooms.payMyBuddy.repository.TransactionRepository;
-import com.openclassrooms.payMyBuddy.web.form.TransactionFrom;
+import com.openclassrooms.payMyBuddy.web.form.TransactionForm;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Service for managing transactions.
@@ -42,17 +44,30 @@ public class TransactionService {
 		transactionRepository.findBySenderId(id).forEach(senderTransaction::add);
 		return senderTransaction;
 	}
-
-
-	public Transaction addTransaction(TransactionFrom transactionForm, String identifier) {
+	
+	/**
+	 * Adds a new transaction based on the provided form data and the user's identifier.
+	 * 
+	 * @param transactionForm The form containing the details of the transaction to be added.
+	 * @param identifier The email or username of the user who is sending the transaction.
+	 * @return The newly created transaction.
+	 */
+	public Transaction addTransaction(TransactionForm transactionForm, String identifier) {
 		User user = userService.getUserByEmailOrUsername(identifier);
 		Transaction transaction = buildTransaction(transactionForm, user);
 		Transaction createdTransaction = transactionRepository.save(transaction);
 		log.info("Transaction successfully added");
 		return createdTransaction;
 	}
-
-	private Transaction buildTransaction(TransactionFrom transactionForm, User user) {
+	
+	/**
+	 * Builds a transaction object using the provided form data and user.
+	 * 
+	 * @param transactionForm The form containing transaction details.
+	 * @param user The user sending the transaction.
+	 * @return A new Transaction object populated with the provided data.
+	 */
+	private Transaction buildTransaction(TransactionForm transactionForm, User user) {
 		User receiver = userService.getUserById(transactionForm.getReceiverId());
 		Transaction transaction = new Transaction();
 		transaction.setSender(user);

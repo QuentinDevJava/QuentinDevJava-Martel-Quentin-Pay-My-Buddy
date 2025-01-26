@@ -23,19 +23,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.openclassrooms.payMyBuddy.model.User;
-import com.openclassrooms.payMyBuddy.repository.UserRepository;
 import com.openclassrooms.payMyBuddy.service.UserService;
 import com.openclassrooms.payMyBuddy.web.form.ConnexionForm;
 import com.openclassrooms.payMyBuddy.web.form.PasswordForm;
 import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 
 @SpringBootTest
+@Transactional
  class UserServiceITest {
 
 	@Autowired
 	private UserService userService;
-	@Autowired
-	private UserRepository userRepository;
 
 	private RegistrationForm form = new RegistrationForm();
 	private RegistrationForm form2 = new RegistrationForm();
@@ -69,19 +67,17 @@ import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 		assertEquals(foundUser.getEmail(), userService.getUserById(foundUser.getId()).getEmail());
 		assertEquals("Test", foundUser.getUsername());
 		assertEquals("Test@test.fr", foundUser.getEmail());
-		// todo refact
-//		assertEquals(userService.getUserByEmailOrUsername(null, foundUser.getUsername()).getId(),
-//				userService.getUserByEmailOrUsername(foundUser.getEmail(), null).getId());
 
-		assertTrue(userService.userExistsByEmail(foundUser.getEmail()));
-		assertTrue(userService.userExistsByUsername(foundUser.getUsername()));
+		assertEquals(userService.getUserByEmailOrUsername(foundUser.getUsername()).getId(),
+				userService.getUserByEmailOrUsername(foundUser.getEmail()).getId());
+
+		assertTrue(userService.userExistsByEmailOrUsername(foundUser.getEmail(),foundUser.getUsername()));
 		assertTrue(userService.isValidCredentials(foundUser.getEmail(), "Test1!78"));
 		assertTrue(userService.isValidCredentials(foundUser.getUsername(), "Test1!78"));
 
 		assertThrows(IllegalArgumentException.class, () -> {
 			userService.addUser(form);
 		});
-		userRepository.delete(foundUser);
 	}
 
 	@Test
@@ -113,7 +109,6 @@ import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 
 		response.put(ERROR, OLD_PASSWORD_FALSE);
 		assertEquals(response, userService.validateAndUpdatePassword(foundUser.getEmail(), passwordForm));
-		userRepository.delete(foundUser);
 	}
 
 	@Test
@@ -148,11 +143,6 @@ import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 
 		connexionForm.setEmail("Test@test.fr");
 		assertEquals(response, userService.addConnection(form.getEmail(), connexionForm));
-
-		User foundUser = userService.getUserByEmail(form.getEmail());
-		User foundUser2 = userService.getUserByEmail(form2.getEmail());
-		userRepository.delete(foundUser);
-		userRepository.delete(foundUser2);
 
 	}
 

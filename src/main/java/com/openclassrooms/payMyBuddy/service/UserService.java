@@ -38,12 +38,12 @@ import lombok.extern.slf4j.Slf4j;
  *   <li><b>{@link #getUserById} :</b> Retrieves a user by their ID.</li>
  *   <li><b>{@link #getUserByEmail} :</b> Retrieves a user by their email.</li>
  *   <li><b>{@link #addUser} :</b> Adds a new user.</li>
- *   <li><b>{@link #userExistsByEmail} :</b> Checks if a user exists with the given email.</li>
- *   <li><b>{@link #userExistsByUsername} :</b> Checks if a user exists with the given username.</li>
+ *   <li><b>{@link #userExistsByEmailOrUsername} :</b> Checks if a user exists with the specified email or username.</li>
  *   <li><b>{@link #getUserByEmailOrUsername} :</b> Retrieves a user by their email or username.</li>
  *   <li><b>{@link #isValidCredentials} :</b> Checks if the email (or username) and password are valid.</li>
  *   <li><b>{@link #validateAndUpdatePassword} :</b> Validates and updates the user's password.</li>
  *   <li><b>{@link #addConnection} :</b> Validates and adds a connection with another user.</li>
+ *   <li><b>{@link #isAuthenticated} :</b> Authenticates a user based on login credentials (email or username).</li>
  * </ul>
  */
 @Service
@@ -84,7 +84,7 @@ public class UserService {
 	* @throws IllegalArgumentException If a user with the same email or username already exists.
      */
 	public void addUser(RegistrationForm registrationForm) throws IllegalArgumentException {
-		if (userExistsByEmail(registrationForm.getEmail()) || userExistsByUsername(registrationForm.getUsername())) {
+		if (userExistsByEmailOrUsername(registrationForm.getEmail(),registrationForm.getUsername())) {
 			log.warn("User already exists : Username = {}, Email = {}", registrationForm.getUsername(), registrationForm.getEmail());
 			throw new IllegalArgumentException(USERNAME_OR_EMAIL_IS_USE);
 		}
@@ -94,33 +94,22 @@ public class UserService {
 	}
 
 	/**
-	 * Checks if a user exists with the given email.
+	 * Checks if a user exists with the given email or username.
 	 * 
 	 * @param email The email of the user.
-	 * @return true if the user exists, false otherwise.
-	 */
-	public boolean userExistsByEmail(String email) {
-		return userRepository.existsByEmail(email);
-	}
-
-	/**
-	 * Checks if a user exists with the given username.
-	 * 
 	 * @param username The username of the user.
 	 * @return true if the user exists, false otherwise.
 	 */
-	public boolean userExistsByUsername(String username) {
-		return userRepository.existsByUsername(username);
+	public boolean userExistsByEmailOrUsername(String email,String username) {
+		return userRepository.existsByEmailOrUsername(email, username);
 	}
 
 	/**
 	* Retrieves a user by their email or username.
 	* 
-	* @param email The email of the user.
-	* @param username The username of the user.
+	* @param identifier The email or username of the user.
 	* @return The user found or null if no user is found.
 	*/
-	//TODO javadoc Update
 	public User getUserByEmailOrUsername(String identifier) {
 		return userRepository.byUsernameOrEmail(identifier).orElse(null);
 	}
@@ -141,11 +130,9 @@ public class UserService {
 	 * @param identifier The email or username of the user.
 	 * @param password The password of the user.
 	 * @return true if the email (or username) and password are valid, false otherwise.
-	 * @throws Exception If an error occurs during the validation.
 	 */
 	public boolean isValidCredentials(String identifier, String password) {
-		return userRepository.existsByEmailAndPasswordOrUsernameAndPassword(identifier, passwordEncoder.encrypt(password),
-				identifier,passwordEncoder.encrypt(password));
+		return userRepository.existsByEmailOrUsernameAndPassword(identifier,identifier, passwordEncoder.encrypt(password));
 	}
 
 	/**
@@ -166,11 +153,11 @@ public class UserService {
 				log.info("Password updated");
 				response.put(SUCCESS, PASSWORD_SUCCESS);
 			} else {
-				log.warn("New password and password comfirmation not match");
+				log.warn("New password and password confirmation not match");
 				response.put(ERROR, PASSWORD_NOT_MATCH);
 			}
 		} else {
-			log.warn("Password not update error old password fase");
+			log.warn("Password not update error old password false");
 			response.put(ERROR, OLD_PASSWORD_FALSE);
 		}
 		return response;
@@ -179,7 +166,7 @@ public class UserService {
 	/**
 	 * Adds a connection with another user.
 	 * 
-	 * @param email The email of the user who wants to add a connection.
+	 * @param identifier The email or username of the user who wants to add a connection.
 	 * @param connexionForm The details of the user to connect with.
 	 * @return A Map object containing the status and a success or error message.
 	 */
@@ -214,28 +201,45 @@ public class UserService {
 		return response;
 	}
 
+	/**
+	 * Checks if a connection exists between the current user and another user.
+	 *
+	 * @param user the current user
+	 * @param connexion the user to check
+	 * @return true if the connection exists, otherwise false
+	 */
 	private boolean isConnectionExists(User user, User connexion) {
-		return user.getConnections().stream().anyMatch(c -> c.getEmail().equals(connexion.getEmail()));
+	    return user.getConnections().stream().anyMatch(c -> c.getEmail().equals(connexion.getEmail()));
 	}
 
+	/**
+	 * Authenticates a user using the provided login form.
+	 *
+	 * @param loginForm the login information
+	 * @return true if authenticated, otherwise false
+	 */
 	public boolean isAuthenticated(LoginForm loginForm) {
-		log.info("attempt to authenticate user {}", loginForm.getIdentifier());
-		Optional<User> optionalUser = userRepository.byUsernameOrEmail(loginForm.getIdentifier());
-		if (optionalUser.isEmpty()) {
-			log.info("invalid credentials");
-			return false;
-		}
+	    log.info("attempting to authenticate {}", loginForm.getIdentifier());
+	    User user = getUserByEmailOrUsername(loginForm.getIdentifier());
+	    
+	    if (user==null || !passwordMatch(loginForm.getPassword(), user.getPassword())) {
+	        log.info("invalid credentials");
+	        return false;
+	    }
 
-		if (!passwordMatch(loginForm.getPassword(), optionalUser.get().getPassword())) {
-			log.info("invalid credentials");
-			return false;
-		}
-
-		log.info("User has been authenticated");
-		return true;
+	    log.info("User authenticated");
+	    return true;
 	}
 
+	/**
+	 * Compares the entered password with the user's stored password.
+	 *
+	 * @param loginPassword the entered password
+	 * @param userPassword the stored password
+	 * @return true if the passwords match, otherwise false
+	 */
 	private boolean passwordMatch(String loginPassword, String userPassword) {
-		return passwordEncoder.encrypt(loginPassword).equals(userPassword);
+	    return passwordEncoder.encrypt(loginPassword).equals(userPassword);
 	}
+
 }

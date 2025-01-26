@@ -1,8 +1,8 @@
 package com.openclassrooms.payMyBuddy.web.controller;
 
 import static com.openclassrooms.payMyBuddy.constants.AppConstants.SESSION_ATTRIBUTE;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.TRANSACTION_PAGE;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.TRANSACTION;
+import static com.openclassrooms.payMyBuddy.constants.UrlConstants.TRANSACTION_PAGE;
 
 import java.util.List;
 import java.util.Set;
@@ -22,7 +22,7 @@ import com.openclassrooms.payMyBuddy.model.User;
 import com.openclassrooms.payMyBuddy.service.FlashMessageHandler;
 import com.openclassrooms.payMyBuddy.service.TransactionService;
 import com.openclassrooms.payMyBuddy.service.UserService;
-import com.openclassrooms.payMyBuddy.web.form.TransactionFrom;
+import com.openclassrooms.payMyBuddy.web.form.TransactionForm;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -63,11 +63,11 @@ public class TransactionController {
 		User user = userService.getUserByEmailOrUsername(session.getAttribute(SESSION_ATTRIBUTE).toString());
 
 		Set<User> connections = user.getConnections();
-		TransactionFrom transactionForm = new TransactionFrom();
+		TransactionForm transactionForm = new TransactionForm();
 		List<Transaction> transactions = transactionService.getTransactionsBySenderId(user.getId());
-		List<TransactionFrom> listOfTransactionForm = transactions.stream().map(TransactionFrom::new).toList();
+		List<TransactionForm> listOfTransactionForm = transactions.stream().map(TransactionForm::new).toList();
 
-		model.addAttribute("transactionFrom", transactionForm);
+		model.addAttribute("transactionForm", transactionForm);
 		model.addAttribute("listOfTransactionForm", listOfTransactionForm);
 		model.addAttribute("connections", connections);
 		return TRANSACTION;
@@ -84,7 +84,7 @@ public class TransactionController {
      * @return A redirect to the transaction page, with either an error or success message.
      */
 	@PostMapping
-	public String createTransaction(HttpServletRequest request, @Valid @ModelAttribute TransactionFrom transactionForm,
+	public String createTransaction(HttpServletRequest request, @Valid @ModelAttribute TransactionForm transactionForm,
 			BindingResult result, RedirectAttributes redirAttrs) {
 
 		StringBuilder builder = new StringBuilder();

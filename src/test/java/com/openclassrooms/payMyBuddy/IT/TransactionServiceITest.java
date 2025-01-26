@@ -1,56 +1,57 @@
 package com.openclassrooms.payMyBuddy.IT;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.openclassrooms.payMyBuddy.model.Transaction;
 import com.openclassrooms.payMyBuddy.model.User;
-import com.openclassrooms.payMyBuddy.repository.TransactionRepository;
 import com.openclassrooms.payMyBuddy.repository.UserRepository;
 import com.openclassrooms.payMyBuddy.service.TransactionService;
+import com.openclassrooms.payMyBuddy.web.form.TransactionForm;
+
 
 @SpringBootTest
- class TransactionServiceITest {
+@Transactional
+class TransactionServiceITest {
 
-	@Autowired
-	private TransactionService transactionService;
-	@Autowired
-	private TransactionRepository transactionRepository;
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private TransactionService transactionService;
+    
+    @Autowired
+    private UserRepository userRepository;
 
-	@Test
-	 void testTransactionService() throws Exception {
-		User user = new User();
-		user.setUsername("Test");
-		user.setEmail("Test@test.fr");
-		user.setPassword("Test1!78");
-		User user2 = new User();
-		user2.setUsername("Test2");
-		user2.setEmail("Test2@test.fr");
-		user2.setPassword("Test1!78");
+    @Test
+    void testTransactionService() {
+        User user = new User();
+        user.setUsername("Test");
+        user.setEmail("Test@test.fr");
+        user.setPassword("Test1!78");
+        user = userRepository.save(user);
 
-		Transaction transaction = new Transaction();
-		transaction.setDescription("Test");
-		transaction.setAmount(10);
-		transaction.setSender(user);
-		transaction.setReceiver(user2);
+        User user2 = new User();
+        user2.setUsername("Test2");
+        user2.setEmail("Test2@test.fr");
+        user2.setPassword("Test1!78");
+        user2 = userRepository.save(user2);
 
-//		transactionService.addTransaction(transaction); // todo reffact
+        TransactionForm transactionForm = new TransactionForm();
+        transactionForm.setDescription("Test");
+        transactionForm.setAmount(10);
+        transactionForm.setSenderId(user.getId());
+        transactionForm.setReceiverId(user2.getId());
 
-		List<Transaction> transactions = transactionService.getTransactionsBySenderId(user.getId());
+        transactionService.addTransaction(transactionForm, user.getUsername());
 
-		assertEquals("Test", transactions.get(0).getDescription());
-		 
-				transactionRepository.deleteById(transactions.get(0).getId());
-		
-				userRepository.deleteById(user.getId());
-				userRepository.deleteById(user2.getId());
-		
-	}
+        List<Transaction> transactions = transactionService.getTransactionsBySenderId(user.getId());
+        assertNotNull(transactions);
+        assertEquals(1, transactions.size());
+        assertEquals("Test", transactions.get(0).getDescription());
+    }
 }

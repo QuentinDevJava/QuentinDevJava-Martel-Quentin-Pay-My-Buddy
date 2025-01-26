@@ -25,5 +25,5 @@ public interface TransactionRepository extends CrudRepository<Transaction, Integ
 	 * @param id The ID of the user who sent the transactions.
 	 * @return A collection of transactions sent by the user.
 	 */
-	public Iterable<Transaction> findBySenderId(int id);
+	Iterable<Transaction> findBySenderId(int id);
 }

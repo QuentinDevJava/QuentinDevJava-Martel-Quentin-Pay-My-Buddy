@@ -33,7 +33,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class TransactionFrom {
+public class TransactionForm {
 
 	/**
 	 * The ID of the user sending the money.
@@ -71,10 +71,10 @@ public class TransactionFrom {
 	private String receiverUsername;
 
 	/**
-	 * Constructor that initializes a TransactionFrom object from a {@link Transaction} instance.
-	 * @param transaction the {@link Transaction} object that provides data to initialize the TransactionFrom object.
+	 * Constructor that initializes a TransactionForm object from a {@link Transaction} instance.
+	 * @param transaction the {@link Transaction} object that provides data to initialize the TransactionForm object.
 	 */
-	public TransactionFrom(Transaction transaction) {
+	public TransactionForm(Transaction transaction) {
 		this.senderId = transaction.getSender().getId();
 		this.receiverId = transaction.getReceiver().getId();
 		this.receiverUsername = transaction.getReceiver().getUsername();
