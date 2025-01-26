@@ -1,14 +1,15 @@
 package com.openclassrooms.payMyBuddy.web.controller;
 
 import static com.openclassrooms.payMyBuddy.constants.AppConstants.ERROR;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.SESSION_ATTRIBUTE;
 import static com.openclassrooms.payMyBuddy.constants.AppConstants.SUCCESS;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.CONNECTION;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.CONNECTION_CONNECTION;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.PROFIL;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.TRANSACTION_PAGE;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_USER_CONNECTION;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_USER_PROFIL;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_USER_UPDATE_PASSWORD;
+import static com.openclassrooms.payMyBuddy.constants.UrlConstants.TRANSACTION_PAGE;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.UPDATE_PASSWORD;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_PASSWORD;
@@ -68,7 +69,7 @@ public class UserController {
 
 		HttpSession session = request.getSession();
 		ProfilForm profilForm = new ProfilForm();
-		User user = userService.getUserByEmail(session.getAttribute(AppConstants.SESSION_ATTRIBUTE).toString());
+		User user = userService.getUserByEmailOrUsername(session.getAttribute(SESSION_ATTRIBUTE).toString());
 
 		profilForm.setUsername(user.getUsername());
 		profilForm.setEmail(user.getEmail());
@@ -114,7 +115,7 @@ public class UserController {
 
 		HttpSession session = request.getSession();
 		Map<String, String> response = userService.validateAndUpdatePassword(
-				session.getAttribute(AppConstants.SESSION_ATTRIBUTE).toString(), passwordForm);
+				session.getAttribute(SESSION_ATTRIBUTE).toString(), passwordForm);
 
 		if (response.containsKey(SUCCESS)) {
 			log.info("Update password success : {}", response.get(SUCCESS));

@@ -7,8 +7,8 @@ import static com.openclassrooms.payMyBuddy.constants.UrlConstants.LOGIN;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.LOGOUT;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_LOGIN;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_REGISTRATION;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.TRANSACTION_PAGE;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REGISTRATION;
+import static com.openclassrooms.payMyBuddy.constants.UrlConstants.TRANSACTION_PAGE;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_LOGIN;
 import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_REGISTRATION;
 
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.openclassrooms.payMyBuddy.model.User;
 import com.openclassrooms.payMyBuddy.service.FlashMessageHandler;
 import com.openclassrooms.payMyBuddy.service.UserService;
 import com.openclassrooms.payMyBuddy.web.form.LoginForm;

@@ -1,21 +1,31 @@
 package com.openclassrooms.payMyBuddy.service;
 
-import com.openclassrooms.payMyBuddy.model.User;
-import com.openclassrooms.payMyBuddy.repository.UserRepository;
-import com.openclassrooms.payMyBuddy.web.form.ConnexionForm;
-import com.openclassrooms.payMyBuddy.web.form.LoginForm;
-import com.openclassrooms.payMyBuddy.web.form.PasswordForm;
-import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.ERROR;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.OLD_PASSWORD_FALSE;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.PASSWORD_NOT_MATCH;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.PASSWORD_SUCCESS;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.SUCCESS;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.UNKNOW_USER;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.USERNAME_OR_EMAIL_IS_USE;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.USER_ALREADY_ADDED;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.USER_CANNOT_CONNECT_TO_THEMSELF;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.*;
+import org.springframework.stereotype.Service;
+
+import com.openclassrooms.payMyBuddy.model.User;
+import com.openclassrooms.payMyBuddy.repository.UserRepository;
+import com.openclassrooms.payMyBuddy.web.form.ConnexionForm;
+import com.openclassrooms.payMyBuddy.web.form.LoginForm;
+import com.openclassrooms.payMyBuddy.web.form.PasswordForm;
+import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service for managing users.
@@ -110,8 +120,9 @@ public class UserService {
 	* @param username The username of the user.
 	* @return The user found or null if no user is found.
 	*/
-	public User getUserByEmailOrUsername(String email, String username) {
-		return userRepository.findByEmailOrUsername(email, username);
+	//TODO javadoc Update
+	public User getUserByEmailOrUsername(String identifier) {
+		return userRepository.findByEmailOrUsername(identifier, identifier);
 	}
 
 	/**
@@ -145,9 +156,9 @@ public class UserService {
 	* @return A Map object containing the status and a success or error message.
 	* @throws Exception If an error occurs during the validation or update.
 	*/
-	public Map<String, String> validateAndUpdatePassword(String email, PasswordForm passwordForm) throws Exception {
+	public Map<String, String> validateAndUpdatePassword(String identifier, PasswordForm passwordForm) throws Exception {
 		Map<String, String> response = new HashMap<>();
-		User user = getUserByEmail(email);
+		User user = getUserByEmailOrUsername(identifier);
 		if (Objects.equals(passwordEncoder.encrypt(passwordForm.getOldPassword()), user.getPassword())) {
 			if (Objects.equals(passwordForm.getPasswordConfirmation(), passwordForm.getPassword())) {
 				user.setPassword(passwordEncoder.encrypt(passwordForm.getPassword()));
@@ -172,10 +183,10 @@ public class UserService {
 	 * @param connexionForm The details of the user to connect with.
 	 * @return A Map object containing the status and a success or error message.
 	 */
-	public Map<String, String> addConnection(String email, ConnexionForm connexionForm) {
+	public Map<String, String> addConnection(String identifier, ConnexionForm connexionForm) {
 		Map<String, String> response = new HashMap<>();
 
-		User user = getUserByEmail(email);
+		User user = getUserByEmailOrUsername(identifier);
 		User connexion = getUserByEmail(connexionForm.getEmail());
 
 		if (connexion == null) {
