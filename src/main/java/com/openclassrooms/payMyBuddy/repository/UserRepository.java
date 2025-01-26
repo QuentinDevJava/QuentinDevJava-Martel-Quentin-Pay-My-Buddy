@@ -2,7 +2,9 @@ package com.openclassrooms.payMyBuddy.repository;
 
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.openclassrooms.payMyBuddy.model.User;
@@ -31,7 +33,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	 * @param email The email address of the user to search for.
 	 * @return An {@link Optional} containing the {@link User} if found, otherwise {@link Optional#empty()}.
 	 */
-	public Optional<User> findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
 	/**
 	 * Checks if a user exists with the given username.
@@ -39,7 +41,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	 * @param username The username to check.
 	 * @return {@code true} if the user exists, {@code false} otherwise.
 	 */
-	public boolean existsByUsername(String username);
+    boolean existsByUsername(String username);
 
 	/**
 	 * Checks if a user exists with the given email address.
@@ -47,7 +49,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	 * @param email The email address to check.
 	 * @return {@code true} if the user exists, {@code false} otherwise.
 	 */
-	public boolean existsByEmail(String email);
+    boolean existsByEmail(String email);
 
 	/**
 	 * Checks if a user exists with the email and password, or with the username and password.
@@ -58,8 +60,8 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	 * @param password2 The password associated with the username.
 	 * @return {@code true} if the user exists with the email and password, or with the username and password, otherwise {@code false}.
 	 */
-	public boolean existsByEmailAndPasswordOrUsernameAndPassword(String email, String password1, String username,
-			String password2);
+    boolean existsByEmailAndPasswordOrUsernameAndPassword(String email, String password1, String username,
+                                                          String password2);
 
 	/**
 	 * Finds a user by their email address or username.
@@ -68,5 +70,8 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	 * @param username The username.
 	 * @return The found user, or {@code null} if no user is found.
 	 */
-	public User findByEmailOrUsername(String email, String username);
+    User findByEmailOrUsername(String email, String username);
+
+	@Query("SELECT u FROM User u WHERE u.username = :identifier OR u.email = :identifier")
+    Optional<User> byUsernameOrEmail(@Param("identifier") String usernameOrEmail);
 }

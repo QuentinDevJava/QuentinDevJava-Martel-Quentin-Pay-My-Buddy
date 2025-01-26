@@ -72,16 +72,25 @@ public class AuthenticationController {
      */
 	@PostMapping(LOGIN)
 	public String authentication(@Valid @ModelAttribute LoginForm loginForm, RedirectAttributes redirAttrs, HttpSession session) {
-
-		if (!userService.isValidCredentials(loginForm.getIdentifier(), loginForm.getPassword())) {
-			log.debug("Login error : {}", LOGIN_ERROR);
-			flashAttribute.errorMessage(redirAttrs, LOGIN_ERROR);
-			return REDIR_LOGIN;
+		if (userService.isAuthenticated(loginForm)) {
+			session.setAttribute(SESSION_ATTRIBUTE, loginForm.getIdentifier());
+			log.info("User authenticated successfully: {}", loginForm.getIdentifier());
+			return TRANSACTION_PAGE;
 		}
-		User user = userService.getUserByEmailOrUsername(loginForm.getIdentifier(), loginForm.getIdentifier());
-		session.setAttribute(SESSION_ATTRIBUTE, user.getEmail());
-		log.info("User authenticated successfully: {}", loginForm.getIdentifier());
-		return TRANSACTION_PAGE;
+
+		log.debug("Login error : {}", LOGIN_ERROR);
+		flashAttribute.errorMessage(redirAttrs, LOGIN_ERROR);
+		return REDIR_LOGIN;
+//
+//		if (!userService.isValidCredentials(loginForm.getIdentifier(), loginForm.getPassword())) {
+//
+//		}
+//		// TODO
+//		User user = userService.getByUsernameOrEmail(loginForm.getIdentifier()); // identifier can be username or email
+//		if (user == null) {
+//			log.info("User not found ");
+//		}
+////		User user = userService.getUserByEmailOrUsername(loginForm.getIdentifier(), loginForm.getIdentifier());
 	}
 	
     /**

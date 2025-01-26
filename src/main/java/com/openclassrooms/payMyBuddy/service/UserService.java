@@ -1,31 +1,21 @@
 package com.openclassrooms.payMyBuddy.service;
 
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.ERROR;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.OLD_PASSWORD_FALSE;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.PASSWORD_NOT_MATCH;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.PASSWORD_SUCCESS;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.SUCCESS;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.UNKNOW_USER;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.USERNAME_OR_EMAIL_IS_USE;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.USER_ALREADY_ADDED;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.USER_CANNOT_CONNECT_TO_THEMSELF;
+import com.openclassrooms.payMyBuddy.model.User;
+import com.openclassrooms.payMyBuddy.repository.UserRepository;
+import com.openclassrooms.payMyBuddy.web.form.ConnexionForm;
+import com.openclassrooms.payMyBuddy.web.form.LoginForm;
+import com.openclassrooms.payMyBuddy.web.form.PasswordForm;
+import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-
-import com.openclassrooms.payMyBuddy.exception.PasswordEncryptionError;
-import com.openclassrooms.payMyBuddy.model.User;
-import com.openclassrooms.payMyBuddy.repository.UserRepository;
-import com.openclassrooms.payMyBuddy.web.form.ConnexionForm;
-import com.openclassrooms.payMyBuddy.web.form.PasswordForm;
-import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import static com.openclassrooms.payMyBuddy.constants.AppConstants.*;
 
 /**
  * Service for managing users.
@@ -217,4 +207,24 @@ public class UserService {
 		return user.getConnections().stream().anyMatch(c -> c.getEmail().equals(connexion.getEmail()));
 	}
 
+	public boolean isAuthenticated(LoginForm loginForm) {
+		log.info("attempt to authenticate user {}", loginForm.getIdentifier());
+		Optional<User> optionalUser = userRepository.byUsernameOrEmail(loginForm.getIdentifier());
+		if (optionalUser.isEmpty()) {
+			log.info("invalid credentials");
+			return false;
+		}
+
+		if (!passwordMatch(loginForm.getPassword(), optionalUser.get().getPassword())) {
+			log.info("invalid credentials");
+			return false;
+		}
+
+		log.info("User has been authenticated");
+		return true;
+	}
+
+	private boolean passwordMatch(String loginPassword, String userPassword) {
+		return passwordEncoder.encrypt(loginPassword).equals(userPassword);
+	}
 }
