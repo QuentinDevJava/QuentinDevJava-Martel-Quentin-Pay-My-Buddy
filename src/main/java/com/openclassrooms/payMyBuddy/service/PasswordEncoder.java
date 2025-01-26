@@ -15,46 +15,32 @@ import org.springframework.stereotype.Component;
 import com.openclassrooms.payMyBuddy.exception.PasswordEncryptionError;
 
 /**
- * The Class PasswordEncoder.
+ * Class for encrypting a password. The encryption key is retrieved from the
+ * environment variable ENCRYPTION_KEY.
  */
-//TODO a verifier et javadoc a faire 
 @Component
 public class PasswordEncoder {
-	
-	/** The Constant UNICODE_FORMAT. */
+
 	private static final Charset UNICODE_FORMAT = StandardCharsets.UTF_8;
-	
-	/** The Constant DESEDE_ENCRYPTION_SCHEME. */
 	public static final String DESEDE_ENCRYPTION_SCHEME = "DESede";
-	
-	/** The ks. */
 	private KeySpec ks;
-	
-	/** The skf. */
 	private SecretKeyFactory skf;
-	
-	/** The cipher. */
 	private Cipher cipher;
-	
-	/** The array bytes. */
 	byte[] arrayBytes;
-	
-	/** The my encryption key. */
 	private String myEncryptionKey;
-	
-	/** The my encryption scheme. */
 	private String myEncryptionScheme;
-	
-	/** The key. */
 	SecretKey key;
 
 	/**
-	 * Instantiates a PasswordEncoder .
-	 *
-	 * @throws PasswordEncryptionError the password encryption error
+	 * Initializes the encryption key and scheme.
+	 * 
+	 * @throws PasswordEncryptionError If the key is missing or invalid.
 	 */
 	public PasswordEncoder() throws PasswordEncryptionError {
-		myEncryptionKey = "ThisIsASecureKeyForProtectPassword"; 
+		myEncryptionKey = System.getenv("ENCRYPTION_KEY");
+		if (myEncryptionKey == null || myEncryptionKey.isEmpty()) {
+			throw new PasswordEncryptionError("Encryption key is missing.");
+		}
 		myEncryptionScheme = DESEDE_ENCRYPTION_SCHEME;
 		arrayBytes = myEncryptionKey.getBytes(UNICODE_FORMAT);
 		try {
@@ -62,17 +48,16 @@ public class PasswordEncoder {
 			skf = SecretKeyFactory.getInstance(myEncryptionScheme);
 			cipher = Cipher.getInstance(myEncryptionScheme);
 			key = skf.generateSecret(ks);
-
 		} catch (Exception e) {
 			throw new PasswordEncryptionError(e.getMessage());
 		}
 	}
 
 	/**
-	 * Encrypt.
-	 *
-	 * @param unencryptedString the unencrypted string
-	 * @return the string
+	 * Encrypts a password.
+	 * 
+	 * @param unencryptedString The password to encrypt.
+	 * @return The encrypted password.
 	 */
 	public String encrypt(String unencryptedString) {
 		String encryptedString = null;
@@ -86,5 +71,4 @@ public class PasswordEncoder {
 		}
 		return encryptedString;
 	}
-
 }

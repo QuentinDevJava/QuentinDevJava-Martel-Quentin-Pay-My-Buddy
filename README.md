@@ -92,8 +92,7 @@ To run the application locally, you need to activate the `local` profile. The ap
    You can start the application with the `local` profile by running the following command:
 
    ```bash
-   java -Dspring.profiles.active=local -jar your-application-name.jar
-
+   java -Dspring.profiles.active=local -jar PayMyBuddy.jar
 
 ## Running the Application in Production
 
@@ -117,4 +116,5 @@ To run the application in a production environment, follow the steps below:
 To run the application with the production configuration, make sure to activate the `prod` profile. You can do this by running the following command:
 
 ```bash
-java -Dspring.profiles.active=prod -jar your-application-name.jar
+java -Dspring.profiles.active=prod -jar PayMyBuddy.jar
+
