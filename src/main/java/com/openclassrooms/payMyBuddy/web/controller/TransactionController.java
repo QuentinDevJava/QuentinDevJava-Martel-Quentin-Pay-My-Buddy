@@ -60,9 +60,9 @@ public class TransactionController {
 	public String listAndDisplayTransactionsForm(Model model, HttpServletRequest request) {
 		log.info("Loading the transaction page");
 		HttpSession session = request.getSession();
-		User user = userService.getUserByEmail(session.getAttribute(SESSION_ATTRIBUTE).toString());
-		Set<User> connections = user.getConnections();
+		User user = userService.getUserByEmailOrUsername(session.getAttribute(SESSION_ATTRIBUTE).toString());
 
+		Set<User> connections = user.getConnections();
 		TransactionFrom transactionForm = new TransactionFrom();
 		List<Transaction> transactions = transactionService.getTransactionsBySenderId(user.getId());
 		List<TransactionFrom> listOfTransactionForm = transactions.stream().map(TransactionFrom::new).toList();
@@ -97,7 +97,7 @@ public class TransactionController {
 			flashAttribute.errorMessage(redirAttrs, builder.toString());
 		} else {
 			HttpSession session = request.getSession();
-			int userId = userService.getUserByEmail(session.getAttribute(SESSION_ATTRIBUTE).toString()).getId();
+			int userId = userService.getUserByEmailOrUsername(session.getAttribute(SESSION_ATTRIBUTE).toString()).getId();
 
 			Transaction transaction = new Transaction();
 			transaction.setReceiver(userService.getUserById(transactionFrom.getReceiverId()));

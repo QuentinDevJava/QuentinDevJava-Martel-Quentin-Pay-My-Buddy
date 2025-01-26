@@ -57,7 +57,7 @@ import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
 	@Test
 	 void testGetUserByEmailOrUsername() {
 		
-		userService.getUserByEmailOrUsername("test@test.fr", "Test");
+		userService.getUserByEmailOrUsername("test@test.fr");
 		verify(userRepository, times(1)).findByEmailOrUsername(anyString(), anyString());
 	}
 

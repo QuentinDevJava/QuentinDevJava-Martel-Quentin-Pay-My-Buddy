@@ -122,7 +122,7 @@ public class UserService {
 	*/
 	//TODO javadoc Update
 	public User getUserByEmailOrUsername(String identifier) {
-		return userRepository.findByEmailOrUsername(identifier, identifier);
+		return userRepository.byUsernameOrEmail(identifier).orElse(null);
 	}
 
 	/**

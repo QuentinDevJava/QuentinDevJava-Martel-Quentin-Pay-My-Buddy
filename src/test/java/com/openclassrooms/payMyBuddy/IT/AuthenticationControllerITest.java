@@ -79,7 +79,8 @@ public class AuthenticationControllerITest {
 	@Test
 	public void testPostLogin() throws Exception {
 
-		when(userService.getUserByEmailOrUsername(email, email)).thenReturn(mockUser);
+		// todo reffact
+		when(userService.getUserByEmailOrUsername(email)).thenReturn(mockUser);
 		when(userService.isValidCredentials(anyString(), anyString())).thenReturn(true);
 
 		mockMvc.perform(post(LOGIN).param("identifier", email).param("password", password))
@@ -96,7 +97,8 @@ public class AuthenticationControllerITest {
 	@Test
 	public void testPostLoginErrorPassword() throws Exception {
 
-		when(userService.getUserByEmailOrUsername(email, email)).thenReturn(mockUser);
+		// todo reffact
+		when(userService.getUserByEmailOrUsername(email)).thenReturn(mockUser);
 		when(userService.isValidCredentials(anyString(), anyString())).thenReturn(false);
 
 		mockMvc.perform(post(LOGIN).param("identifier", email).param("password", password))
