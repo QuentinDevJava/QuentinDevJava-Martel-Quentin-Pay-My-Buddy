@@ -72,7 +72,7 @@ import com.openclassrooms.paymybuddy.web.form.PasswordForm;
 		mockUser.setUsername(username);
 		mockUser.setPassword(password);
 
-		when(userService.getUserByEmail(email)).thenReturn(mockUser);
+		when(userService.getUserByEmailOrUsername(email)).thenReturn(mockUser);
 
 		mockMvc.perform(get("/user/profile").session(mockSession)).andExpect(status().isOk()).andDo(print())
 				.andExpect(view().name(USER_PROFIL));

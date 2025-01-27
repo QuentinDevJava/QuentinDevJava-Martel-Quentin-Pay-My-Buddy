@@ -1,6 +1,7 @@
 package com.openclassrooms.paymybuddy.UT;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -8,16 +9,17 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.openclassrooms.paymybuddy.model.Transaction;
+import com.openclassrooms.paymybuddy.model.User;
 import com.openclassrooms.paymybuddy.repository.TransactionRepository;
 import com.openclassrooms.paymybuddy.service.TransactionService;
 import com.openclassrooms.paymybuddy.service.UserService;
+import com.openclassrooms.paymybuddy.web.form.TransactionForm;
 
 @SpringBootTest
  class TransactionServiceTest {
@@ -28,7 +30,7 @@ import com.openclassrooms.paymybuddy.service.UserService;
 	@InjectMocks
 	private TransactionService transactionService;
 	
-	@InjectMocks
+	@Mock
 	private	UserService  userService;
 
 	@Test
@@ -53,22 +55,39 @@ import com.openclassrooms.paymybuddy.service.UserService;
 		assertEquals("Transaction 2", result.get(1).getDescription());
 		verify(transactionRepository, times(1)).findBySenderId(1);
 	}
-//TODO test a refaire
+	
 	@Test
-	@Disabled
 	 void testAddTransaction() {
-//		TransactionForm transaction = new TransactionForm();
-//		transaction.setAmount(50);
-//		transaction.setDescription("Test Transaction");
-//		
-//		User mockUser = new User();
-//		mockUser.setEmail("test@mail.com");
-//		mockUser.setUsername("Test");
-//
-//		when(userService.getUserByEmailOrUsername(anyString())).thenReturn(mockUser);
-//		
-//		transactionService.addTransaction(transaction,"test@mail.com"); 
-//
-//		verify(transactionRepository, times(1)).save(any(Transaction.class));
-	}
+		String identifier = "test@example.com";
+		
+        TransactionForm transactionForm = new TransactionForm();
+        transactionForm.setReceiverId(2);
+        transactionForm.setDescription("TransactionForm 1");
+        transactionForm.setAmount(100.0);
+
+        User mockUser = new User();
+        mockUser.setId(1);
+        mockUser.setEmail(identifier);
+        
+
+        when(userService.getUserByEmailOrUsername(identifier)).thenReturn(mockUser);
+        
+        Transaction savedTransaction = new Transaction();
+        savedTransaction.setSender(mockUser);
+        savedTransaction.setDescription(transactionForm.getDescription());
+        savedTransaction.setAmount(transactionForm.getAmount());
+        
+        when(transactionRepository.save(any(Transaction.class))).thenReturn(savedTransaction);
+
+        Transaction result = transactionService.addTransaction(transactionForm, identifier);
+
+        assertEquals(mockUser, result.getSender());
+        assertEquals(transactionForm.getAmount(), result.getAmount());
+        assertEquals(transactionForm.getDescription(), result.getDescription());
+        verify(transactionRepository, times(1)).save(any(Transaction.class));
+    }
+        
+    
+
+	
 }

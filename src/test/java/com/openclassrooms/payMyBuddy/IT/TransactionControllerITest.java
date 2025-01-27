@@ -3,6 +3,8 @@ package com.openclassrooms.paymybuddy.IT;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.ERROR;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.SESSION_ATTRIBUTE;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.SUCCESS;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -27,6 +29,7 @@ import com.openclassrooms.paymybuddy.model.Transaction;
 import com.openclassrooms.paymybuddy.model.User;
 import com.openclassrooms.paymybuddy.service.TransactionService;
 import com.openclassrooms.paymybuddy.service.UserService;
+import com.openclassrooms.paymybuddy.web.form.TransactionForm;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -41,7 +44,8 @@ import com.openclassrooms.paymybuddy.service.UserService;
 	@MockitoBean
 	private TransactionService transactionService;
 
-	private String email = "Test@test.fr";
+	private String email1 = "Test@test.fr";
+	private String email2 = "Test2@test.fr";
 	private String username = "Test";
 	private String password = "TestPassword1!";
 	private User mockUser1 = new User();
@@ -53,14 +57,14 @@ import com.openclassrooms.paymybuddy.service.UserService;
 	private MockHttpSession mockSession = new MockHttpSession();
 
 	@BeforeEach
-	 void setup() throws Exception {
+	 void setup()  {
 		mockUser1.setId(1);
-		mockUser1.setEmail(email);
+		mockUser1.setEmail(email1);
 		mockUser1.setUsername(username);
 		mockUser1.setPassword(password);
 
 		mockUser2.setId(2);
-		mockUser2.setEmail(email);
+		mockUser2.setEmail(email2);
 		mockUser2.setUsername("User2");
 		mockUser2.setPassword(password);
 
@@ -77,13 +81,13 @@ import com.openclassrooms.paymybuddy.service.UserService;
 		transactions.add(transaction1);
 		transactions.add(transaction2);
 
-		mockSession.setAttribute(SESSION_ATTRIBUTE, email);
+		mockSession.setAttribute(SESSION_ATTRIBUTE, email1);
 	}
 
 	@Test
 	 void testGetTransaction() throws Exception {
 
-		when(userService.getUserByEmail(email)).thenReturn(mockUser1);
+		when(userService.getUserByEmailOrUsername(email1)).thenReturn(mockUser1);
 		when(transactionService.getTransactionsBySenderId(1)).thenReturn(transactions);
 
 		mockMvc.perform(get("/transaction").session(mockSession)).andExpect(status().isOk())
@@ -92,12 +96,12 @@ import com.openclassrooms.paymybuddy.service.UserService;
 
 	@Test
 	 void testPostTransaction() throws Exception {
-
-		when(userService.getUserByEmail(email)).thenReturn(mockUser1);
-		when(userService.getUserById(2)).thenReturn(mockUser2);
+		
+		when(userService.getUserByEmailOrUsername(email1)).thenReturn(mockUser1);
+		when(transactionService.addTransaction(any(TransactionForm.class),anyString())).thenReturn(transaction1);
 
 		mockMvc.perform(post("/transaction")
-				.session(mockSession).param("receiverId", "2").param("description", "KDO").param("amount", "100"))
+				.session(mockSession).param("receiverId", "2").param("receiverEmail", email1).param("description", "KDO").param("amount", "100"))
 				.andExpect(status().isFound()).andDo(print())
 				.andExpect(flash().attribute(SUCCESS,
 						"Le transfert vers " + mockUser2.getUsername() + " a été effectué avec succès."))

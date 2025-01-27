@@ -41,7 +41,6 @@ import lombok.extern.slf4j.Slf4j;
  *   <li><b>{@link #isValidCredentials} :</b> Checks if the email (or username) and password are valid.</li>
  *   <li><b>{@link #validateAndUpdatePassword} :</b> Validates and updates the user's password.</li>
  *   <li><b>{@link #addConnection} :</b> Validates and adds a connection with another user.</li>
- *   <li><b>{@link #isAuthenticated} :</b> Authenticates a user based on login credentials (email or username).</li>
  * </ul>
  */
 @Service
@@ -61,17 +60,6 @@ public class UserService {
 	 */
 	public User getUserById(int id) {
 		Optional<User> user = userRepository.findById(id);
-		return user.orElse(null);
-	}
-
-	/**
-	 * Retrieves a user by their email.
-	 * 
-	 * @param email The email of the user.
-	 * @return The user found or null if no user is found.
-	 */
-	public User getUserByEmail(String email) {
-		Optional<User> user = userRepository.findByEmail(email);
 		return user.orElse(null);
 	}
 
@@ -172,7 +160,7 @@ public class UserService {
 		Map<String, String> response = new HashMap<>();
 
 		User user = getUserByEmailOrUsername(identifier);
-		User connexion = getUserByEmail(connexionForm.getEmail());
+		User connexion = getUserByEmailOrUsername(connexionForm.getEmail());
 
 		if (connexion == null) {
 			log.warn("The user does not exist");

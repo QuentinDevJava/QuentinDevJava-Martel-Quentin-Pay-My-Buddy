@@ -1,41 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <!-- Définition de la version du modèle POM -->
+	<!-- Définition de la version du modèle POM -->
 	<modelVersion>4.0.0</modelVersion>
 
-<!--  =============================================================================================================  -->
-<!--  Project information  -->
-<!--  =============================================================================================================  -->
+	<!--
+	=============================================================================================================  -->
+	<!--  Project information  -->
+	<!--
+	=============================================================================================================  -->
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.4.2</version>
-		<relativePath/>
+		<relativePath />
 	</parent>
+
 	<groupId>com.openclassrooms</groupId>
 	<artifactId>paymybuddy</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>paymybuddy</name>
-	<description>Pay My Buddy is an application that allows users to transfer money easily.</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
 
-<!--  =============================================================================================================  -->
-<!--  Project information  -->
-<!--  =============================================================================================================  -->	
+	<name>paymybuddy</name>
+	<description>Pay My Buddy is an application that allows users to transfer
+		money easily.</description>
+
+	<developers>
+		<developer>
+			<name>Martel Quentin</name>
+			<email>quentin.martel@fivesgroup.com</email>
+		</developer>
+	</developers>
+
+
+	<!--
+	=============================================================================================================  -->
+	<!--  Project information  -->
+	<!--
+	=============================================================================================================  -->
 	<properties>
 		<java.version>17</java.version>
 		<!--  Version log4j  -->
@@ -43,11 +46,17 @@
 		<!--  Version junit jupiter  -->
 		<junit.jupiter.version>5.11.0</junit.jupiter.version>
 		<!--  Version Maven Surfire  -->
-		<Maven.Surefire.version>3.5.0</Maven.Surefire.version>
+		<maven.surefire.version>3.5.0</maven.surefire.version>
+		<!--  Version jacoco   -->
+		<jacoco.version>0.8.12</jacoco.version>
+		<!--  Version Maven site plugin  -->
+		<maven.site.plugin.version>3.11.2</maven.site.plugin.version>
 	</properties>
-<!--  =============================================================================================================  -->
-<!--  dependencies  -->
-<!--  =============================================================================================================  -->
+	<!--
+	=============================================================================================================  -->
+	<!--  dependencies  -->
+	<!--
+	=============================================================================================================  -->
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -70,15 +79,15 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
-     	<dependency>
+		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-		    <groupId>mysql</groupId>
-		    <artifactId>mysql-connector-java</artifactId>
-		    <version>8.0.30</version>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.30</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -97,9 +106,12 @@
 		<dependency>
 			<groupId>org.jacoco</groupId>
 			<artifactId>jacoco-maven-plugin</artifactId>
-			<version>0.8.12</version>
+			<version>${jacoco.version}</version>
 			<type>maven-plugin</type>
 		</dependency>
+		<!--_________________________________________________________________________________________      -->
+		<!--_______________________________________EN COURS_________________________________________________      -->
+		<!--_________________________________________________________________________________________     -->
 		<dependency>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-assembly-plugin</artifactId>
@@ -108,55 +120,58 @@
 		<dependency>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-surefire-plugin</artifactId>
-			<version>${Maven.Surefire.version}</version>
+			<version>${maven.surefire.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-surefire-report-plugin</artifactId>
-			<version>${Maven.Surefire.version}</version>
+			<version>${maven.surefire.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>jakarta.validation</groupId>
-		    <artifactId>jakarta.validation-api</artifactId>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
 		</dependency>
 	</dependencies>
-<!--  =============================================================================================================  -->
-<!--  build  -->
-<!--  =============================================================================================================  -->
+	<!--
+	=============================================================================================================  -->
+	<!--  build  -->
+	<!--
+	=============================================================================================================  -->
 	<build>
-	<finalName>PayMyBuddy</finalName>
+		<finalName>PayMyBuddy</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-	        <plugin>
-	            <groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-site-plugin</artifactId>
-	            <version>3.11.0</version>
-	            <executions>
-	                <execution>
-	                    <goals>
-	                        <goal>site</goal> 
-	                    </goals>               
-	                </execution>
-	            </executions>
-	        </plugin>
-	        <plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.11.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>site</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				     <configuration>
-				    <quiet>true</quiet>
-				    <additionalJOptions>
-				    <option>-Xdoclint:none</option>
-				</additionalJOptions>
-				  <excludePackageNames>com.openclassrooms.paymybuddy.IT:com.openclassrooms.paymybuddy.UT</excludePackageNames>
+				<configuration>
+					<quiet>true</quiet>
+					<additionalJOptions>
+						<option>-Xdoclint:none</option>
+					</additionalJOptions>
+					<excludePackageNames>
+						com.openclassrooms.paymybuddy.IT:com.openclassrooms.paymybuddy.UT</excludePackageNames>
 				</configuration>
-	        </plugin>
+			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -167,51 +182,53 @@
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
-						</execution>
-						<execution>
-							<id>default-report</id>
-							<goals>
-								<goal>report</goal>
-							</goals>
-						</execution>
+					</execution>
+					<execution>
+						<id>default-report</id>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
 				</executions>
 			</plugin>
 
 		</plugins>
 	</build>
 	<!-- =============================================================== -->
-    <!-- Gestion des rapports -->
-    <!-- =============================================================== -->
+	<!-- Gestion des rapports -->
+	<!-- =============================================================== -->
 	<reporting>
-	    <plugins>
-	      <plugin>
-	        <groupId>org.apache.maven.plugins</groupId>
-	        <artifactId>maven-surefire-report-plugin</artifactId>
-	        <version>3.5.1</version>
-	      </plugin>
-	      	<plugin>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>3.5.1</version>
+
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>3.11.2</version>
-				     <configuration>
-				    <quiet>true</quiet>
-				    <additionalJOptions>
-				     <option>-Xdoclint:none</option>
-				</additionalJOptions>
-				  <excludePackageNames>com.openclassrooms.paymybuddy.IT:com.openclassrooms.paymybuddy.UT</excludePackageNames>
+				<configuration>
+					<quiet>true</quiet>
+					<additionalJOptions>
+						<option>-Xdoclint:none</option>
+					</additionalJOptions>
+					<excludePackageNames>
+						com.openclassrooms.paymybuddy.IT:com.openclassrooms.paymybuddy.UT</excludePackageNames>
 				</configuration>
-	        </plugin>
-			 <plugin>
-			    <groupId>org.jacoco</groupId>
-			    <artifactId>jacoco-maven-plugin</artifactId>
-			    <reportSets>
-			      <reportSet>
-			        <reports>
-			          <report>report</report>
-			        </reports>
-			      </reportSet>
-			    </reportSets>
-			 </plugin>
-	    </plugins>
-	  </reporting>
-</project>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>report</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
+</project> 

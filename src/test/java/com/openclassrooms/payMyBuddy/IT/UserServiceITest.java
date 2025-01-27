@@ -61,7 +61,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 
 		userService.addUser(form);
 
-		User foundUser = userService.getUserByEmail(form.getEmail());
+		User foundUser = userService.getUserByEmailOrUsername(form.getEmail());
 
 		assertNotNull(foundUser);
 		assertEquals(foundUser.getEmail(), userService.getUserById(foundUser.getId()).getEmail());
@@ -88,7 +88,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 
 		userService.addUser(form);
 
-		User foundUser = userService.getUserByEmail(form.getEmail());
+		User foundUser = userService.getUserByEmailOrUsername(form.getEmail());
 
 		assertEquals(response, userService.validateAndUpdatePassword(foundUser.getEmail(), passwordForm));
 

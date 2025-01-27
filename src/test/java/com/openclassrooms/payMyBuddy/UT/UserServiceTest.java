@@ -124,7 +124,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 		mockUser.setEmail(email);
 		mockUser.setPassword("EncryptedOldPassword!1");
 
-		when(userRepository.findByEmail(email)).thenReturn(Optional.of(mockUser));
+		when(userRepository.byUsernameOrEmail(email)).thenReturn(Optional.of(mockUser));
 
 		Map<String, String> response = userService.validateAndUpdatePassword(email, passwordForm);
 
@@ -145,7 +145,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 		mockUser.setPassword(passwordEncoder.encrypt("wrongOldPassword!1"));
 		
 
-		when(userRepository.findByEmail(email)).thenReturn(Optional.of(mockUser));
+		when(userRepository.byUsernameOrEmail(email)).thenReturn(Optional.of(mockUser));
 
 		Map<String, String> response = userService.validateAndUpdatePassword(email, passwordForm);
 
@@ -165,7 +165,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 		mockUser.setEmail(email);
 		mockUser.setPassword(passwordEncoder.encrypt("wrongOldPassword!1"));
 
-		when(userRepository.findByEmail(email)).thenReturn(Optional.of(mockUser));
+		when(userRepository.byUsernameOrEmail(email)).thenReturn(Optional.of(mockUser));
 
 		Map<String, String> response = userService.validateAndUpdatePassword(email, passwordForm);
 
@@ -190,8 +190,8 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 		mockUser2.setEmail(email2);
 		mockUser2.setUsername("Test");
 
-		when(userRepository.findByEmail(email1)).thenReturn(Optional.of(mockUser1));
-		when(userRepository.findByEmail(email2)).thenReturn(Optional.of(mockUser2));
+		when(userRepository.byUsernameOrEmail(email1)).thenReturn(Optional.of(mockUser1));
+		when(userRepository.byUsernameOrEmail(email2)).thenReturn(Optional.of(mockUser2));
 
 		Map<String, String> response = userService.addConnection(email1, connexionForm);
 
@@ -212,7 +212,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 		mockUser.setEmail(email);
 		mockUser.setUsername("Test");
 
-		when(userRepository.findByEmail(email)).thenReturn(Optional.of(mockUser));
+		when(userRepository.byUsernameOrEmail(email)).thenReturn(Optional.of(mockUser));
 
 		Map<String, String> response = userService.addConnection(email, connexionForm);
 
@@ -259,8 +259,8 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 
 		user1.setConnections(connexions);
 
-		when(userRepository.findByEmail(user1.getEmail())).thenReturn(Optional.of(user1));
-		when(userRepository.findByEmail(connexionForm.getEmail())).thenReturn(Optional.of(user2));
+		when(userRepository.byUsernameOrEmail(user1.getEmail())).thenReturn(Optional.of(user1));
+		when(userRepository.byUsernameOrEmail(connexionForm.getEmail())).thenReturn(Optional.of(user2));
 
 		Map<String, String> response = userService.addConnection(user1.getEmail(), connexionForm);
 
