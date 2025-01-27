@@ -1,4 +1,4 @@
-package com.openclassrooms.payMyBuddy.UT;
+package com.openclassrooms.paymybuddy.UT;
 
 import static com.openclassrooms.paymybuddy.constants.AppConstants.ERROR;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.OLD_PASSWORD_FALSE;

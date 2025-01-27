@@ -1,4 +1,4 @@
-package com.openclassrooms.payMyBuddy.model;
+package com.openclassrooms.paymybuddy.model;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

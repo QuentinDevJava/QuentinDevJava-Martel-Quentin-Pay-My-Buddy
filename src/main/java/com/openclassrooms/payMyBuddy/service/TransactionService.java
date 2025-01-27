@@ -1,5 +1,4 @@
-package com.openclassrooms.payMyBuddy.service;
-
+package com.openclassrooms.paymybuddy.service;
 import java.util.ArrayList;
 import java.util.List;
 

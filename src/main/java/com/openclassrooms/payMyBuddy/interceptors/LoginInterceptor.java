@@ -1,4 +1,4 @@
-package com.openclassrooms.payMyBuddy.interceptors;
+package com.openclassrooms.paymybuddy.interceptors;
 
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;

@@ -1,5 +1,4 @@
-package com.openclassrooms.payMyBuddy.web.form;
-
+package com.openclassrooms.paymybuddy.web.form;
 import com.openclassrooms.paymybuddy.model.Transaction;
 
 import jakarta.validation.constraints.Min;

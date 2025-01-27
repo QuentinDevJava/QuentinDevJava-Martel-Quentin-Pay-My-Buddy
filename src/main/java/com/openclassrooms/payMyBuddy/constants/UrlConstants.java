@@ -1,4 +1,4 @@
-package com.openclassrooms.payMyBuddy.constants;
+package com.openclassrooms.paymybuddy.constants;
 
 /**
  * This class contains constants for all URL paths used in the application.

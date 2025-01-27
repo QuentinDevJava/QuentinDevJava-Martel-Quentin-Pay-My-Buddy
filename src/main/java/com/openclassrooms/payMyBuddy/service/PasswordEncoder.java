@@ -1,5 +1,4 @@
-package com.openclassrooms.payMyBuddy.service;
-
+package com.openclassrooms.paymybuddy.service;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.spec.KeySpec;

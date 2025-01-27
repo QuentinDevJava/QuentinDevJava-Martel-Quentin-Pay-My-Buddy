@@ -1,4 +1,4 @@
-package com.openclassrooms.payMyBuddy.web.form;
+package com.openclassrooms.paymybuddy.web.form;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

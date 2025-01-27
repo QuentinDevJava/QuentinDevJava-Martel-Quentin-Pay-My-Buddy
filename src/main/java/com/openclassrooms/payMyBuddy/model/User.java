@@ -1,5 +1,4 @@
-package com.openclassrooms.payMyBuddy.model;
-
+package com.openclassrooms.paymybuddy.model;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

@@ -1,5 +1,4 @@
-package com.openclassrooms.payMyBuddy.service;
-
+package com.openclassrooms.paymybuddy.service;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.ERROR;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.OLD_PASSWORD_FALSE;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.PASSWORD_NOT_MATCH;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Service;
 import com.openclassrooms.paymybuddy.model.User;
 import com.openclassrooms.paymybuddy.repository.UserRepository;
 import com.openclassrooms.paymybuddy.web.form.ConnexionForm;
-import com.openclassrooms.paymybuddy.web.form.LoginForm;
 import com.openclassrooms.paymybuddy.web.form.PasswordForm;
 import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 
@@ -210,36 +208,6 @@ public class UserService {
 	 */
 	private boolean isConnectionExists(User user, User connexion) {
 	    return user.getConnections().stream().anyMatch(c -> c.getEmail().equals(connexion.getEmail()));
-	}
-
-	/**
-	 * Authenticates a user using the provided login form.
-	 *
-	 * @param loginForm the login information
-	 * @return true if authenticated, otherwise false
-	 */
-	public boolean isAuthenticated(LoginForm loginForm) {
-	    log.info("attempting to authenticate {}", loginForm.getIdentifier());
-	    User user = getUserByEmailOrUsername(loginForm.getIdentifier());
-	    
-	    if (user==null || !passwordMatch(loginForm.getPassword(), user.getPassword())) {
-	        log.info("invalid credentials");
-	        return false;
-	    }
-
-	    log.info("User authenticated");
-	    return true;
-	}
-
-	/**
-	 * Compares the entered password with the user's stored password.
-	 *
-	 * @param loginPassword the entered password
-	 * @param userPassword the stored password
-	 * @return true if the passwords match, otherwise false
-	 */
-	private boolean passwordMatch(String loginPassword, String userPassword) {
-	    return passwordEncoder.encrypt(loginPassword).equals(userPassword);
 	}
 
 }

@@ -1,5 +1,4 @@
-package com.openclassrooms.payMyBuddy.web.controller;
-
+package com.openclassrooms.paymybuddy.web.controller;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.LOGIN_ERROR;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.REGISTRATION_SUCCESS;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.SESSION_ATTRIBUTE;
@@ -71,7 +70,7 @@ public class AuthenticationController {
      */
 	@PostMapping(LOGIN)
 	public String authentication(@Valid @ModelAttribute LoginForm loginForm, RedirectAttributes redirAttrs, HttpSession session) {
-		if (userService.isAuthenticated(loginForm)) {
+		if (userService.isValidCredentials(loginForm.getIdentifier(),loginForm.getPassword())) {
 			session.setAttribute(SESSION_ATTRIBUTE, loginForm.getIdentifier());
 			log.info("User authenticated successfully: {}", loginForm.getIdentifier());
 			return TRANSACTION_PAGE;

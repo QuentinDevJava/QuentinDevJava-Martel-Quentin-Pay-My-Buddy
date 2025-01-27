@@ -1,4 +1,4 @@
-package com.openclassrooms.payMyBuddy.IT;
+package com.openclassrooms.paymybuddy.IT;
 
 import static com.openclassrooms.paymybuddy.constants.AppConstants.ERROR;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.SESSION_ATTRIBUTE;

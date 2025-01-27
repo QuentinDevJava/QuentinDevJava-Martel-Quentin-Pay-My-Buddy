@@ -1,4 +1,4 @@
-package com.openclassrooms.payMyBuddy.constants;
+package com.openclassrooms.paymybuddy.constants;
 
 /**
  * This class contains common constant values used throughout the application, 

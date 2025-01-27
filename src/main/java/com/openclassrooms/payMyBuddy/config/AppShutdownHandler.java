@@ -1,4 +1,4 @@
-package com.openclassrooms.payMyBuddy.config;
+package com.openclassrooms.paymybuddy.config;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;

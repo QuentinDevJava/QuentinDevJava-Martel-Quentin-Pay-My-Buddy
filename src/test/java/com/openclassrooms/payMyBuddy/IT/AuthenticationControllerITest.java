@@ -1,4 +1,4 @@
-package com.openclassrooms.payMyBuddy.IT;
+package com.openclassrooms.paymybuddy.IT;
 
 import static com.openclassrooms.paymybuddy.constants.AppConstants.ERROR;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.LOGIN_ERROR;
@@ -57,7 +57,7 @@ public class AuthenticationControllerITest {
 	private RegistrationForm registrationForm = new RegistrationForm();
 
 	@BeforeEach
-	public void setup() throws Exception {
+	public void setup() {
 
 		mockSession.setAttribute(SESSION_ATTRIBUTE, "test@test.com");
 
@@ -79,7 +79,6 @@ public class AuthenticationControllerITest {
 	@Test
 	public void testPostLogin() throws Exception {
 
-		// todo reffact
 		when(userService.getUserByEmailOrUsername(email)).thenReturn(mockUser);
 		when(userService.isValidCredentials(anyString(), anyString())).thenReturn(true);
 
@@ -97,7 +96,6 @@ public class AuthenticationControllerITest {
 	@Test
 	public void testPostLoginErrorPassword() throws Exception {
 
-		// todo reffact
 		when(userService.getUserByEmailOrUsername(email)).thenReturn(mockUser);
 		when(userService.isValidCredentials(anyString(), anyString())).thenReturn(false);
 

@@ -17,7 +17,7 @@
 	<groupId>com.openclassrooms</groupId>
 	<artifactId>paymybuddy</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>payMyBuddy</name>
+	<name>paymybuddy</name>
 	<description>Pay My Buddy is an application that allows users to transfer money easily.</description>
 	<url/>
 	<licenses>

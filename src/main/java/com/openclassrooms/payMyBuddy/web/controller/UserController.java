@@ -1,5 +1,4 @@
-package com.openclassrooms.payMyBuddy.web.controller;
-
+package com.openclassrooms.paymybuddy.web.controller;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.ERROR;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.SESSION_ATTRIBUTE;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.SUCCESS;

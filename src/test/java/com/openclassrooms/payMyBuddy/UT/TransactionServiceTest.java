@@ -1,4 +1,4 @@
-package com.openclassrooms.payMyBuddy.UT;
+package com.openclassrooms.paymybuddy.UT;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;

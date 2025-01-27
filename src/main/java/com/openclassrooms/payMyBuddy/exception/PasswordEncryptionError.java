@@ -1,4 +1,4 @@
-package com.openclassrooms.payMyBuddy.exception;
+package com.openclassrooms.paymybuddy.exception;
 
 /**
 * Exception thrown when an error occurs during password encryption.

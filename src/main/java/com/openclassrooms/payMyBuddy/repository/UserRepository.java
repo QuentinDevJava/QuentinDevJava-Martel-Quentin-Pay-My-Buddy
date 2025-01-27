@@ -1,5 +1,4 @@
-package com.openclassrooms.payMyBuddy.repository;
-
+package com.openclassrooms.paymybuddy.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;

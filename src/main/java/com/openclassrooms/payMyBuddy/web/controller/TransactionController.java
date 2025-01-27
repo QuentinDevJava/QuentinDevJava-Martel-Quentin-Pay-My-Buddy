@@ -1,5 +1,4 @@
-package com.openclassrooms.payMyBuddy.web.controller;
-
+package com.openclassrooms.paymybuddy.web.controller;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.SESSION_ATTRIBUTE;
 import static com.openclassrooms.paymybuddy.constants.UrlConstants.TRANSACTION;
 import static com.openclassrooms.paymybuddy.constants.UrlConstants.TRANSACTION_PAGE;
@@ -30,6 +29,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+
+
 /**
  * Controller responsible for managing transactions between users.
  * Handles displaying the transaction page, creating new transactions, and providing error handling.
@@ -42,16 +43,16 @@ public class TransactionController {
 
 	/** The transaction service. */
 	private final TransactionService transactionService;
-	
+
 	/** The user service. */
 	private final UserService userService;
-	
+
 	/** The flash attribute. */
 	private final FlashMessageHandler flashAttribute;
 
 	  /**
 	  * Displays the transaction page, showing the current user's connections and past transactions.
-	  * 
+	  *
 	  * @param model The model used to pass data to the view.
 	  * @param request The HTTP request containing the session information.
 	  * @return The name of the transaction view.
@@ -72,11 +73,11 @@ public class TransactionController {
 		model.addAttribute("connections", connections);
 		return TRANSACTION;
 	}
-	
+
     /**
-     * Handles the creation of a new transaction. If there are validation errors, the errors are shown; 
+     * Handles the creation of a new transaction. If there are validation errors, the errors are shown;
      * otherwise, the transaction is saved and a success message is displayed.
-     * 
+     *
      * @param request The HTTP request containing session information.
      * @param transactionForm The transaction form data submitted by the user.
      * @param result The result of validation on the form data.
