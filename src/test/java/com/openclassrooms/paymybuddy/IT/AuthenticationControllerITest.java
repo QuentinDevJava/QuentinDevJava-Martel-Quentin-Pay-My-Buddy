@@ -40,7 +40,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class AuthenticationControllerITest {
+ class AuthenticationControllerITest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -57,7 +57,7 @@ public class AuthenticationControllerITest {
 	private RegistrationForm registrationForm = new RegistrationForm();
 
 	@BeforeEach
-	public void setup() {
+	 void setup() {
 
 		mockSession.setAttribute(SESSION_ATTRIBUTE, "test@test.com");
 
@@ -71,13 +71,13 @@ public class AuthenticationControllerITest {
 	}
 
 	@Test
-	public void testGetLogin() throws Exception {
+	 void testGetLogin() throws Exception {
 
 		mockMvc.perform(get(LOGIN)).andExpect(status().isOk()).andExpect(view().name(USER_LOGIN));
 	}
 
 	@Test
-	public void testPostLogin() throws Exception {
+	 void testPostLogin() throws Exception {
 
 		when(userService.getUserByEmailOrUsername(email)).thenReturn(mockUser);
 		when(userService.isValidCredentials(anyString(), anyString())).thenReturn(true);
@@ -87,14 +87,14 @@ public class AuthenticationControllerITest {
 	}
 
 	@Test
-	public void testPostLoginErrorUserNull() throws Exception {
+	 void testPostLoginErrorUserNull() throws Exception {
 
 		mockMvc.perform(post(LOGIN).param("identifier", email).param("password", password))
 				.andExpect(flash().attribute(ERROR, LOGIN_ERROR)).andExpect(view().name(REDIR_LOGIN));
 	}
 
 	@Test
-	public void testPostLoginErrorPassword() throws Exception {
+	 void testPostLoginErrorPassword() throws Exception {
 
 		when(userService.getUserByEmailOrUsername(email)).thenReturn(mockUser);
 		when(userService.isValidCredentials(anyString(), anyString())).thenReturn(false);
@@ -104,19 +104,19 @@ public class AuthenticationControllerITest {
 	}
 
 	@Test
-	public void testLogout() throws Exception {
+	 void testLogout() throws Exception {
 
 		mockMvc.perform(get(LOGOUT).session(mockSession)).andExpect(status().isFound())
 				.andExpect(view().name(REDIR_LOGIN));
 	}
 
 	@Test
-	public void testGetRegistration() throws Exception {
+	 void testGetRegistration() throws Exception {
 		mockMvc.perform(get(REGISTRATION)).andExpect(status().isOk()).andExpect(view().name(USER_REGISTRATION));
 	}
 
 	@Test
-	public void testPostRegistration() throws Exception {
+	 void testPostRegistration() throws Exception {
 
 		doNothing().when(userService).addUser(registrationForm);
 
@@ -126,7 +126,7 @@ public class AuthenticationControllerITest {
 	}
 
 	@Test
-	public void testPostRegistrationError() throws Exception {
+	 void testPostRegistrationError() throws Exception {
 		
         doThrow(new IllegalArgumentException(USERNAME_OR_EMAIL_IS_USE))
         .when(userService).addUser(any(RegistrationForm.class));
@@ -137,7 +137,7 @@ public class AuthenticationControllerITest {
 
 	}
 	@Test
-	public void testPostRegistrationFormError() throws Exception {
+	 void testPostRegistrationFormError() throws Exception {
 		
 		mockMvc.perform(post(REGISTRATION).param("username", username).param("email", email).param("password", "Test"))
 		.andExpect(view().name(USER_REGISTRATION));
