@@ -1,10 +1,10 @@
-package com.openclassrooms.payMyBuddy.config;
+package com.openclassrooms.paymybuddy.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.openclassrooms.payMyBuddy.interceptors.LoginInterceptor;
+import com.openclassrooms.paymybuddy.interceptors.LoginInterceptor;
 
 import lombok.RequiredArgsConstructor;
 

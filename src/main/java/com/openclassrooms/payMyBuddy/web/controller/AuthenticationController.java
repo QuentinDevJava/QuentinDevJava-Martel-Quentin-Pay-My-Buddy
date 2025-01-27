@@ -1,16 +1,16 @@
 package com.openclassrooms.payMyBuddy.web.controller;
 
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.LOGIN_ERROR;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.REGISTRATION_SUCCESS;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.SESSION_ATTRIBUTE;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.LOGIN;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.LOGOUT;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_LOGIN;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_REGISTRATION;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REGISTRATION;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.TRANSACTION_PAGE;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_LOGIN;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_REGISTRATION;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.LOGIN_ERROR;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.REGISTRATION_SUCCESS;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.SESSION_ATTRIBUTE;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.LOGIN;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.LOGOUT;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.REDIR_LOGIN;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.REDIR_REGISTRATION;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.REGISTRATION;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.TRANSACTION_PAGE;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.USER_LOGIN;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.USER_REGISTRATION;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.openclassrooms.payMyBuddy.service.FlashMessageHandler;
-import com.openclassrooms.payMyBuddy.service.UserService;
-import com.openclassrooms.payMyBuddy.web.form.LoginForm;
-import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
+import com.openclassrooms.paymybuddy.service.FlashMessageHandler;
+import com.openclassrooms.paymybuddy.service.UserService;
+import com.openclassrooms.paymybuddy.web.form.LoginForm;
+import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

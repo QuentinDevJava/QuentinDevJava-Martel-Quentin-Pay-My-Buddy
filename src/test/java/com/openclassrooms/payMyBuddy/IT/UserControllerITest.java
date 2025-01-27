@@ -1,21 +1,21 @@
 package com.openclassrooms.payMyBuddy.IT;
 
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.ERROR;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.OLD_PASSWORD_FALSE;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.PASSWORD_NOT_MATCH;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.PASSWORD_SUCCESS;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.SESSION_ATTRIBUTE;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.SUCCESS;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.UNKNOW_USER;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.USER_ALREADY_ADDED;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.USER_CANNOT_CONNECT_TO_THEMSELF;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.CONNECTION_CONNECTION;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.TRANSACTION_PAGE;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_USER_CONNECTION;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_USER_PROFIL;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_USER_UPDATE_PASSWORD;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_PASSWORD;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_PROFIL;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.ERROR;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.OLD_PASSWORD_FALSE;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.PASSWORD_NOT_MATCH;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.PASSWORD_SUCCESS;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.SESSION_ATTRIBUTE;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.SUCCESS;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.UNKNOW_USER;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.USER_ALREADY_ADDED;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.USER_CANNOT_CONNECT_TO_THEMSELF;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.CONNECTION_CONNECTION;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.REDIR_USER_CONNECTION;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.REDIR_USER_PROFIL;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.REDIR_USER_UPDATE_PASSWORD;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.TRANSACTION_PAGE;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.USER_PASSWORD;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.USER_PROFIL;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -38,10 +38,10 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.openclassrooms.payMyBuddy.model.User;
-import com.openclassrooms.payMyBuddy.service.UserService;
-import com.openclassrooms.payMyBuddy.web.form.ConnexionForm;
-import com.openclassrooms.payMyBuddy.web.form.PasswordForm;
+import com.openclassrooms.paymybuddy.model.User;
+import com.openclassrooms.paymybuddy.service.UserService;
+import com.openclassrooms.paymybuddy.web.form.ConnexionForm;
+import com.openclassrooms.paymybuddy.web.form.PasswordForm;
 
 @SpringBootTest
 @AutoConfigureMockMvc

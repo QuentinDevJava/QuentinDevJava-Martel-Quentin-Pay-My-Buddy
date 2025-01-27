@@ -1,13 +1,13 @@
 package com.openclassrooms.payMyBuddy.UT;
 
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.ERROR;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.OLD_PASSWORD_FALSE;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.PASSWORD_NOT_MATCH;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.PASSWORD_SUCCESS;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.SUCCESS;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.UNKNOW_USER;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.USER_ALREADY_ADDED;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.USER_CANNOT_CONNECT_TO_THEMSELF;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.ERROR;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.OLD_PASSWORD_FALSE;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.PASSWORD_NOT_MATCH;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.PASSWORD_SUCCESS;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.SUCCESS;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.UNKNOW_USER;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.USER_ALREADY_ADDED;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.USER_CANNOT_CONNECT_TO_THEMSELF;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -28,13 +28,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.openclassrooms.payMyBuddy.model.User;
-import com.openclassrooms.payMyBuddy.repository.UserRepository;
-import com.openclassrooms.payMyBuddy.service.PasswordEncoder;
-import com.openclassrooms.payMyBuddy.service.UserService;
-import com.openclassrooms.payMyBuddy.web.form.ConnexionForm;
-import com.openclassrooms.payMyBuddy.web.form.PasswordForm;
-import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
+import com.openclassrooms.paymybuddy.model.User;
+import com.openclassrooms.paymybuddy.repository.UserRepository;
+import com.openclassrooms.paymybuddy.service.PasswordEncoder;
+import com.openclassrooms.paymybuddy.service.UserService;
+import com.openclassrooms.paymybuddy.web.form.ConnexionForm;
+import com.openclassrooms.paymybuddy.web.form.PasswordForm;
+import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 
 @SpringBootTest
  class UserServiceTest {

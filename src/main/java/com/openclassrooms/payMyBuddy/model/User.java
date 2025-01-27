@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.openclassrooms.payMyBuddy.exception.PasswordEncryptionError;
-import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
+import com.openclassrooms.paymybuddy.exception.PasswordEncryptionError;
+import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

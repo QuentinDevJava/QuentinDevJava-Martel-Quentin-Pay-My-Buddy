@@ -1,19 +1,19 @@
 package com.openclassrooms.payMyBuddy.IT;
 
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.ERROR;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.LOGIN_ERROR;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.REGISTRATION_SUCCESS;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.SESSION_ATTRIBUTE;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.SUCCESS;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.USERNAME_OR_EMAIL_IS_USE;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.LOGIN;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.LOGOUT;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_LOGIN;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_REGISTRATION;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.TRANSACTION_PAGE;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REGISTRATION;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_LOGIN;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_REGISTRATION;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.ERROR;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.LOGIN_ERROR;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.REGISTRATION_SUCCESS;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.SESSION_ATTRIBUTE;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.SUCCESS;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.USERNAME_OR_EMAIL_IS_USE;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.LOGIN;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.LOGOUT;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.REDIR_LOGIN;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.REDIR_REGISTRATION;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.REGISTRATION;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.TRANSACTION_PAGE;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.USER_LOGIN;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.USER_REGISTRATION;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
@@ -34,9 +34,9 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.openclassrooms.payMyBuddy.model.User;
-import com.openclassrooms.payMyBuddy.service.UserService;
-import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
+import com.openclassrooms.paymybuddy.model.User;
+import com.openclassrooms.paymybuddy.service.UserService;
+import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 
 @SpringBootTest
 @AutoConfigureMockMvc

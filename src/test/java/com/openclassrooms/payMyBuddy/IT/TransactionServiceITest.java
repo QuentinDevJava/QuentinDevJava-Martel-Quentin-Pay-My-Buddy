@@ -10,11 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.openclassrooms.payMyBuddy.model.Transaction;
-import com.openclassrooms.payMyBuddy.model.User;
-import com.openclassrooms.payMyBuddy.repository.UserRepository;
-import com.openclassrooms.payMyBuddy.service.TransactionService;
-import com.openclassrooms.payMyBuddy.web.form.TransactionForm;
+import com.openclassrooms.paymybuddy.model.Transaction;
+import com.openclassrooms.paymybuddy.model.User;
+import com.openclassrooms.paymybuddy.repository.UserRepository;
+import com.openclassrooms.paymybuddy.service.TransactionService;
+import com.openclassrooms.paymybuddy.web.form.TransactionForm;
 
 
 @SpringBootTest

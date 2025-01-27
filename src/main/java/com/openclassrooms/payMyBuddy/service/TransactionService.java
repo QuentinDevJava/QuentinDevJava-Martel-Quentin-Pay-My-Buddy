@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.openclassrooms.payMyBuddy.model.Transaction;
-import com.openclassrooms.payMyBuddy.model.User;
-import com.openclassrooms.payMyBuddy.repository.TransactionRepository;
-import com.openclassrooms.payMyBuddy.web.form.TransactionForm;
+import com.openclassrooms.paymybuddy.model.Transaction;
+import com.openclassrooms.paymybuddy.model.User;
+import com.openclassrooms.paymybuddy.repository.TransactionRepository;
+import com.openclassrooms.paymybuddy.web.form.TransactionForm;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

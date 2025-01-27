@@ -1,8 +1,8 @@
 package com.openclassrooms.payMyBuddy.web.controller;
 
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.SESSION_ATTRIBUTE;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.TRANSACTION;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.TRANSACTION_PAGE;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.SESSION_ATTRIBUTE;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.TRANSACTION;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.TRANSACTION_PAGE;
 
 import java.util.List;
 import java.util.Set;
@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.openclassrooms.payMyBuddy.model.Transaction;
-import com.openclassrooms.payMyBuddy.model.User;
-import com.openclassrooms.payMyBuddy.service.FlashMessageHandler;
-import com.openclassrooms.payMyBuddy.service.TransactionService;
-import com.openclassrooms.payMyBuddy.service.UserService;
-import com.openclassrooms.payMyBuddy.web.form.TransactionForm;
+import com.openclassrooms.paymybuddy.model.Transaction;
+import com.openclassrooms.paymybuddy.model.User;
+import com.openclassrooms.paymybuddy.service.FlashMessageHandler;
+import com.openclassrooms.paymybuddy.service.TransactionService;
+import com.openclassrooms.paymybuddy.service.UserService;
+import com.openclassrooms.paymybuddy.web.form.TransactionForm;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

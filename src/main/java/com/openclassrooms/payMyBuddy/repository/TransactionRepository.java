@@ -3,7 +3,7 @@ package com.openclassrooms.payMyBuddy.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.openclassrooms.payMyBuddy.model.Transaction;
+import com.openclassrooms.paymybuddy.model.Transaction;
 
 /**
  * Repository interface for managing {@link Transaction} entities.

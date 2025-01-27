@@ -1,19 +1,19 @@
 package com.openclassrooms.payMyBuddy.web.controller;
 
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.ERROR;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.SESSION_ATTRIBUTE;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.SUCCESS;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.CONNECTION;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.CONNECTION_CONNECTION;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.PROFIL;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_USER_CONNECTION;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_USER_PROFIL;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.REDIR_USER_UPDATE_PASSWORD;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.TRANSACTION_PAGE;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.UPDATE_PASSWORD;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_PASSWORD;
-import static com.openclassrooms.payMyBuddy.constants.UrlConstants.USER_PROFIL;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.ERROR;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.SESSION_ATTRIBUTE;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.SUCCESS;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.CONNECTION;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.CONNECTION_CONNECTION;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.PROFIL;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.REDIR_USER_CONNECTION;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.REDIR_USER_PROFIL;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.REDIR_USER_UPDATE_PASSWORD;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.TRANSACTION_PAGE;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.UPDATE_PASSWORD;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.USER;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.USER_PASSWORD;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.USER_PROFIL;
 
 import java.util.Map;
 
@@ -26,13 +26,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.openclassrooms.payMyBuddy.constants.AppConstants;
-import com.openclassrooms.payMyBuddy.model.User;
-import com.openclassrooms.payMyBuddy.service.FlashMessageHandler;
-import com.openclassrooms.payMyBuddy.service.UserService;
-import com.openclassrooms.payMyBuddy.web.form.ConnexionForm;
-import com.openclassrooms.payMyBuddy.web.form.PasswordForm;
-import com.openclassrooms.payMyBuddy.web.form.ProfilForm;
+import com.openclassrooms.paymybuddy.constants.AppConstants;
+import com.openclassrooms.paymybuddy.model.User;
+import com.openclassrooms.paymybuddy.service.FlashMessageHandler;
+import com.openclassrooms.paymybuddy.service.UserService;
+import com.openclassrooms.paymybuddy.web.form.ConnexionForm;
+import com.openclassrooms.paymybuddy.web.form.PasswordForm;
+import com.openclassrooms.paymybuddy.web.form.ProfilForm;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

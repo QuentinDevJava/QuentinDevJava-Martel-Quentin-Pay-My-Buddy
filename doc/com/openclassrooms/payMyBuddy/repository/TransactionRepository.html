@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="dc.created" content="2025-01-17">
-<meta name="description" content="declaration: package: com.openclassrooms.payMyBuddy.repository, interface: TransactionRepository">
+<meta name="description" content="declaration: package: com.openclassrooms.paymybuddy.repository, interface: TransactionRepository">
 <meta name="generator" content="javadoc/ClassWriterImpl">
 <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../script-dir/jquery-ui.min.css" title="Style">
@@ -69,22 +69,22 @@ loadScripts(document, 'script');</script>
 <main role="main">
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.openclassrooms.payMyBuddy.repository</a></div>
+<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.openclassrooms.paymybuddy.repository</a></div>
 <h1 title="Interface TransactionRepository" class="title">Interface TransactionRepository</h1>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Superinterfaces:</dt>
-<dd><code>org.springframework.data.repository.CrudRepository&lt;<a href="../model/Transaction.html" title="class in com.openclassrooms.payMyBuddy.model">Transaction</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code>, <code>org.springframework.data.repository.Repository&lt;<a href="../model/Transaction.html" title="class in com.openclassrooms.payMyBuddy.model">Transaction</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></dd>
+<dd><code>org.springframework.data.repository.CrudRepository&lt;<a href="../model/Transaction.html" title="class in com.openclassrooms.paymybuddy.model">Transaction</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code>, <code>org.springframework.data.repository.Repository&lt;<a href="../model/Transaction.html" title="class in com.openclassrooms.paymybuddy.model">Transaction</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations">@Repository
 </span><span class="modifiers">public interface </span><span class="element-name type-name-label">TransactionRepository</span><span class="extends-implements">
-extends org.springframework.data.repository.CrudRepository&lt;<a href="../model/Transaction.html" title="class in com.openclassrooms.payMyBuddy.model">Transaction</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span></div>
-<div class="block">Repository interface for managing <a href="../model/Transaction.html" title="class in com.openclassrooms.payMyBuddy.model"><code>Transaction</code></a> entities.
+extends org.springframework.data.repository.CrudRepository&lt;<a href="../model/Transaction.html" title="class in com.openclassrooms.paymybuddy.model">Transaction</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span></div>
+<div class="block">Repository interface for managing <a href="../model/Transaction.html" title="class in com.openclassrooms.paymybuddy.model"><code>Transaction</code></a> entities.
  
  This interface extends <code>CrudRepository</code> to provide CRUD operations
- for the <a href="../model/Transaction.html" title="class in com.openclassrooms.payMyBuddy.model"><code>Transaction</code></a> entity.
+ for the <a href="../model/Transaction.html" title="class in com.openclassrooms.paymybuddy.model"><code>Transaction</code></a> entity.
  
  <p><b>Methods:</b></p>
  <ul>
@@ -104,7 +104,7 @@ extends org.springframework.data.repository.CrudRepository&lt;<a href="../model/
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="../model/Transaction.html" title="class in com.openclassrooms.payMyBuddy.model">Transaction</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="../model/Transaction.html" title="class in com.openclassrooms.paymybuddy.model">Transaction</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#findBySenderId(int)" class="member-name-link">findBySenderId</a><wbr>(int&nbsp;id)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Finds all transactions sent by a user based on their ID.</div>
@@ -129,7 +129,7 @@ extends org.springframework.data.repository.CrudRepository&lt;<a href="../model/
 <li>
 <section class="detail" id="findBySenderId(int)">
 <h3>findBySenderId</h3>
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="../model/Transaction.html" title="class in com.openclassrooms.payMyBuddy.model">Transaction</a>&gt;</span>&nbsp;<span class="element-name">findBySenderId</span><wbr><span class="parameters">(int&nbsp;id)</span></div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="../model/Transaction.html" title="class in com.openclassrooms.paymybuddy.model">Transaction</a>&gt;</span>&nbsp;<span class="element-name">findBySenderId</span><wbr><span class="parameters">(int&nbsp;id)</span></div>
 <div class="block">Finds all transactions sent by a user based on their ID.</div>
 <dl class="notes">
 <dt>Parameters:</dt>

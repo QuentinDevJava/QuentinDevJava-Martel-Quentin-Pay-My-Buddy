@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.openclassrooms.payMyBuddy.model.User;
+import com.openclassrooms.paymybuddy.model.User;
 
 /**
  * Repository interface for managing {@link User} entities.

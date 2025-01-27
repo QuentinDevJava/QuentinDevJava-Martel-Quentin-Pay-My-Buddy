@@ -12,7 +12,7 @@ import javax.crypto.spec.DESedeKeySpec;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Component;
 
-import com.openclassrooms.payMyBuddy.exception.PasswordEncryptionError;
+import com.openclassrooms.paymybuddy.exception.PasswordEncryptionError;
 
 /**
  * Class for encrypting a password. The encryption key is retrieved from the

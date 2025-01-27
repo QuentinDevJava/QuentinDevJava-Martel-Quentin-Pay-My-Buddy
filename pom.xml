@@ -15,7 +15,7 @@
 		<relativePath/>
 	</parent>
 	<groupId>com.openclassrooms</groupId>
-	<artifactId>payMyBuddy</artifactId>
+	<artifactId>paymybuddy</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>payMyBuddy</name>
 	<description>Pay My Buddy is an application that allows users to transfer money easily.</description>
@@ -154,7 +154,7 @@
 				    <additionalJOptions>
 				    <option>-Xdoclint:none</option>
 				</additionalJOptions>
-				  <excludePackageNames>com.openclassrooms.payMyBuddy.IT:com.openclassrooms.payMyBuddy.UT</excludePackageNames>
+				  <excludePackageNames>com.openclassrooms.paymybuddy.IT:com.openclassrooms.paymybuddy.UT</excludePackageNames>
 				</configuration>
 	        </plugin>
 			<plugin>
@@ -198,7 +198,7 @@
 				    <additionalJOptions>
 				     <option>-Xdoclint:none</option>
 				</additionalJOptions>
-				  <excludePackageNames>com.openclassrooms.payMyBuddy.IT:com.openclassrooms.payMyBuddy.UT</excludePackageNames>
+				  <excludePackageNames>com.openclassrooms.paymybuddy.IT:com.openclassrooms.paymybuddy.UT</excludePackageNames>
 				</configuration>
 	        </plugin>
 			 <plugin>

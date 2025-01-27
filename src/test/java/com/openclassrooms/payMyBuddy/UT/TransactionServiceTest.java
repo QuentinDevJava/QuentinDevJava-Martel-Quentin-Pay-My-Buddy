@@ -14,10 +14,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.openclassrooms.payMyBuddy.model.Transaction;
-import com.openclassrooms.payMyBuddy.repository.TransactionRepository;
-import com.openclassrooms.payMyBuddy.service.TransactionService;
-import com.openclassrooms.payMyBuddy.service.UserService;
+import com.openclassrooms.paymybuddy.model.Transaction;
+import com.openclassrooms.paymybuddy.repository.TransactionRepository;
+import com.openclassrooms.paymybuddy.service.TransactionService;
+import com.openclassrooms.paymybuddy.service.UserService;
 
 @SpringBootTest
  class TransactionServiceTest {

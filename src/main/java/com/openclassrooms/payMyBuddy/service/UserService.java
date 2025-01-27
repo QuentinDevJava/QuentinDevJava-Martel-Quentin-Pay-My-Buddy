@@ -1,14 +1,14 @@
 package com.openclassrooms.payMyBuddy.service;
 
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.ERROR;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.OLD_PASSWORD_FALSE;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.PASSWORD_NOT_MATCH;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.PASSWORD_SUCCESS;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.SUCCESS;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.UNKNOW_USER;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.USERNAME_OR_EMAIL_IS_USE;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.USER_ALREADY_ADDED;
-import static com.openclassrooms.payMyBuddy.constants.AppConstants.USER_CANNOT_CONNECT_TO_THEMSELF;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.ERROR;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.OLD_PASSWORD_FALSE;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.PASSWORD_NOT_MATCH;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.PASSWORD_SUCCESS;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.SUCCESS;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.UNKNOW_USER;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.USERNAME_OR_EMAIL_IS_USE;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.USER_ALREADY_ADDED;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.USER_CANNOT_CONNECT_TO_THEMSELF;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,12 +17,12 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.openclassrooms.payMyBuddy.model.User;
-import com.openclassrooms.payMyBuddy.repository.UserRepository;
-import com.openclassrooms.payMyBuddy.web.form.ConnexionForm;
-import com.openclassrooms.payMyBuddy.web.form.LoginForm;
-import com.openclassrooms.payMyBuddy.web.form.PasswordForm;
-import com.openclassrooms.payMyBuddy.web.form.RegistrationForm;
+import com.openclassrooms.paymybuddy.model.User;
+import com.openclassrooms.paymybuddy.repository.UserRepository;
+import com.openclassrooms.paymybuddy.web.form.ConnexionForm;
+import com.openclassrooms.paymybuddy.web.form.LoginForm;
+import com.openclassrooms.paymybuddy.web.form.PasswordForm;
+import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
