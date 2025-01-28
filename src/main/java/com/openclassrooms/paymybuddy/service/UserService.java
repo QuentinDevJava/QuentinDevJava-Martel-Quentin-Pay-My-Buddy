@@ -1,4 +1,5 @@
 package com.openclassrooms.paymybuddy.service;
+
 import static com.openclassrooms.paymybuddy.constants.AppConstants.ERROR;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.OLD_PASSWORD_FALSE;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.PASSWORD_NOT_MATCH;
@@ -28,19 +29,26 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * Service for managing users.
  * 
- * This service provides methods to retrieve a user by their ID or email, 
- * add a new user, validate and update the password, or establish connections between users.
+ * This service provides methods to retrieve a user by their ID or email, add a
+ * new user, validate and update the password, or establish connections between
+ * users.
  * 
- * <p><b>Methods:</b></p>
+ * <p>
+ * <b>Methods:</b>
+ * </p>
  * <ul>
- *   <li><b>{@link #getUserById} :</b> Retrieves a user by their ID.</li>
- *   <li><b>{@link #getUserByEmail} :</b> Retrieves a user by their email.</li>
- *   <li><b>{@link #addUser} :</b> Adds a new user.</li>
- *   <li><b>{@link #userExistsByEmailOrUsername} :</b> Checks if a user exists with the specified email or username.</li>
- *   <li><b>{@link #getUserByEmailOrUsername} :</b> Retrieves a user by their email or username.</li>
- *   <li><b>{@link #isValidCredentials} :</b> Checks if the email (or username) and password are valid.</li>
- *   <li><b>{@link #validateAndUpdatePassword} :</b> Validates and updates the user's password.</li>
- *   <li><b>{@link #addConnection} :</b> Validates and adds a connection with another user.</li>
+ * <li><b>{@link #addUser} :</b> Adds a new user.</li>
+ * <li><b>{@link #getUserById} :</b> Retrieves a user by their ID.</li>
+ * <li><b>{@link #getUserByEmailOrUsername} :</b> Retrieves a user by their
+ * email or username.</li>
+ * <li><b>{@link #validateAndUpdatePassword} :</b> Validates and updates the
+ * user's password.</li>
+ * <li><b>{@link #addConnection} :</b> Validates and adds a connection with
+ * another user.</li>
+ * <li><b>{@link #userExistsByEmailOrUsername} :</b> Checks if a user exists
+ * with the specified email or username.</li>
+ * <li><b>{@link #isValidCredentials} :</b> Checks if the email (or username)
+ * and password are valid.</li>
  * </ul>
  */
 @Service
@@ -49,9 +57,36 @@ import lombok.extern.slf4j.Slf4j;
 public class UserService {
 
 	private final UserRepository userRepository;
-	
+
 	private final PasswordEncoder passwordEncoder;
-	
+
+	/**
+	 * Adds a new user to the system.
+	 * 
+	 * @param registrationForm The registration details of the user.
+	 * @throws IllegalArgumentException If a user with the same email or username
+	 *                                  already exists.
+	 */
+	public void addUser(RegistrationForm registrationForm) throws IllegalArgumentException {
+		if (userExistsByEmailOrUsername(registrationForm.getEmail(), registrationForm.getUsername())) {
+			log.warn("User already exists : Username = {}, Email = {}", registrationForm.getUsername(),
+					registrationForm.getEmail());
+			throw new IllegalArgumentException(USERNAME_OR_EMAIL_IS_USE);
+		}
+		User user = new User(registrationForm);
+		user.setPassword(passwordEncoder.encrypt(registrationForm.getPassword()));
+		saveUser(user);
+	}
+
+	/**
+	 * Saves a user in the database.
+	 * 
+	 * @param user The user to be saved.
+	 */
+	private void saveUser(User user) {
+		userRepository.save(user);
+	}
+
 	/**
 	 * Retrieves a user by their ID.
 	 * 
@@ -64,72 +99,25 @@ public class UserService {
 	}
 
 	/**
-	* Adds a new user to the system.
-	* 
-	* @param registrationForm The registration details of the user.
-	* @throws IllegalArgumentException If a user with the same email or username already exists.
-     */
-	public void addUser(RegistrationForm registrationForm) throws IllegalArgumentException {
-		if (userExistsByEmailOrUsername(registrationForm.getEmail(),registrationForm.getUsername())) {
-			log.warn("User already exists : Username = {}, Email = {}", registrationForm.getUsername(), registrationForm.getEmail());
-			throw new IllegalArgumentException(USERNAME_OR_EMAIL_IS_USE);
-		}
-		User user = new User(registrationForm);
-		user.setPassword(passwordEncoder.encrypt(registrationForm.getPassword()));
-		saveUser(user);
-	}
-
-	/**
-	 * Checks if a user exists with the given email or username.
+	 * Retrieves a user by their email or username.
 	 * 
-	 * @param email The email of the user.
-	 * @param username The username of the user.
-	 * @return true if the user exists, false otherwise.
+	 * @param identifier The email or username of the user.
+	 * @return The user found or null if no user is found.
 	 */
-	public boolean userExistsByEmailOrUsername(String email,String username) {
-		return userRepository.existsByEmailOrUsername(email, username);
-	}
-
-	/**
-	* Retrieves a user by their email or username.
-	* 
-	* @param identifier The email or username of the user.
-	* @return The user found or null if no user is found.
-	*/
 	public User getUserByEmailOrUsername(String identifier) {
 		return userRepository.byUsernameOrEmail(identifier).orElse(null);
 	}
 
 	/**
-	 * Saves a user in the database.
+	 * Validates and updates the user's password.
 	 * 
-	 * @param user The user to be saved.
+	 * @param email        The email of the user whose password is to be updated.
+	 * @param passwordForm The details of the new password.
+	 * @return A Map object containing the status and a success or error message.
+	 * @throws Exception If an error occurs during the validation or update.
 	 */
-	private void saveUser(User user) {
-		userRepository.save(user);
-
-	}
-
-	/**
-	 * Checks if the email (or username) and password are valid.
-	 * 
-	 * @param identifier The email or username of the user.
-	 * @param password The password of the user.
-	 * @return true if the email (or username) and password are valid, false otherwise.
-	 */
-	public boolean isValidCredentials(String identifier, String password) {
-		return userRepository.existsByEmailOrUsernameAndPassword(identifier,identifier, passwordEncoder.encrypt(password));
-	}
-
-	/**
-	* Validates and updates the user's password.
-	* 
-	* @param email The email of the user whose password is to be updated.
-	* @param passwordForm The details of the new password.
-	* @return A Map object containing the status and a success or error message.
-	* @throws Exception If an error occurs during the validation or update.
-	*/
-	public Map<String, String> validateAndUpdatePassword(String identifier, PasswordForm passwordForm) throws Exception {
+	public Map<String, String> validateAndUpdatePassword(String identifier, PasswordForm passwordForm)
+			throws Exception {
 		Map<String, String> response = new HashMap<>();
 		User user = getUserByEmailOrUsername(identifier);
 		if (Objects.equals(passwordEncoder.encrypt(passwordForm.getOldPassword()), user.getPassword())) {
@@ -152,7 +140,8 @@ public class UserService {
 	/**
 	 * Adds a connection with another user.
 	 * 
-	 * @param identifier The email or username of the user who wants to add a connection.
+	 * @param identifier    The email or username of the user who wants to add a
+	 *                      connection.
 	 * @param connexionForm The details of the user to connect with.
 	 * @return A Map object containing the status and a success or error message.
 	 */
@@ -188,14 +177,37 @@ public class UserService {
 	}
 
 	/**
+	 * Checks if a user exists with the given email or username.
+	 * 
+	 * @param email    The email of the user.
+	 * @param username The username of the user.
+	 * @return true if the user exists, false otherwise.
+	 */
+	public boolean userExistsByEmailOrUsername(String email, String username) {
+		return userRepository.existsByEmailOrUsername(email, username);
+	}
+
+	/**
+	 * Checks if the email (or username) and password are valid.
+	 * 
+	 * @param identifier The email or username of the user.
+	 * @param password   The password of the user.
+	 * @return true if the email (or username) and password are valid, false
+	 *         otherwise.
+	 */
+	public boolean isValidCredentials(String identifier, String password) {
+		return userRepository.existsByEmailOrUsernameAndPassword(identifier, identifier,
+				passwordEncoder.encrypt(password));
+	}
+
+	/**
 	 * Checks if a connection exists between the current user and another user.
 	 *
-	 * @param user the current user
+	 * @param user      the current user
 	 * @param connexion the user to check
 	 * @return true if the connection exists, otherwise false
 	 */
 	private boolean isConnectionExists(User user, User connexion) {
-	    return user.getConnections().stream().anyMatch(c -> c.getEmail().equals(connexion.getEmail()));
+		return user.getConnections().stream().anyMatch(c -> c.getEmail().equals(connexion.getEmail()));
 	}
-
 }

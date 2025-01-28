@@ -20,13 +20,15 @@ import lombok.ToString;
  * 
  * This class maps to the "pmb_transaction" table in the database.
  * 
- * <p><b>Attributes:</b></p>
+ * <p>
+ * <b>Attributes:</b>
+ * </p>
  * <ul>
- *   <li><b>{@link #id}:</b> Unique identifier for the transaction.</li>
- *   <li><b>{@link #sender}:</b> User sending the money.</li>
- *   <li><b>{@link #receiver}:</b> User receiving the money.</li>
- *   <li><b>{@link #description}:</b> Description of the transaction.</li>
- *   <li><b>{@link #amount}:</b> Amount of money transferred.</li>
+ * <li><b>{@link #id}:</b> Unique identifier for the transaction.</li>
+ * <li><b>{@link #description}:</b> Description of the transaction.</li>
+ * <li><b>{@link #amount}:</b> Amount of money transferred.</li>
+ * <li><b>{@link #sender}:</b> User sending the money.</li>
+ * <li><b>{@link #receiver}:</b> User receiving the money.</li>
  * </ul>
  */
 @Entity

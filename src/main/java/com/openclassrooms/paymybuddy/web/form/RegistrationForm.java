@@ -12,18 +12,28 @@ import lombok.ToString;
 /**
  * Form for user registration.
  *
- * <p><b>Attributes:</b></p>
+ * <p>
+ * <b>Attributes:</b>
+ * </p>
  * <ul>
- *   <li><b>{@link #username}:</b> The user's username. It must be between 2 and 30 characters long.</li>
- *   <li><b>{@link #email}:</b> The user's email address. It must be a valid email format (e.g., example@domain.com).</li>
- *   <li><b>{@link #password}:</b> The user's password. It must follow a security policy (8-32 characters, uppercase, lowercase, digits, and special characters).</li>
+ * <li><b>{@link #username}:</b> The user's username. It must be between 2 and
+ * 30 characters long.</li>
+ * <li><b>{@link #email}:</b> The user's email address. It must be a valid email
+ * format (e.g., example@domain.com).</li>
+ * <li><b>{@link #password}:</b> The user's password. It must follow a security
+ * policy (8-32 characters, uppercase, lowercase, digits, and special
+ * characters).</li>
  * </ul>
  *
- * <p><b>Validations:</b></p>
+ * <p>
+ * <b>Validations:</b>
+ * </p>
  * <ul>
- *   <li>{@link #username}, {@link #email}, and {@link #password} are required and cannot be blank.</li>
- *   <li>{@link #email} must be a valid email address.</li>
- *   <li>{@link #password} must meet a complexity requirement (8-32 characters, uppercase, lowercase, digits, and special characters).</li>
+ * <li>{@link #username}, {@link #email}, and {@link #password} are required and
+ * cannot be blank.</li>
+ * <li>{@link #email} must be a valid email address.</li>
+ * <li>{@link #password} must meet a complexity requirement (8-32 characters,
+ * uppercase, lowercase, digits, and special characters).</li>
  * </ul>
  */
 @NoArgsConstructor

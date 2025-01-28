@@ -6,12 +6,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Form for updating the user's profile.
+ * Form for displaying the user's profile.
  *
- * <p><b>Attributes:</b></p>
+ * <p>
+ * <b>Attributes:</b>
+ * </p>
  * <ul>
- *   <li><b>{@link #username}:</b> The username of the user.</li>
- *   <li><b>{@link #email}:</b> The user's email address.</li>
+ * <li><b>{@link #username}:</b> The username of the user.</li>
+ * <li><b>{@link #email}:</b> The user's email address.</li>
  * </ul>
  */
 @NoArgsConstructor
