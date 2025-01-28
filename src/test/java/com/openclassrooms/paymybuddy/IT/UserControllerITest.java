@@ -1,9 +1,9 @@
 package com.openclassrooms.paymybuddy.IT;
 
 import static com.openclassrooms.paymybuddy.constants.AppConstants.ERROR;
-import static com.openclassrooms.paymybuddy.constants.AppConstants.OLD_PASSWORD_FALSE;
-import static com.openclassrooms.paymybuddy.constants.AppConstants.PASSWORD_NOT_MATCH;
-import static com.openclassrooms.paymybuddy.constants.AppConstants.PASSWORD_SUCCESS;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.OLD_PWD_FALSE;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.PWD_NOT_MATCH;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.PWD_SUCCESS;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.SESSION_ATTRIBUTE;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.SUCCESS;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.UNKNOW_USER;
@@ -90,13 +90,13 @@ import com.openclassrooms.paymybuddy.web.form.PasswordForm;
 
 		String newPassword = "TestPassword2!";
 		Map<String, String> response = new HashMap<>();
-		response.put(SUCCESS, PASSWORD_SUCCESS);
+		response.put(SUCCESS, PWD_SUCCESS);
 
 		when(userService.validateAndUpdatePassword(eq(email), any(PasswordForm.class))).thenReturn(response);
 
 		mockMvc.perform(post("/user/updatePassword").session(mockSession).param("oldPassword", password)
 				.param("password", newPassword).param("passwordConfirmation", newPassword)).andDo(print())
-				.andExpect(flash().attribute(SUCCESS, PASSWORD_SUCCESS)).andExpect(status().isFound())
+				.andExpect(flash().attribute(SUCCESS, PWD_SUCCESS)).andExpect(status().isFound())
 				.andExpect(view().name(REDIR_USER_PROFIL));
 	}
 
@@ -106,13 +106,13 @@ import com.openclassrooms.paymybuddy.web.form.PasswordForm;
 		String newPassword1 = "TestPassword2!";
 		String newPassword2 = "TestPassword3!";
 		Map<String, String> response = new HashMap<>();
-		response.put(ERROR, PASSWORD_NOT_MATCH);
+		response.put(ERROR, PWD_NOT_MATCH);
 
 		when(userService.validateAndUpdatePassword(eq(email), any(PasswordForm.class))).thenReturn(response);
 
 		mockMvc.perform(post("/user/updatePassword").session(mockSession).param("oldPassword", password)
 				.param("password", newPassword1).param("passwordConfirmation", newPassword2)).andDo(print())
-				.andExpect(flash().attribute(ERROR, PASSWORD_NOT_MATCH)).andExpect(status().isFound())
+				.andExpect(flash().attribute(ERROR, PWD_NOT_MATCH)).andExpect(status().isFound())
 				.andExpect(status().isFound()).andExpect(view().name(REDIR_USER_UPDATE_PASSWORD));
 	}
 
@@ -121,13 +121,13 @@ import com.openclassrooms.paymybuddy.web.form.PasswordForm;
 
 		String newPassword = "TestPassword2!";
 		Map<String, String> response = new HashMap<>();
-		response.put(ERROR, OLD_PASSWORD_FALSE);
+		response.put(ERROR, OLD_PWD_FALSE);
 
 		when(userService.validateAndUpdatePassword(eq(email), any(PasswordForm.class))).thenReturn(response);
 
 		mockMvc.perform(post("/user/updatePassword").session(mockSession).param("oldPassword", newPassword)
 				.param("password", newPassword).param("passwordConfirmation", newPassword)).andDo(print())
-				.andExpect(flash().attribute(ERROR, OLD_PASSWORD_FALSE)).andExpect(status().isFound())
+				.andExpect(flash().attribute(ERROR, OLD_PWD_FALSE)).andExpect(status().isFound())
 				.andExpect(status().isFound()).andExpect(view().name(REDIR_USER_UPDATE_PASSWORD));
 	}
 

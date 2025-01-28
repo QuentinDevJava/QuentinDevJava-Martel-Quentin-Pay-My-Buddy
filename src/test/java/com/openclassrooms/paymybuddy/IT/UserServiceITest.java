@@ -1,9 +1,9 @@
 package com.openclassrooms.paymybuddy.IT;
 
 import static com.openclassrooms.paymybuddy.constants.AppConstants.ERROR;
-import static com.openclassrooms.paymybuddy.constants.AppConstants.OLD_PASSWORD_FALSE;
-import static com.openclassrooms.paymybuddy.constants.AppConstants.PASSWORD_NOT_MATCH;
-import static com.openclassrooms.paymybuddy.constants.AppConstants.PASSWORD_SUCCESS;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.OLD_PWD_FALSE;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.PWD_NOT_MATCH;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.PWD_SUCCESS;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.SUCCESS;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.UNKNOW_USER;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.USER_ALREADY_ADDED;
@@ -84,7 +84,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 	 void validateAndUpdatePasswordTest() throws Exception {
 
 		Map<String, String> response = new HashMap<>();
-		response.put(SUCCESS, PASSWORD_SUCCESS);
+		response.put(SUCCESS, PWD_SUCCESS);
 
 		userService.addUser(form);
 
@@ -98,7 +98,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 
 		response.clear();
 
-		response.put(ERROR, PASSWORD_NOT_MATCH);
+		response.put(ERROR, PWD_NOT_MATCH);
 		assertEquals(response, userService.validateAndUpdatePassword(foundUser.getEmail(), passwordForm));
 
 		passwordForm.setOldPassword("erreur");
@@ -107,7 +107,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 
 		response.clear();
 
-		response.put(ERROR, OLD_PASSWORD_FALSE);
+		response.put(ERROR, OLD_PWD_FALSE);
 		assertEquals(response, userService.validateAndUpdatePassword(foundUser.getEmail(), passwordForm));
 	}
 

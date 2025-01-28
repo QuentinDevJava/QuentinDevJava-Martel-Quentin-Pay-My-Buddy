@@ -1,9 +1,9 @@
 package com.openclassrooms.paymybuddy.service;
 
 import static com.openclassrooms.paymybuddy.constants.AppConstants.ERROR;
-import static com.openclassrooms.paymybuddy.constants.AppConstants.OLD_PASSWORD_FALSE;
-import static com.openclassrooms.paymybuddy.constants.AppConstants.PASSWORD_NOT_MATCH;
-import static com.openclassrooms.paymybuddy.constants.AppConstants.PASSWORD_SUCCESS;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.OLD_PWD_FALSE;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.PWD_NOT_MATCH;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.PWD_SUCCESS;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.SUCCESS;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.UNKNOW_USER;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.USERNAME_OR_EMAIL_IS_USE;
@@ -125,14 +125,14 @@ public class UserService {
 				user.setPassword(passwordEncoder.encrypt(passwordForm.getPassword()));
 				saveUser(user);
 				log.info("Password updated");
-				response.put(SUCCESS, PASSWORD_SUCCESS);
+				response.put(SUCCESS, PWD_SUCCESS);
 			} else {
 				log.warn("New password and password confirmation not match");
-				response.put(ERROR, PASSWORD_NOT_MATCH);
+				response.put(ERROR, PWD_NOT_MATCH);
 			}
 		} else {
 			log.warn("Password not update error old password false");
-			response.put(ERROR, OLD_PASSWORD_FALSE);
+			response.put(ERROR, OLD_PWD_FALSE);
 		}
 		return response;
 	}

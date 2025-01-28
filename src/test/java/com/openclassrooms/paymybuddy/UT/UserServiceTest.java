@@ -1,9 +1,9 @@
 package com.openclassrooms.paymybuddy.UT;
 
 import static com.openclassrooms.paymybuddy.constants.AppConstants.ERROR;
-import static com.openclassrooms.paymybuddy.constants.AppConstants.OLD_PASSWORD_FALSE;
-import static com.openclassrooms.paymybuddy.constants.AppConstants.PASSWORD_NOT_MATCH;
-import static com.openclassrooms.paymybuddy.constants.AppConstants.PASSWORD_SUCCESS;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.OLD_PWD_FALSE;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.PWD_NOT_MATCH;
+import static com.openclassrooms.paymybuddy.constants.AppConstants.PWD_SUCCESS;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.SUCCESS;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.UNKNOW_USER;
 import static com.openclassrooms.paymybuddy.constants.AppConstants.USER_ALREADY_ADDED;
@@ -128,7 +128,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 
 		Map<String, String> response = userService.validateAndUpdatePassword(email, passwordForm);
 
-		assertEquals(OLD_PASSWORD_FALSE, response.get(ERROR));
+		assertEquals(OLD_PWD_FALSE, response.get(ERROR));
 		assertTrue(response.containsKey(ERROR));
 	}
 
@@ -149,7 +149,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 
 		Map<String, String> response = userService.validateAndUpdatePassword(email, passwordForm);
 
-		assertEquals(PASSWORD_NOT_MATCH, response.get(ERROR));
+		assertEquals(PWD_NOT_MATCH, response.get(ERROR));
 		assertTrue(response.containsKey(ERROR));
 	}
 
@@ -169,7 +169,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 
 		Map<String, String> response = userService.validateAndUpdatePassword(email, passwordForm);
 
-		assertEquals(PASSWORD_SUCCESS, response.get(SUCCESS));
+		assertEquals(PWD_SUCCESS, response.get(SUCCESS));
 		assertTrue(response.containsKey(SUCCESS));
 	}
 

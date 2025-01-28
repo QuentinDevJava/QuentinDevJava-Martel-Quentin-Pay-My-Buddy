@@ -20,13 +20,13 @@ public final class AppConstants {
     public static final String USERNAME_OR_EMAIL_IS_USE = "Nom d'utilisateur ou mail déjà utilisé.";
 
     /** Message when the password is successfully updated. */
-    public static final String PASSWORD_SUCCESS = "Mot de passe mise à jour avec succès.";
+    public static final String PWD_SUCCESS = "Mot de passe mise à jour avec succès.";
     
     /** Message when the new password and confirmation do not match. */
-    public static final String PASSWORD_NOT_MATCH = "Le nouveau mot de passe et la confirmation du mot de passe ne correspondent pas.";
+    public static final String PWD_NOT_MATCH = "Le nouveau mot de passe et la confirmation du mot de passe ne correspondent pas.";
     
     /** Message when the old password is incorrect. */
-    public static final String OLD_PASSWORD_FALSE = "L'ancien mot de passe est incorrect.";
+    public static final String OLD_PWD_FALSE = "L'ancien mot de passe est incorrect.";
 
     /** Message when the user is unknown. */
     public static final String UNKNOW_USER = "Utilisateur inconnu.";
