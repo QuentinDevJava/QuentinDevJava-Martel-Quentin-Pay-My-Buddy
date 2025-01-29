@@ -3,7 +3,7 @@ package com.openclassrooms.paymybuddy.exception;
 /**
 * Exception thrown when an error occurs during password encryption.
 */
-public class PasswordEncryptionError extends Exception {
+public class PasswordEncryptionError extends RuntimeException {
 
  /** The constant {@code serialVersionUID}. */
  private static final long serialVersionUID = 1L;
