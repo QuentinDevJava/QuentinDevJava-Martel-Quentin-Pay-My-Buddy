@@ -60,13 +60,21 @@ The key relationships between the tables are outlined below:
 
 The following constraints have been applied to the database to maintain data integrity:
 
-1. **Unique Email**: Each user’s email address must be unique. This is enforced by a unique constraint on the `email` column in the **pbm_user** table.
+1. **Unique Email**:
 
-2. **Unique Username**: Each user’s username must be unique. This is enforced by a unique constraint on the `username` column in the **pbm_user** table.
+   Each user’s email address must be unique. This is enforced by a unique constraint on the `email` column in the **pbm_user** table.
+
+2. **Unique Username**: 
+
+   Each user’s username must be unique. This is enforced by a unique constraint on the `username` column in the **pbm_user** table.
    
-3. **Positive Transaction Amount**: The amount of a transaction must always be positive. This constraint ensures that no transaction can have a negative or zero value in the **pbm_transaction** table.
+3. **Positive Transaction Amount**:
 
-4. **No Self-Connections**: A user cannot connect to themselves. This is ensured by a check constraint or validation logic to prevent entries where `user_id` is equal to `connection_id` in the **pbm_user_connections** table.
+   The amount of a transaction must always be positive. This constraint ensures that no transaction can have a negative or zero value in the **pbm_transaction** table.
+
+4. **No Self-Connections**:
+
+   A user cannot connect to themselves. This is ensured by a check constraint or validation logic to prevent entries where `user_id` is equal to `connection_id` in the **pbm_user_connections** table.
 
 5. **Primary Keys**: 
    - The primary key for the **pbm_user** table is `id`.
@@ -85,20 +93,58 @@ To run the application locally, you need to activate the `local` profile. The ap
 
 ### Steps:
 
-1. **Activate the Local Profile**:
+1. **Activate the Local Profile**
+
    When starting the application, make sure to use the `local` profile to configure the application in development mode. This profile will create and use the H2 database.
 
-2. **Start the Application**:
+2. **Encryption Key**
+
+   The encryption key is used to encrypt the password of the user. This key is configured in the `application.properties` file.
+
+   You need to configure one environment variable for the encryption key:
+
+   - `ENCRYPTION_KEY`: The encryption key for the password encoder.
+
+   Or it's possible to change the key in the `application.properties` file:
+
+   ```properties
+   encryption.key=your_encryption_key
+   ```
+3. **Using Test Users**
+
+   To use test users with default credentials, you need to load the necessary test data and configure the encryption key. Here's how to set it up:
+
+   - Load test data : 
+   
+   You need to ensure that the data-h2.sql file is loaded automatically when the application starts. This file contains predefined test data, including users with default passwords.
+   To load the data, uncomment and configure the following line in the application.properties file:
+
+   ```properties
+   spring.sql.init.data-locations=classpath:/data-h2.sql
+   ```
+   - Configure the encryption key :
+   
+   For testing purposes, you can use the following encryption key:
+   ```properties
+   encryption.key=ThisIsASecureKeyForProtectPassword
+   ```
+   This key will be used to encode the passwords for test users. By default, the password for all test users is set to 123.
+
+   Now, once the application starts, the test data will be loaded, and users will be able to log in with the default password 123.
+
+3. **Start the Application** 
+
    You can start the application with the `local` profile by running the following command:
 
    ```bash
    java -Dspring.profiles.active=local -jar PayMyBuddy.jar
+   ```
 
 ## Running the Application in Production
 
 To run the application in a production environment, follow the steps below:
 
-### Database Configuration
+### Steps:
 
 1. **Create the Database**  
    Before starting the application, ensure that a MySQL database named `paymybuddy` is created.
@@ -108,13 +154,32 @@ To run the application in a production environment, follow the steps below:
    - `DB_USERNAME`: The username for the database.
    - `DB_PASSWORD`: The password associated with the username.
 
+   Additionally, you need to configure one environment variable for the encryption key:
+   - `ENCRYPTION_KEY`: The encryption key for the password encoder.
+
+   These environment variables are required to ensure both secure database connections and proper encryption for sensitive data within the application.
+
+   Example for setting environment variables:
+
+   - **Linux/macOS**:
+     ```bash
+     export DB_USERNAME=your_db_username
+     export DB_PASSWORD=your_db_password
+     export ENCRYPTION_KEY=your_secure_encryption_key
+     ```
+
+   - **Windows**:
+     ```bash
+     set DB_USERNAME=your_db_username
+     set DB_PASSWORD=your_db_password
+     set ENCRYPTION_KEY=your_secure_encryption_key
+     ```
+
 3. **Start the Application**  
-   After the database is created and the environment variables are set, you can start the application. Spring Boot will automatically read these variables to establish the database connection and run the application properly.
+   After the database is created and the environment variables are set, you can start the application. Spring Boot will automatically read these variables to establish the database connection and the encryption key and run the application properly.
 
----
+   To start the application in production, use the following command:
 
-To run the application with the production configuration, make sure to activate the `prod` profile. You can do this by running the following command:
-
-```bash
-java -Dspring.profiles.active=prod -jar PayMyBuddy.jar
-
+   ```bash
+   java -Dspring.profiles.active=prod -jar PayMyBuddy.jar
+   ```

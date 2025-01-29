@@ -45,6 +45,7 @@ h4 {
   grid-template-rows: auto auto auto auto;
   place-items: center;
   width: 100%;
+  row-gap: 30px;
 }
 
 ::placeholder {
@@ -62,16 +63,21 @@ h4 {
   border-radius: 10px;
 }
 
-.form-group #username {
-  margin-bottom: 30px;
+.form-group #username+small {
+  max-width: 280px;
 }
 
-.form-group #email {
-  margin-bottom: 30px;
+.form-group #email+small {
+  max-width: 280px;
 }
 
-.form-group #password {
-  margin-bottom: 60px;
+.form-group #password+small {
+  max-width: 280px;
+}
+
+.form-group small {
+  display: block;
+  width: 100%;
 }
 
 .card .alert {
@@ -84,7 +90,6 @@ body .alert {
   font-size: large;
   font-weight: 600
 }
-
 
 @media (max-width: 576px) {
   .card {

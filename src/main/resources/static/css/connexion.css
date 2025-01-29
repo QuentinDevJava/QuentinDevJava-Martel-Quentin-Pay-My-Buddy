@@ -6,17 +6,13 @@
 a {
     color: black !important;
     font-size: x-large !important;
-
 }
 
 header {
     margin-left: 50px;
     margin-right: 50px;
     font-weight: 600 !important;
-
 }
-
-
 
 .nav-bar .navbar-brand {
     color: black;
@@ -88,4 +84,6 @@ body .alert {
 small {
     grid-column-start: 1;
     grid-column-end: 3;
+    font-size: medium !important;
+    width: 500px !important;
 }
