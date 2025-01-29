@@ -117,7 +117,7 @@ To run the application locally, you need to activate the `local` profile. The ap
    - Load test data : 
    
    You need to ensure that the data-h2.sql file is loaded automatically when the application starts. This file contains predefined test data, including users with default passwords.
-   To load the data, uncomment and configure the following line in the application.properties file:
+   To load the data, uncomment and configure the following line in the `application-local.properties` file:
 
    ```properties
    spring.sql.init.data-locations=classpath:/data-h2.sql
