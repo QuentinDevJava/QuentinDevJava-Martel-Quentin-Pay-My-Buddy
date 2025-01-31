@@ -33,7 +33,7 @@ import com.openclassrooms.paymybuddy.web.form.TransactionForm;
 
 @SpringBootTest
 @AutoConfigureMockMvc
- class TransactionControllerITest {
+class TransactionControllerITest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -57,7 +57,7 @@ import com.openclassrooms.paymybuddy.web.form.TransactionForm;
 	private MockHttpSession mockSession = new MockHttpSession();
 
 	@BeforeEach
-	 void setup()  {
+	void setup() {
 		mockUser1.setId(1);
 		mockUser1.setEmail(email1);
 		mockUser1.setUsername(username);
@@ -85,7 +85,7 @@ import com.openclassrooms.paymybuddy.web.form.TransactionForm;
 	}
 
 	@Test
-	 void testGetTransaction() throws Exception {
+	void testGetTransaction() throws Exception {
 
 		when(userService.getUserByEmailOrUsername(email1)).thenReturn(mockUser1);
 		when(transactionService.getTransactionsBySenderId(1)).thenReturn(transactions);
@@ -95,13 +95,13 @@ import com.openclassrooms.paymybuddy.web.form.TransactionForm;
 	}
 
 	@Test
-	 void testPostTransaction() throws Exception {
-		
-		when(userService.getUserByEmailOrUsername(email1)).thenReturn(mockUser1);
-		when(transactionService.addTransaction(any(TransactionForm.class),anyString())).thenReturn(transaction1);
+	void testPostTransaction() throws Exception {
 
-		mockMvc.perform(post("/transaction")
-				.session(mockSession).param("receiverId", "2").param("receiverEmail", email1).param("description", "KDO").param("amount", "100"))
+		when(userService.getUserByEmailOrUsername(email1)).thenReturn(mockUser1);
+		when(transactionService.addTransaction(any(TransactionForm.class), anyString())).thenReturn(transaction1);
+
+		mockMvc.perform(post("/transaction").session(mockSession).param("receiverId", "2")
+				.param("receiverEmail", email1).param("description", "KDO").param("amount", "100"))
 				.andExpect(status().isFound()).andDo(print())
 				.andExpect(flash().attribute(SUCCESS,
 						"Le transfert vers " + mockUser2.getUsername() + " a été effectué avec succès."))
@@ -109,7 +109,7 @@ import com.openclassrooms.paymybuddy.web.form.TransactionForm;
 	}
 
 	@Test
-	 void testPostTransactionEmailError() throws Exception {
+	void testPostTransactionEmailError() throws Exception {
 
 		mockMvc.perform(post("/transaction").session(mockSession).param("receiverId", "0").param("description", "KDO")
 				.param("amount", "100")).andExpect(status().isFound()).andDo(print())
@@ -118,11 +118,11 @@ import com.openclassrooms.paymybuddy.web.form.TransactionForm;
 	}
 
 	@Test
-	 void testPostTransactionAmoutError() throws Exception {
+	void testPostTransactionAmoutError() throws Exception {
 
 		mockMvc.perform(post("/transaction").session(mockSession).param("receiverId", "2").param("description", "KDO")
 				.param("amount", "0")).andExpect(status().isFound()).andDo(print())
-				.andExpect(flash().attribute(ERROR, "Le montant du transfére doit être au supérieur ou égal à 1.<br>"))
+				.andExpect(flash().attribute(ERROR, "Le montant du transfére doit être au supérieur ou égal à 5.<br>"))
 				.andExpect(view().name("redirect:/transaction"));
 	}
 }
