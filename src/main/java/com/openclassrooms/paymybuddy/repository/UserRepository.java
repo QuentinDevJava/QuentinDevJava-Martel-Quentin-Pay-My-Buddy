@@ -45,13 +45,14 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	 * Checks if a user exists with the email and password, or with the username and
 	 * password.
 	 * 
-	 * @param email    The email address of the user.
-	 * @param username The username of the user.
-	 * @param password The password associated with the email or username.
+	 * @param usernameOrEmail The email address or username of the user.
+	 * @param password        The password associated with the email or username.
 	 * @return {@code true} if the user exists with the email and password, or with
 	 *         the username and password, otherwise {@code false}.
 	 */
-	boolean existsByEmailOrUsernameAndPassword(String eamil, String username, String password);
+	@Query("SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM User u WHERE (u.email = :usernameOrEmail OR u.username = :usernameOrEmail) AND u.password = :password")
+	boolean existsByEmailOrUsernameAndPassword(@Param("usernameOrEmail") String usernameOrEmail,
+			@Param("password") String password);
 
 	/**
 	 * Finds a user by their email address.

@@ -196,8 +196,7 @@ public class UserService {
 	 *         otherwise.
 	 */
 	public boolean isValidCredentials(String identifier, String password) {
-		return userRepository.existsByEmailOrUsernameAndPassword(identifier, identifier,
-				passwordEncoder.encrypt(password));
+		return userRepository.existsByEmailOrUsernameAndPassword(identifier, passwordEncoder.encrypt(password));
 	}
 
 	/**

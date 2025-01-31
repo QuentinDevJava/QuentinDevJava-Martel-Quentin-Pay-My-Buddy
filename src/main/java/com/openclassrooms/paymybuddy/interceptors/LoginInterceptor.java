@@ -1,11 +1,12 @@
 package com.openclassrooms.paymybuddy.interceptors;
 
+import static com.openclassrooms.paymybuddy.constants.AppConstants.SESSION_ATTRIBUTE;
+import static com.openclassrooms.paymybuddy.constants.UrlConstants.LOGIN;
+
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.openclassrooms.paymybuddy.constants.AppConstants;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -37,12 +38,12 @@ public class LoginInterceptor implements HandlerInterceptor {
 			throws Exception {
 		log.debug("preHandle : URL = " + request.getRequestURL() + " Methode = " + request.getMethod());
 		HttpSession session = request.getSession();
-		if (session == null || session.getAttribute(AppConstants.SESSION_ATTRIBUTE) == null) {
+		if (session == null || session.getAttribute(SESSION_ATTRIBUTE) == null) {
 			log.debug("Session is null redirect to authentication");
-			response.sendRedirect("/login");
+			response.sendRedirect(LOGIN);
 			return false;
 		} else {
-			String username = session.getAttribute(AppConstants.SESSION_ATTRIBUTE).toString();
+			String username = session.getAttribute(SESSION_ATTRIBUTE).toString();
 			log.debug("username retrieved from current session: {}", username);
 			return true;
 		}
@@ -63,11 +64,11 @@ public class LoginInterceptor implements HandlerInterceptor {
 			@Nullable ModelAndView modelAndView) throws Exception {
 		log.debug("postHandle URL = " + request.getRequestURL() + " Methode = " + request.getMethod());
 		HttpSession session = request.getSession();
-		if (session == null || session.getAttribute(AppConstants.SESSION_ATTRIBUTE) == null) {
+		if (session == null || session.getAttribute(SESSION_ATTRIBUTE) == null) {
 			log.debug("Session is null redirect to authentication");
-			response.sendRedirect("/login");
+			response.sendRedirect(LOGIN);
 		} else {
-			String username = session.getAttribute(AppConstants.SESSION_ATTRIBUTE).toString();
+			String username = session.getAttribute(SESSION_ATTRIBUTE).toString();
 			log.debug("username retrieved from current session: {}", username);
 		}
 	}

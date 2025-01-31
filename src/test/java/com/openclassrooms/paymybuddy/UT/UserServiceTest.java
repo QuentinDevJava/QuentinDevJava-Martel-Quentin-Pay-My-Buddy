@@ -37,39 +37,39 @@ import com.openclassrooms.paymybuddy.web.form.PasswordForm;
 import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 
 @SpringBootTest
- class UserServiceTest {
+class UserServiceTest {
 
 	@Mock
 	UserRepository userRepository;
-	
+
 	@Mock
 	PasswordEncoder passwordEncoder;
 
 	@InjectMocks
 	UserService userService;
-	
+
 	@Test
-	 void testGetUserById() {
+	void testGetUserById() {
 		userService.getUserById(1);
 		verify(userRepository, times(1)).findById(1);
 	}
 
 	@Test
-	 void testGetUserByEmailOrUsername() {
-		
+	void testGetUserByEmailOrUsername() {
+
 		userService.getUserByEmailOrUsername("test@test.fr");
 		verify(userRepository, times(1)).byUsernameOrEmail(anyString());
 	}
 
 	@Test
-	 void testidentifierIsValide() {
-        when(passwordEncoder.encrypt("Test1!78")).thenReturn("encryptedPassword");
+	void testidentifierIsValide() {
+		when(passwordEncoder.encrypt("Test1!78")).thenReturn("encryptedPassword");
 		userService.isValidCredentials("test@test.fr", "Test1!78");
-		verify(userRepository, times(1)).existsByEmailOrUsernameAndPassword(anyString(), anyString(), anyString());
+		verify(userRepository, times(1)).existsByEmailOrUsernameAndPassword(anyString(), anyString());
 	}
 
 	@Test
-	 void testAddUser() throws Exception {
+	void testAddUser() throws Exception {
 		// Given
 		RegistrationForm form = new RegistrationForm();
 		form.setEmail("Test@test.fr");
@@ -81,7 +81,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 		mockUser.setUsername(form.getUsername());
 
 		// When
-		when(userRepository.existsByEmailOrUsername(form.getEmail(),form.getUsername())).thenReturn(false);
+		when(userRepository.existsByEmailOrUsername(form.getEmail(), form.getUsername())).thenReturn(false);
 
 		// Then
 		userService.addUser(form);
@@ -90,7 +90,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 	}
 
 	@Test
-	 void testAddUserWhenEmailOrUsernameAlreadyExists() {
+	void testAddUserWhenEmailOrUsernameAlreadyExists() {
 		// Given
 		RegistrationForm form = new RegistrationForm();
 		form.setEmail("Test@test.fr");
@@ -102,7 +102,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 		mockUser.setUsername(form.getUsername());
 
 		// When
-		when(userRepository.existsByEmailOrUsername(form.getEmail(),form.getUsername())).thenReturn(true);
+		when(userRepository.existsByEmailOrUsername(form.getEmail(), form.getUsername())).thenReturn(true);
 
 		// Then
 		assertThrows(IllegalArgumentException.class, () -> {
@@ -113,7 +113,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 	}
 
 	@Test
-	 void testValidateAndUpdatePasswordWhenOldPasswordIsIncorrect() throws Exception {
+	void testValidateAndUpdatePasswordWhenOldPasswordIsIncorrect() throws Exception {
 		String email = "Test@test.fr";
 		PasswordForm passwordForm = new PasswordForm();
 		passwordForm.setOldPassword("wrongOldPassword!1");
@@ -133,7 +133,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 	}
 
 	@Test
-	 void testValidateAndUpdatePasswordWhenNewPasswordIsNotEqualtoPasswordConfirmation() throws Exception {
+	void testValidateAndUpdatePasswordWhenNewPasswordIsNotEqualtoPasswordConfirmation() throws Exception {
 		String email = "Test@test.fr";
 		PasswordForm passwordForm = new PasswordForm();
 		passwordForm.setOldPassword("wrongOldPassword!1");
@@ -143,7 +143,6 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 		User mockUser = new User();
 		mockUser.setEmail(email);
 		mockUser.setPassword(passwordEncoder.encrypt("wrongOldPassword!1"));
-		
 
 		when(userRepository.byUsernameOrEmail(email)).thenReturn(Optional.of(mockUser));
 
@@ -154,7 +153,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 	}
 
 	@Test
-	 void testValidateAndUpdatePassword() throws Exception {
+	void testValidateAndUpdatePassword() throws Exception {
 		String email = "Test@test.fr";
 		PasswordForm passwordForm = new PasswordForm();
 		passwordForm.setOldPassword("wrongOldPassword!1");
@@ -174,7 +173,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 	}
 
 	@Test
-	 void testValidateAndUpdateConnexion() {
+	void testValidateAndUpdateConnexion() {
 
 		String email1 = "Test@test.fr";
 		String email2 = "Test1@test.fr";
@@ -202,7 +201,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 	}
 
 	@Test
-	 void testValidateAndUpdateConnexionWhenUserIsTryingToConnectToHimself() {
+	void testValidateAndUpdateConnexionWhenUserIsTryingToConnectToHimself() {
 
 		String email = "Test@test.fr";
 		ConnexionForm connexionForm = new ConnexionForm();
@@ -222,7 +221,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 	}
 
 	@Test
-	 void testValidateAndUpdateConnexionWhenUserNotExists() {
+	void testValidateAndUpdateConnexionWhenUserNotExists() {
 
 		String email = "Test@test.fr";
 		ConnexionForm connexionForm = new ConnexionForm();
@@ -237,7 +236,7 @@ import com.openclassrooms.paymybuddy.web.form.RegistrationForm;
 	}
 
 	@Test
-	 void testValidateAndUpdateConnexionWhenUserIsAlreadyConnected() {
+	void testValidateAndUpdateConnexionWhenUserIsAlreadyConnected() {
 		String email1 = "Test@test.fr";
 		String email2 = "Test1@test.fr";
 		String username1 = "Test1";
